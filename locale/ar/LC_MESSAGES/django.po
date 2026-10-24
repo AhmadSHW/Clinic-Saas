@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-30 23:09+0300\n"
+"POT-Creation-Date: 2026-10-24 21:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,24 +18,48 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
+#: .\accounts\templates\accounts\_reply_wait.html:6
+msgid "We sent an email to"
+msgstr "أرسلنا رسالة إلى"
+
+#: .\accounts\templates\accounts\_reply_wait.html:10
+msgid "Open the email in your inbox."
+msgstr "افتح الرسالة في بريدك الوارد."
+
+#: .\accounts\templates\accounts\_reply_wait.html:11
+msgid "Press Reply, type YES and send it."
+msgstr "اضغط على رد، واكتب YES (أو نعم) وأرسلها."
+
+#: .\accounts\templates\accounts\_reply_wait.html:12
+msgid "Come back here. You'll be signed in automatically."
+msgstr "ارجع إلى هنا، وسيتم تسجيل دخولك تلقائياً."
+
+#: .\accounts\templates\accounts\_reply_wait.html:17
+msgid "Waiting for your reply…"
+msgstr "بانتظار ردك…"
+
 #: .\accounts\templates\accounts\add_staff.html:3
 msgid "Add Staff"
 msgstr "إضافة موظف"
 
 #: .\accounts\templates\accounts\add_staff.html:8
-#: .\accounts\templates\accounts\add_staff.html:37
+#: .\accounts\templates\accounts\add_staff.html:38
 msgid "Add Staff Member"
 msgstr "إضافة موظف"
 
 #: .\accounts\templates\accounts\add_staff.html:13
 #: .\patients\templates\patients\add.html:13
+#: .\patients\templates\patients\portal_register.html:13
 msgid "Full Name"
 msgstr "الاسم الكامل"
 
 #: .\accounts\templates\accounts\add_staff.html:17
-#: .\accounts\templates\accounts\login.html:22
+#: .\accounts\templates\accounts\login.html:28
 #: .\accounts\templates\accounts\settings.html:27
+#: .\dashboard\templates\dashboard\account_chooser.html:46
 #: .\patients\templates\patients\add.html:23
+#: .\patients\templates\patients\portal_login.html:13
+#: .\patients\templates\patients\portal_register.html:17
 msgid "Email"
 msgstr "البريد الإلكتروني"
 
@@ -46,9 +70,11 @@ msgstr "الدور"
 
 #: .\accounts\templates\accounts\add_staff.html:23
 #: .\appointments\templates\appointments\book.html:22
-#: .\appointments\templates\appointments\list.html:22
+#: .\appointments\templates\appointments\list.html:31
+#: .\dashboard\templates\dashboard\account_chooser.html:24
+#: .\patients\templates\patients\portal_book.html:11
 msgid "Doctor"
-msgstr "الطبيب"
+msgstr "طبيب"
 
 #: .\accounts\templates\accounts\add_staff.html:24
 msgid "Reception"
@@ -67,12 +93,105 @@ msgid "e.g. Dentist"
 msgstr "مثال: طبيب أسنان"
 
 #: .\accounts\templates\accounts\add_staff.html:33
-#: .\accounts\templates\accounts\login.html:27
+#: .\accounts\templates\accounts\login.html:33
+#: .\dashboard\templates\dashboard\account_chooser.html:51
+#: .\patients\templates\patients\portal_login.html:17
+#: .\patients\templates\patients\portal_register.html:25
 msgid "Password"
 msgstr "كلمة المرور"
 
+#: .\accounts\templates\accounts\add_staff.html:35
+msgid ""
+"Give this password to the staff member. They sign in with your clinic URL, "
+"their email and this password."
+msgstr ""
+"أعطِ كلمة المرور هذه للموظف. يسجّل الدخول برابط عيادتك وبريده الإلكتروني "
+"وكلمة المرور هذه."
+
+#: .\accounts\templates\accounts\check_email.html:3
+#: .\patients\templates\patients\portal_check_email.html:3
+msgid "Check Your Email"
+msgstr "تحقق من بريدك الإلكتروني"
+
+#: .\accounts\templates\accounts\check_email.html:11
+#: .\patients\templates\patients\portal_check_email.html:10
+msgid "Check your email"
+msgstr "تحقق من بريدك الإلكتروني"
+
+#: .\accounts\templates\accounts\check_email.html:15
+#: .\patients\templates\patients\portal_check_email.html:18
+msgid "We sent a verification link to"
+msgstr "أرسلنا رابط التحقق إلى"
+
+#: .\accounts\templates\accounts\check_email.html:19
+#: .\patients\templates\patients\portal_check_email.html:14
+msgid "Didn't get it? Check your Spam folder, or"
+msgstr "لم تصلك الرسالة؟ تحقق من مجلد الرسائل غير المرغوب فيها، أو"
+
+#: .\accounts\templates\accounts\check_email.html:20
+msgid "send it again"
+msgstr "أعد إرسالها"
+
+#: .\accounts\templates\accounts\doctor_list.html:3
+#: .\accounts\templates\accounts\doctor_list.html:9 .\templates\base.html:46
+msgid "Doctors"
+msgstr "الأطباء"
+
+#: .\accounts\templates\accounts\doctor_list.html:10
+msgid "Your clinic's doctors and their schedules"
+msgstr "أطباء عيادتك ومواعيدهم"
+
+#: .\accounts\templates\accounts\doctor_list.html:14
+msgid "Add doctor"
+msgstr "إضافة طبيب"
+
+#: .\accounts\templates\accounts\doctor_list.html:28
+msgid "General"
+msgstr "عام"
+
+#: .\accounts\templates\accounts\doctor_list.html:31
+#: .\accounts\templates\accounts\staff_list.html:53
+msgid "Inactive"
+msgstr "غير نشط"
+
+#: .\accounts\templates\accounts\doctor_list.html:38
+msgid "Today"
+msgstr "اليوم"
+
+#: .\accounts\templates\accounts\doctor_list.html:42
+msgid "Upcoming"
+msgstr "القادمة"
+
+#: .\accounts\templates\accounts\doctor_list.html:51
+#: .\appointments\templates\appointments\list.html:3
+#: .\appointments\templates\appointments\list.html:17
+#: .\dashboard\templates\dashboard\landing.html:30
+#: .\dashboard\templates\dashboard\landing.html:45 .\dashboard\views.py:20
+#: .\templates\base.html:40
+msgid "Appointments"
+msgstr "المواعيد"
+
+#: .\accounts\templates\accounts\doctor_list.html:56
+msgid "Book"
+msgstr "حجز"
+
+#: .\accounts\templates\accounts\doctor_list.html:63
+msgid "No doctors yet."
+msgstr "لا يوجد أطباء بعد."
+
+#: .\accounts\templates\accounts\doctor_list.html:66
+msgid "Add your first doctor"
+msgstr "أضف أول طبيب"
+
+#: .\accounts\templates\accounts\doctor_list.html:69
+msgid "Ask your clinic admin to add doctors."
+msgstr "اطلب من مدير العيادة إضافة الأطباء."
+
 #: .\accounts\templates\accounts\login.html:3
-#: .\accounts\templates\accounts\login.html:32
+#: .\accounts\templates\accounts\login.html:38
+#: .\dashboard\templates\dashboard\account_chooser.html:56
+#: .\patients\templates\patients\portal_login.html:3
+#: .\patients\templates\patients\portal_login.html:21
 msgid "Login"
 msgstr "تسجيل الدخول"
 
@@ -84,16 +203,42 @@ msgstr "أهلاً بعودتك"
 msgid "Sign in to your clinic workspace."
 msgstr "سجّل دخولك إلى مساحة عملك."
 
-#: .\accounts\templates\accounts\login.html:37
+#: .\accounts\templates\accounts\login.html:22
+#: .\dashboard\templates\dashboard\account_chooser.html:40
+msgid "Clinic URL"
+msgstr "رابط العيادة"
+
+#: .\accounts\templates\accounts\login.html:43
 msgid "Don't have a clinic yet?"
 msgstr "ليس لديك عيادة بعد؟"
 
-#: .\accounts\templates\accounts\login.html:38
+#: .\accounts\templates\accounts\login.html:44
+#: .\dashboard\templates\dashboard\account_chooser.html:61
 msgid "Register one"
 msgstr "سجّل واحدة"
 
+#: .\accounts\templates\accounts\resend_verification.html:3
+msgid "Resend Verification"
+msgstr "إعادة إرسال التحقق"
+
+#: .\accounts\templates\accounts\resend_verification.html:8
+msgid "Resend Verification Email"
+msgstr "إعادة إرسال رسالة التحقق"
+
+#: .\accounts\templates\accounts\resend_verification.html:9
+msgid "Enter your email and we'll send a new link."
+msgstr "أدخل بريدك الإلكتروني وسنرسل لك رابطاً جديداً."
+
+#: .\accounts\templates\accounts\resend_verification.html:13
+msgid "Your email"
+msgstr "بريدك الإلكتروني"
+
+#: .\accounts\templates\accounts\resend_verification.html:16
+msgid "Send Link"
+msgstr "إرسال الرابط"
+
 #: .\accounts\templates\accounts\settings.html:3
-#: .\accounts\templates\accounts\settings.html:9 .\templates\base.html:57
+#: .\accounts\templates\accounts\settings.html:9 .\templates\base.html:67
 msgid "Settings"
 msgstr "الإعدادات"
 
@@ -126,8 +271,8 @@ msgid "Save changes"
 msgstr "حفظ التغييرات"
 
 #: .\accounts\templates\accounts\staff_list.html:3
-#: .\accounts\templates\accounts\staff_list.html:9 .\dashboard\views.py:24
-#: .\templates\base.html:50
+#: .\accounts\templates\accounts\staff_list.html:9 .\dashboard\views.py:26
+#: .\templates\base.html:60
 msgid "Staff"
 msgstr "الموظفون"
 
@@ -149,8 +294,8 @@ msgid "Contact"
 msgstr "التواصل"
 
 #: .\accounts\templates\accounts\staff_list.html:24
-#: .\appointments\templates\appointments\list.html:24
-#: .\billing\templates\billing\home.html:72
+#: .\appointments\templates\appointments\list.html:33
+#: .\billing\templates\billing\home.html:68
 msgid "Status"
 msgstr "الحالة"
 
@@ -158,77 +303,115 @@ msgstr "الحالة"
 msgid "Active"
 msgstr "نشط"
 
-#: .\accounts\templates\accounts\staff_list.html:53
-msgid "Inactive"
-msgstr "غير نشط"
-
 #: .\accounts\templates\accounts\staff_list.html:58
 msgid "No staff members yet."
 msgstr "لا يوجد موظفون بعد."
 
+#: .\accounts\templates\accounts\trial_expired.html:3
+msgid "Plan Inactive"
+msgstr "الخطة غير فعّالة"
+
+#: .\accounts\templates\accounts\trial_expired.html:11
+msgid "Your clinic's plan is inactive"
+msgstr "خطة عيادتك غير فعّالة"
+
+#: .\accounts\templates\accounts\trial_expired.html:13
+msgid ""
+"The free trial or subscription has ended. Ask your clinic administrator to "
+"subscribe to continue using Clinic SaS."
+msgstr ""
+"انتهت الفترة التجريبية أو الاشتراك. اطلب من مدير العيادة الاشتراك لمتابعة "
+"استخدام Clinic SaS."
+
+#: .\accounts\templates\accounts\trial_expired.html:15
+msgid "Log out"
+msgstr "تسجيل الخروج"
+
 #: .\appointments\templates\appointments\book.html:3
 #: .\appointments\templates\appointments\book.html:8
-#: .\appointments\templates\appointments\book.html:40
+#: .\appointments\templates\appointments\book.html:43
+#: .\patients\templates\patients\portal_base.html:24
+#: .\patients\templates\patients\portal_book.html:3
+#: .\patients\templates\patients\portal_book.html:6
+#: .\patients\templates\patients\portal_dashboard.html:12
 msgid "Book Appointment"
 msgstr "حجز موعد"
 
 #: .\appointments\templates\appointments\book.html:13
-#: .\appointments\templates\appointments\list.html:21
+#: .\appointments\templates\appointments\list.html:30
+#: .\dashboard\templates\dashboard\account_chooser.html:28
 #: .\patients\templates\patients\list.html:28
 msgid "Patient"
-msgstr "المريض"
+msgstr "مريض"
 
 #: .\appointments\templates\appointments\book.html:15
 msgid "Select Patient"
 msgstr "اختر المريض"
 
 #: .\appointments\templates\appointments\book.html:24
+#: .\patients\templates\patients\portal_book.html:13
 msgid "Select Doctor"
 msgstr "اختر الطبيب"
 
-#: .\appointments\templates\appointments\book.html:31
+#: .\appointments\templates\appointments\book.html:26
+msgid "No doctors yet. An admin can add them on the Doctors page."
+msgstr "لا يوجد أطباء بعد. يمكن للمدير إضافتهم من صفحة الأطباء."
+
+#: .\appointments\templates\appointments\book.html:34
+#: .\patients\templates\patients\portal_book.html:20
 msgid "Date & Time"
 msgstr "التاريخ والوقت"
 
-#: .\appointments\templates\appointments\book.html:36
+#: .\appointments\templates\appointments\book.html:39
+#: .\patients\templates\patients\portal_book.html:24
 msgid "Reason"
 msgstr "السبب"
 
-#: .\appointments\templates\appointments\list.html:3
-#: .\appointments\templates\appointments\list.html:9
-#: .\dashboard\templates\dashboard\landing.html:30
-#: .\dashboard\templates\dashboard\landing.html:45 .\dashboard\views.py:18
-#: .\templates\base.html:38
-msgid "Appointments"
-msgstr "المواعيد"
+#: .\appointments\templates\appointments\list.html:11
+#: .\patients\templates\patients\portal_base.html:23
+#: .\patients\templates\patients\portal_dashboard.html:3
+#: .\templates\base.html:50
+msgid "My Appointments"
+msgstr "مواعيدي"
 
-#: .\appointments\templates\appointments\list.html:10
+#: .\appointments\templates\appointments\list.html:11
+#, python-format
+msgid "Appointments for Dr. %(name)s"
+msgstr "مواعيد د. %(name)s"
+
+#: .\appointments\templates\appointments\list.html:14
+msgid "Show all doctors"
+msgstr "عرض كل الأطباء"
+
+#: .\appointments\templates\appointments\list.html:18
 msgid "Schedule and manage visits across all practitioners"
 msgstr "جدولة وإدارة الزيارات لجميع الأطباء"
 
-#: .\appointments\templates\appointments\list.html:13
+#: .\appointments\templates\appointments\list.html:22
 #: .\dashboard\templates\dashboard\home.html:13
 msgid "New appointment"
 msgstr "موعد جديد"
 
-#: .\appointments\templates\appointments\list.html:23
+#: .\appointments\templates\appointments\list.html:32
 msgid "Date / Time"
 msgstr "التاريخ / الوقت"
 
-#: .\appointments\templates\appointments\list.html:44
+#: .\appointments\templates\appointments\list.html:55
 msgid "Check In"
 msgstr "تسجيل الوصول"
 
-#: .\appointments\templates\appointments\list.html:46
+#: .\appointments\templates\appointments\list.html:61
+#: .\patients\templates\patients\portal_dashboard.html:33
 msgid "Cancel"
 msgstr "إلغاء"
 
-#: .\appointments\templates\appointments\list.html:50
+#: .\appointments\templates\appointments\list.html:67
+#: .\patients\templates\patients\portal_dashboard.html:39
 msgid "No appointments yet."
 msgstr "لا توجد مواعيد بعد."
 
 #: .\appointments\templates\appointments\queue.html:3
-#: .\appointments\templates\appointments\queue.html:7 .\templates\base.html:41
+#: .\appointments\templates\appointments\queue.html:7 .\templates\base.html:43
 msgid "Waiting Queue"
 msgstr "قائمة الانتظار"
 
@@ -240,16 +423,16 @@ msgstr "ترتيب الانتظار الحي، لكل طبيب يومياً"
 msgid "checked in"
 msgstr "تم تسجيل وصولهم"
 
-#: .\appointments\templates\appointments\queue.html:31
+#: .\appointments\templates\appointments\queue.html:33
 msgid "Done"
 msgstr "تم"
 
-#: .\appointments\templates\appointments\queue.html:38
+#: .\appointments\templates\appointments\queue.html:41
 msgid "Queue is empty."
 msgstr "قائمة الانتظار فارغة."
 
-#: .\billing\templates\billing\home.html:3 .\dashboard\views.py:22
-#: .\templates\base.html:46
+#: .\billing\templates\billing\home.html:3 .\dashboard\views.py:24
+#: .\templates\base.html:56
 msgid "Billing"
 msgstr "الفواتير"
 
@@ -262,146 +445,188 @@ msgid "Manage your plan, invoices, and payment method"
 msgstr "إدارة خطتك وفواتيرك وطريقة الدفع"
 
 #: .\billing\templates\billing\home.html:12
-msgid "Starter"
-msgstr "المبتدئة"
-
-#: .\billing\templates\billing\home.html:13
-msgid "For solo practitioners getting started"
-msgstr "للأطباء المستقلين المبتدئين"
+msgid ""
+"Your last payment failed. Stripe will retry automatically — update your card"
+" to avoid losing access."
+msgstr ""
+"فشلت آخر عملية دفع. سيعيد Stripe المحاولة تلقائياً — حدّث بطاقتك لتجنب فقدان"
+" الوصول."
 
 #: .\billing\templates\billing\home.html:14
-#: .\billing\templates\billing\home.html:33
-#: .\billing\templates\billing\home.html:53
-msgid "month"
-msgstr "شهر"
+msgid "Update payment method"
+msgstr "تحديث طريقة الدفع"
 
-#: .\billing\templates\billing\home.html:16
-msgid "1 staff member"
-msgstr "موظف واحد"
-
-#: .\billing\templates\billing\home.html:17
-msgid "Up to 500 patients"
-msgstr "حتى 500 مريض"
-
-#: .\billing\templates\billing\home.html:18
-msgid "Appointment scheduling"
-msgstr "جدولة المواعيد"
-
-#: .\billing\templates\billing\home.html:19 .\dashboard\views.py:16
-msgid "Patient records"
-msgstr "سجلات المرضى"
-
-#: .\billing\templates\billing\home.html:20
-msgid "Email support"
-msgstr "دعم عبر البريد الإلكتروني"
-
-#: .\billing\templates\billing\home.html:23
-msgid "Downgrade"
-msgstr "تخفيض الخطة"
-
-#: .\billing\templates\billing\home.html:29
-#: .\billing\templates\billing\home.html:42
+#: .\billing\templates\billing\home.html:22
+#: .\billing\templates\billing\home.html:35
 #: .\dashboard\templates\dashboard\home.html:32
 msgid "Current plan"
 msgstr "الخطة الحالية"
 
-#: .\billing\templates\billing\home.html:29
+#: .\billing\templates\billing\home.html:22
 msgid "Recommended"
 msgstr "موصى بها"
 
-#: .\billing\templates\billing\home.html:31
+#: .\billing\templates\billing\home.html:24
 msgid "Professional"
 msgstr "الاحترافية"
 
-#: .\billing\templates\billing\home.html:32
+#: .\billing\templates\billing\home.html:25
 msgid "For growing clinics with multiple practitioners"
 msgstr "للعيادات النامية متعددة الأطباء"
 
-#: .\billing\templates\billing\home.html:35
+#: .\billing\templates\billing\home.html:26
+#: .\billing\templates\billing\home.html:49
+msgid "month"
+msgstr "شهر"
+
+#: .\billing\templates\billing\home.html:28
 msgid "Up to 5 staff members"
 msgstr "حتى 5 موظفين"
 
-#: .\billing\templates\billing\home.html:36
+#: .\billing\templates\billing\home.html:29
 msgid "Unlimited patients & records"
 msgstr "مرضى وسجلات غير محدودة"
 
-#: .\billing\templates\billing\home.html:37
+#: .\billing\templates\billing\home.html:30
 msgid "Waiting queue management"
 msgstr "إدارة قائمة الانتظار"
 
-#: .\billing\templates\billing\home.html:38
+#: .\billing\templates\billing\home.html:31
 msgid "Email notifications"
 msgstr "إشعارات البريد الإلكتروني"
 
-#: .\billing\templates\billing\home.html:39
+#: .\billing\templates\billing\home.html:32
 msgid "Priority support"
 msgstr "دعم ذو أولوية"
 
-#: .\billing\templates\billing\home.html:45
+#: .\billing\templates\billing\home.html:37
+msgid "Manage payment method"
+msgstr "إدارة طريقة الدفع"
+
+#: .\billing\templates\billing\home.html:41
 msgid "Upgrade"
 msgstr "ترقية"
 
-#: .\billing\templates\billing\home.html:51
+#: .\billing\templates\billing\home.html:47
 msgid "Enterprise"
 msgstr "المؤسسات"
 
-#: .\billing\templates\billing\home.html:52
+#: .\billing\templates\billing\home.html:48
 msgid "For multi-branch clinics and networks"
 msgstr "للعيادات متعددة الفروع والشبكات"
 
-#: .\billing\templates\billing\home.html:55
+#: .\billing\templates\billing\home.html:51
 msgid "Unlimited staff members"
 msgstr "عدد غير محدود من الموظفين"
 
-#: .\billing\templates\billing\home.html:56
+#: .\billing\templates\billing\home.html:52
 msgid "Multi-location support"
 msgstr "دعم عدة مواقع"
 
-#: .\billing\templates\billing\home.html:57
+#: .\billing\templates\billing\home.html:53
 msgid "Advanced analytics"
 msgstr "تحليلات متقدمة"
 
-#: .\billing\templates\billing\home.html:58
+#: .\billing\templates\billing\home.html:54
 msgid "API access"
 msgstr "الوصول لواجهة البرمجة"
 
-#: .\billing\templates\billing\home.html:59
+#: .\billing\templates\billing\home.html:55
 msgid "Dedicated account manager"
 msgstr "مدير حساب مخصص"
 
-#: .\billing\templates\billing\home.html:61
+#: .\billing\templates\billing\home.html:57
 msgid "Contact sales"
 msgstr "تواصل مع المبيعات"
 
-#: .\billing\templates\billing\home.html:66
+#: .\billing\templates\billing\home.html:62
 msgid "Billing History"
 msgstr "سجل الفواتير"
 
-#: .\billing\templates\billing\home.html:70
+#: .\billing\templates\billing\home.html:66
 msgid "Date"
 msgstr "التاريخ"
 
-#: .\billing\templates\billing\home.html:71
+#: .\billing\templates\billing\home.html:67
 msgid "Amount"
 msgstr "المبلغ"
 
-#: .\billing\templates\billing\home.html:85
+#: .\billing\templates\billing\home.html:84
 msgid "No billing history yet."
 msgstr "لا يوجد سجل فواتير بعد."
 
-#: .\dashboard\templates\dashboard\home.html:3 .\templates\base.html:32
+#: .\dashboard\templates\dashboard\account_chooser.html:3
+#: .\dashboard\templates\dashboard\account_chooser.html:12
+msgid "Sign In"
+msgstr "تسجيل الدخول"
+
+#: .\dashboard\templates\dashboard\account_chooser.html:13
+msgid "I am a..."
+msgstr "أنا..."
+
+#: .\dashboard\templates\dashboard\account_chooser.html:20
+msgid "Clinic Admin / Staff"
+msgstr "مدير / موظف العيادة"
+
+#: .\dashboard\templates\dashboard\account_chooser.html:35
+msgid ""
+"Doctor accounts are created by the clinic admin. Use the clinic URL, email "
+"and password they gave you."
+msgstr ""
+"ينشئ مدير العيادة حسابات الأطباء. استخدم رابط العيادة والبريد الإلكتروني "
+"وكلمة المرور التي أعطاك إياها."
+
+#: .\dashboard\templates\dashboard\account_chooser.html:60
+msgid "New clinic?"
+msgstr "عيادة جديدة؟"
+
+#: .\dashboard\templates\dashboard\account_chooser.html:69
+#: .\dashboard\templates\dashboard\find_clinic.html:3
+#: .\dashboard\templates\dashboard\find_clinic.html:12
+msgid "Find Your Clinic"
+msgstr "ابحث عن عيادتك"
+
+#: .\dashboard\templates\dashboard\account_chooser.html:70
+#: .\dashboard\templates\dashboard\find_clinic.html:19
+msgid "Clinic name..."
+msgstr "اسم العيادة..."
+
+#: .\dashboard\templates\dashboard\account_chooser.html:74
+#: .\dashboard\templates\dashboard\find_clinic.html:40
+msgid "Continue"
+msgstr "متابعة"
+
+#: .\dashboard\templates\dashboard\account_chooser.html:78
+msgid ""
+"You'll search for your clinic, then sign in or create your patient account "
+"there."
+msgstr "ستبحث عن عيادتك، ثم تسجّل الدخول أو تنشئ حساب المريض الخاص بك هناك."
+
+#: .\dashboard\templates\dashboard\find_clinic.html:13
+msgid "Search for your clinic to sign in or create a patient account."
+msgstr "ابحث عن عيادتك لتسجيل الدخول أو إنشاء حساب مريض."
+
+#: .\dashboard\templates\dashboard\find_clinic.html:44
+msgid "No clinics found. Check the spelling and try again."
+msgstr "لم يتم العثور على عيادات. تحقق من الإملاء وحاول مرة أخرى."
+
+#: .\dashboard\templates\dashboard\find_clinic.html:49
+msgid "Start typing to search for your clinic."
+msgstr "ابدأ الكتابة للبحث عن عيادتك."
+
+#: .\dashboard\templates\dashboard\home.html:3 .\templates\base.html:34
 msgid "Dashboard"
 msgstr "لوحة التحكم"
 
 #: .\dashboard\templates\dashboard\home.html:9
 #, python-format
-msgid "Good morning, %(staff_user.full_name)s"
-msgstr ""
+msgid "Good morning, %(name)s"
+msgstr "صباح الخير، %(name)s"
 
 #: .\dashboard\templates\dashboard\home.html:10
 #, python-format
 msgid "Here's what's happening at %(clinic_name)s today"
-msgstr ""
+msgstr "إليك ما يحدث في %(clinic_name)s اليوم"
 
 #: .\dashboard\templates\dashboard\home.html:20
 #: .\patients\templates\patients\list.html:20
@@ -417,6 +642,10 @@ msgid "In waiting queue"
 msgstr "في قائمة الانتظار"
 
 #: .\dashboard\templates\dashboard\home.html:38
+msgid "Your schedule today"
+msgstr "جدولك اليوم"
+
+#: .\dashboard\templates\dashboard\home.html:38
 msgid "Today's schedule"
 msgstr "جدول اليوم"
 
@@ -425,6 +654,7 @@ msgid "View all"
 msgstr "عرض الكل"
 
 #: .\dashboard\templates\dashboard\home.html:50
+#: .\patients\templates\patients\portal_dashboard.html:20
 msgid "Visit"
 msgstr "زيارة"
 
@@ -434,7 +664,7 @@ msgstr "لا توجد مواعيد مجدولة اليوم."
 
 #: .\dashboard\templates\dashboard\landing.html:3
 msgid "Clinic SaS — Everything your clinic needs"
-msgstr ""
+msgstr "Clinic SaS — كل ما تحتاجه عيادتك"
 
 #: .\dashboard\templates\dashboard\landing.html:11
 msgid "Practice management, reimagined"
@@ -454,7 +684,7 @@ msgstr ""
 "بالكامل في مكان واحد — لتقضي وقتاً أقل بالأوراق ووقتاً أكثر مع مرضاك."
 
 #: .\dashboard\templates\dashboard\landing.html:21
-#: .\templates\public_base.html:34
+#: .\templates\public_base.html:41
 msgid "Open the app"
 msgstr "افتح التطبيق"
 
@@ -468,7 +698,7 @@ msgstr "عيادة"
 
 #: .\dashboard\templates\dashboard\landing.html:29
 #: .\patients\templates\patients\list.html:3
-#: .\patients\templates\patients\list.html:9 .\templates\base.html:35
+#: .\patients\templates\patients\list.html:9 .\templates\base.html:37
 msgid "Patients"
 msgstr "المرضى"
 
@@ -508,70 +738,70 @@ msgstr "فحص ضغط الدم"
 msgid "New patient"
 msgstr "مريض جديد"
 
-#: .\dashboard\templates\dashboard\landing.html:65
+#: .\dashboard\templates\dashboard\landing.html:66
 msgid "FEATURES"
 msgstr "المميزات"
 
-#: .\dashboard\templates\dashboard\landing.html:66
+#: .\dashboard\templates\dashboard\landing.html:67
 msgid "Everything your team needs, in one workspace"
 msgstr "كل ما يحتاجه فريقك، في مساحة عمل واحدة"
 
-#: .\dashboard\templates\dashboard\landing.html:68
+#: .\dashboard\templates\dashboard\landing.html:69
 msgid ""
 "Six connected modules that replace the pile of tools and paper your clinic "
 "juggles today."
 msgstr ""
 "ستة أقسام مترابطة تحل محل كومة الأدوات والأوراق التي تديرها عيادتك اليوم."
 
-#: .\dashboard\templates\dashboard\landing.html:87
+#: .\dashboard\templates\dashboard\landing.html:89
 msgid "HOW IT WORKS"
 msgstr "كيف يعمل"
 
-#: .\dashboard\templates\dashboard\landing.html:88
+#: .\dashboard\templates\dashboard\landing.html:90
 msgid "Up and running in an afternoon"
 msgstr "جاهز للعمل خلال ساعات"
 
-#: .\dashboard\templates\dashboard\landing.html:90
+#: .\dashboard\templates\dashboard\landing.html:92
 msgid ""
 "No IT department needed. Three simple steps to a calmer, more organized "
 "clinic."
 msgstr "لا حاجة لقسم تقني. ثلاث خطوات بسيطة لعيادة أكثر هدوءاً وتنظيماً."
 
-#: .\dashboard\templates\dashboard\landing.html:95
+#: .\dashboard\templates\dashboard\landing.html:97
 msgid "Set up your clinic"
 msgstr "أعدّ عيادتك"
 
-#: .\dashboard\templates\dashboard\landing.html:96
+#: .\dashboard\templates\dashboard\landing.html:98
 msgid ""
 "Add your staff, rooms, and services in minutes. No training manual required."
 msgstr "أضف موظفيك وغرفك وخدماتك خلال دقائق. لا حاجة لدليل تدريب."
 
-#: .\dashboard\templates\dashboard\landing.html:100
+#: .\dashboard\templates\dashboard\landing.html:102
 msgid "Start seeing patients"
 msgstr "ابدأ باستقبال المرضى"
 
-#: .\dashboard\templates\dashboard\landing.html:101
+#: .\dashboard\templates\dashboard\landing.html:103
 msgid ""
 "Schedule, check in, and document every visit — from vitals to prescriptions."
 msgstr "جدول واستقبل ووثّق كل زيارة — من العلامات الحيوية إلى الوصفات الطبية."
 
-#: .\dashboard\templates\dashboard\landing.html:105
+#: .\dashboard\templates\dashboard\landing.html:107
 msgid "Grow with clarity"
 msgstr "انمُ بوضوح"
 
-#: .\dashboard\templates\dashboard\landing.html:106
+#: .\dashboard\templates\dashboard\landing.html:108
 msgid "Track billing, queue times, and practice insights in real time."
 msgstr "تابع الفواتير وأوقات الانتظار وإحصائيات عيادتك لحظياً."
 
-#: .\dashboard\templates\dashboard\landing.html:114
+#: .\dashboard\templates\dashboard\landing.html:116
 msgid "TESTIMONIALS"
 msgstr "آراء العملاء"
 
-#: .\dashboard\templates\dashboard\landing.html:115
+#: .\dashboard\templates\dashboard\landing.html:117
 msgid "Loved by the people on the front line"
 msgstr "محبوب من العاملين في الصفوف الأمامية"
 
-#: .\dashboard\templates\dashboard\landing.html:119
+#: .\dashboard\templates\dashboard\landing.html:121
 msgid ""
 "We cut our front-desk wait times in half. The waiting queue alone changed "
 "how our whole morning runs."
@@ -579,11 +809,11 @@ msgstr ""
 "خفّضنا وقت الانتظار عند الاستقبال إلى النصف. قائمة الانتظار وحدها غيّرت "
 "طريقة سير صباحنا بالكامل."
 
-#: .\dashboard\templates\dashboard\landing.html:124
+#: .\dashboard\templates\dashboard\landing.html:126
 msgid "General Physician, Lakeview Family Clinic"
 msgstr "طبيب عام، عيادة ليكفيو العائلية"
 
-#: .\dashboard\templates\dashboard\landing.html:130
+#: .\dashboard\templates\dashboard\landing.html:132
 msgid ""
 "Having every patient's full history on one timeline is a lifesaver. I can "
 "review a chart in seconds."
@@ -591,11 +821,11 @@ msgstr ""
 "وجود السجل الكامل لكل مريض على جدول زمني واحد كان منقذاً حقيقياً. أستطيع "
 "مراجعة الملف خلال ثوانٍ."
 
-#: .\dashboard\templates\dashboard\landing.html:135
+#: .\dashboard\templates\dashboard\landing.html:137
 msgid "Cardiologist"
 msgstr "طبيب قلب"
 
-#: .\dashboard\templates\dashboard\landing.html:141
+#: .\dashboard\templates\dashboard\landing.html:143
 msgid ""
 "Setup took an afternoon. By the next day our whole team was documenting "
 "visits without paper."
@@ -603,24 +833,24 @@ msgstr ""
 "استغرق الإعداد بضع ساعات فقط. وفي اليوم التالي كان فريقنا بالكامل يوثّق "
 "الزيارات بدون أوراق."
 
-#: .\dashboard\templates\dashboard\landing.html:146
+#: .\dashboard\templates\dashboard\landing.html:148
 msgid "Pediatrician"
 msgstr "طبيب أطفال"
 
-#: .\dashboard\templates\dashboard\landing.html:156
+#: .\dashboard\templates\dashboard\landing.html:158
 #: .\templates\public_base.html:21
 msgid "FAQ"
 msgstr "الأسئلة الشائعة"
 
-#: .\dashboard\templates\dashboard\landing.html:157
+#: .\dashboard\templates\dashboard\landing.html:159
 msgid "Common questions, answered"
 msgstr "أسئلة شائعة، وإجاباتها"
 
-#: .\dashboard\templates\dashboard\landing.html:162
+#: .\dashboard\templates\dashboard\landing.html:164
 msgid "Is this a full practice management system?"
 msgstr "هل هذا نظام إدارة عيادات متكامل؟"
 
-#: .\dashboard\templates\dashboard\landing.html:166
+#: .\dashboard\templates\dashboard\landing.html:168
 msgid ""
 "Yes. Clinic SaS covers patient records, appointments, waiting queues, "
 "billing, staff, and notifications in a single connected workspace."
@@ -628,31 +858,35 @@ msgstr ""
 "نعم. يغطي Clinic SaS سجلات المرضى والمواعيد وقوائم الانتظار والفواتير "
 "والموظفين والإشعارات في مساحة عمل واحدة مترابطة."
 
-#: .\dashboard\templates\dashboard\landing.html:171
+#: .\dashboard\templates\dashboard\landing.html:173
 msgid "Do I need to install anything?"
 msgstr "هل أحتاج لتثبيت أي شيء؟"
 
-#: .\dashboard\templates\dashboard\landing.html:174
+#: .\dashboard\templates\dashboard\landing.html:176
 msgid "No — Clinic SaS runs entirely in your browser."
 msgstr "لا — يعمل Clinic SaS بالكامل من خلال المتصفح."
 
-#: .\dashboard\templates\dashboard\landing.html:178
+#: .\dashboard\templates\dashboard\landing.html:180
 msgid "Can multiple staff members use it at once?"
 msgstr "هل يمكن لعدة موظفين استخدامه في نفس الوقت؟"
 
-#: .\dashboard\templates\dashboard\landing.html:181
+#: .\dashboard\templates\dashboard\landing.html:183
 msgid "Yes, with role-based access for admins, doctors, and reception."
 msgstr "نعم، مع صلاحيات وصول حسب الدور للمدراء والأطباء والاستقبال."
 
-#: .\dashboard\templates\dashboard\landing.html:185
+#: .\dashboard\templates\dashboard\landing.html:187
 msgid "What happens to my patient data?"
 msgstr "ماذا يحدث لبيانات مرضاي؟"
 
-#: .\dashboard\templates\dashboard\landing.html:188
+#: .\dashboard\templates\dashboard\landing.html:190
 msgid "Each clinic's data is fully isolated and never shared across tenants."
 msgstr "بيانات كل عيادة معزولة بالكامل ولا تُشارك أبداً بين العيادات الأخرى."
 
-#: .\dashboard\views.py:17
+#: .\dashboard\views.py:18
+msgid "Patient records"
+msgstr "سجلات المرضى"
+
+#: .\dashboard\views.py:19
 msgid ""
 "A complete medical history for every patient — conditions, allergies, "
 "vitals, and every visit laid out on a clean timeline."
@@ -660,7 +894,7 @@ msgstr ""
 "سجل طبي كامل لكل مريض — الحالات والحساسية والعلامات الحيوية وكل زيارة، "
 "معروضة على جدول زمني واضح."
 
-#: .\dashboard\views.py:19
+#: .\dashboard\views.py:21
 msgid ""
 "A clickable month calendar with doctor filters and one-click scheduling, so "
 "the front desk never double-books."
@@ -668,11 +902,11 @@ msgstr ""
 "تقويم شهري تفاعلي مع فلاتر للأطباء وجدولة بضغطة واحدة، حتى لا تتعارض "
 "المواعيد أبداً."
 
-#: .\dashboard\views.py:20
+#: .\dashboard\views.py:22
 msgid "Waiting queue"
 msgstr "قائمة الانتظار"
 
-#: .\dashboard\views.py:21
+#: .\dashboard\views.py:23
 msgid ""
 "See who is next in every room and call patients in with a single tap — no "
 "more shouting down the hallway."
@@ -680,7 +914,7 @@ msgstr ""
 "اعرف من التالي في كل غرفة واستدعِ المرضى بضغطة واحدة — لا داعي للنداء بصوت "
 "عالٍ."
 
-#: .\dashboard\views.py:23
+#: .\dashboard\views.py:25
 msgid ""
 "Plans, invoices, and payment methods in one place, so your practice stays "
 "financially clear without a spreadsheet."
@@ -688,7 +922,7 @@ msgstr ""
 "الخطط والفواتير وطرق الدفع في مكان واحد، لتبقى أمورك المالية واضحة بدون "
 "جداول بيانات."
 
-#: .\dashboard\views.py:25
+#: .\dashboard\views.py:27
 msgid ""
 "Roles, availability, and your whole team at a glance — from physicians to "
 "front-desk and nursing."
@@ -696,13 +930,13 @@ msgstr ""
 "الأدوار والتوفر وفريقك بالكامل بنظرة واحدة — من الأطباء إلى الاستقبال "
 "والتمريض."
 
-#: .\dashboard\views.py:26 .\notifications\templates\notifications\list.html:3
+#: .\dashboard\views.py:28 .\notifications\templates\notifications\list.html:3
 #: .\notifications\templates\notifications\list.html:9
-#: .\templates\base.html:54
+#: .\templates\base.html:64
 msgid "Notifications"
 msgstr "الإشعارات"
 
-#: .\dashboard\views.py:27
+#: .\dashboard\views.py:29
 msgid ""
 "Never miss a follow-up, a referral, or an update. Every important moment "
 "surfaces right where you work."
@@ -716,23 +950,24 @@ msgstr "تابع كل المواعيد والتحديثات أولاً بأول"
 msgid "ago"
 msgstr "مضت"
 
-#: .\notifications\templates\notifications\list.html:34
+#: .\notifications\templates\notifications\list.html:36
 msgid "Mark read"
 msgstr "تمييز كمقروء"
 
-#: .\notifications\templates\notifications\list.html:39
+#: .\notifications\templates\notifications\list.html:42
 msgid "No notifications yet."
 msgstr "لا توجد إشعارات بعد."
 
 #: .\patients\templates\patients\add.html:3
 msgid "Add Patient"
-msgstr ""
+msgstr "إضافة مريض"
 
 #: .\patients\templates\patients\add.html:8
 msgid "Add New Patient"
 msgstr "إضافة مريض جديد"
 
 #: .\patients\templates\patients\add.html:18
+#: .\patients\templates\patients\portal_register.html:21
 msgid "Phone Number"
 msgstr "رقم الهاتف"
 
@@ -782,31 +1017,31 @@ msgstr "فصيلة الدم"
 msgid "None"
 msgstr "لا يوجد"
 
-#: .\patients\templates\patients\detail.html:26
+#: .\patients\templates\patients\detail.html:27
 msgid "Add Medical Record"
 msgstr "إضافة سجل طبي"
 
-#: .\patients\templates\patients\detail.html:30
+#: .\patients\templates\patients\detail.html:31
 msgid "Diagnosis"
 msgstr "التشخيص"
 
-#: .\patients\templates\patients\detail.html:35
+#: .\patients\templates\patients\detail.html:36
 msgid "Prescription"
 msgstr "الوصفة الطبية"
 
-#: .\patients\templates\patients\detail.html:40
+#: .\patients\templates\patients\detail.html:41
 msgid "Notes"
 msgstr "ملاحظات"
 
-#: .\patients\templates\patients\detail.html:45
+#: .\patients\templates\patients\detail.html:46
 msgid "Add Record"
 msgstr "إضافة سجل"
 
-#: .\patients\templates\patients\detail.html:51
+#: .\patients\templates\patients\detail.html:53
 msgid "Medical History"
 msgstr "التاريخ الطبي"
 
-#: .\patients\templates\patients\detail.html:60
+#: .\patients\templates\patients\detail.html:62
 msgid "No records yet."
 msgstr "لا توجد سجلات بعد."
 
@@ -830,37 +1065,103 @@ msgstr "عرض"
 msgid "No patients yet."
 msgstr "لا يوجد مرضى بعد."
 
+#: .\patients\templates\patients\portal_base.html:7
+#: .\patients\templates\patients\portal_base.html:17
+msgid "Patient Portal"
+msgstr "بوابة المرضى"
+
+#: .\patients\templates\patients\portal_base.html:25
+msgid "Logout"
+msgstr "تسجيل الخروج"
+
+#: .\patients\templates\patients\portal_book.html:28
+msgid "Request Appointment"
+msgstr "طلب موعد"
+
+#: .\patients\templates\patients\portal_check_email.html:15
+#: .\patients\templates\patients\portal_check_email.html:22
+msgid "Register again"
+msgstr "سجّل مرة أخرى"
+
+#: .\patients\templates\patients\portal_check_email.html:21
+msgid "Click the link to finish creating your account. Didn't get it?"
+msgstr "اضغط على الرابط لإكمال إنشاء حسابك. لم يصلك؟"
+
+#: .\patients\templates\patients\portal_dashboard.html:8
+#, python-format
+msgid "Welcome, %(name)s"
+msgstr "أهلاً، %(name)s"
+
+#: .\patients\templates\patients\portal_login.html:8
+msgid "Sign in to manage your appointments"
+msgstr "سجّل الدخول لإدارة مواعيدك"
+
+#: .\patients\templates\patients\portal_login.html:26
+msgid "Don't have an account yet?"
+msgstr "ليس لديك حساب بعد؟"
+
+#: .\patients\templates\patients\portal_login.html:27
+msgid "Create one"
+msgstr "أنشئ حساباً"
+
+#: .\patients\templates\patients\portal_register.html:3
+#: .\patients\templates\patients\portal_register.html:7
+msgid "Create Your Account"
+msgstr "أنشئ حسابك"
+
+#: .\patients\templates\patients\portal_register.html:8
+#, python-format
+msgid "Book and manage your appointments at %(clinic_name)s"
+msgstr "احجز وأدر مواعيدك في %(clinic_name)s"
+
+#: .\patients\templates\patients\portal_register.html:29
+msgid "Confirm Password"
+msgstr "تأكيد كلمة المرور"
+
+#: .\patients\templates\patients\portal_register.html:33
+msgid "Create Account"
+msgstr "إنشاء حساب"
+
+#: .\patients\templates\patients\portal_register.html:38
+msgid "Already have an account?"
+msgstr "لديك حساب مسبقاً؟"
+
+#: .\patients\templates\patients\portal_register.html:39
+#: .\templates\public_base.html:39
+msgid "Sign in"
+msgstr "تسجيل الدخول"
+
 #: .\templates\base.html:7
 msgid "Clinic SaS"
-msgstr ""
+msgstr "Clinic SaS"
 
-#: .\templates\base.html:19
+#: .\templates\base.html:20
 msgid "Practice platform"
 msgstr "منصة إدارة العيادات"
 
-#: .\templates\base.html:26
+#: .\templates\base.html:28
 msgid "Downtown branch"
 msgstr "الفرع الرئيسي"
 
-#: .\templates\base.html:30
+#: .\templates\base.html:32
 msgid "CLINIC"
 msgstr "العيادة"
 
-#: .\templates\base.html:44
+#: .\templates\base.html:54
 msgid "ADMINISTRATION"
 msgstr "الإدارة"
 
-#: .\templates\base.html:85
+#: .\templates\base.html:98
 msgid "Exit"
 msgstr "خروج"
 
-#: .\templates\base.html:91
+#: .\templates\base.html:104
 msgid "Search patients, appointments..."
 msgstr "ابحث عن المرضى، المواعيد..."
 
 #: .\templates\public_base.html:7
 msgid "Clinic SaS — Practice Management Platform"
-msgstr ""
+msgstr "Clinic SaS — منصة إدارة العيادات"
 
 #: .\templates\public_base.html:18
 msgid "Features"
@@ -874,1233 +1175,29 @@ msgstr "كيف يعمل"
 msgid "Testimonials"
 msgstr "آراء العملاء"
 
-#: .\templates\public_base.html:32
-msgid "Sign in"
-msgstr "تسجيل الدخول"
+#~ msgid "Didn't get it?"
+#~ msgstr "لم يصلك؟"
 
-#: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
-msgid "Messages"
-msgstr ""
+#~ msgid "Resend link"
+#~ msgstr "إعادة إرسال الرابط"
 
-#: .\venv\Lib\site-packages\django\contrib\sitemaps\apps.py:8
-msgid "Site Maps"
-msgstr ""
+#~ msgid "Starter"
+#~ msgstr "المبتدئة"
 
-#: .\venv\Lib\site-packages\django\contrib\staticfiles\apps.py:9
-msgid "Static Files"
-msgstr ""
+#~ msgid "For solo practitioners getting started"
+#~ msgstr "للأطباء المستقلين المبتدئين"
 
-#: .\venv\Lib\site-packages\django\contrib\syndication\apps.py:7
-msgid "Syndication"
-msgstr ""
+#~ msgid "1 staff member"
+#~ msgstr "موظف واحد"
 
-#. Translators: String used to replace omitted page numbers in elided page
-#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
-#: .\venv\Lib\site-packages\django\core\paginator.py:30
-msgid "…"
-msgstr ""
+#~ msgid "Up to 500 patients"
+#~ msgstr "حتى 500 مريض"
 
-#: .\venv\Lib\site-packages\django\core\paginator.py:32
-msgid "That page number is not an integer"
-msgstr ""
+#~ msgid "Appointment scheduling"
+#~ msgstr "جدولة المواعيد"
 
-#: .\venv\Lib\site-packages\django\core\paginator.py:33
-msgid "That page number is less than 1"
-msgstr ""
+#~ msgid "Email support"
+#~ msgstr "دعم عبر البريد الإلكتروني"
 
-#: .\venv\Lib\site-packages\django\core\paginator.py:34
-msgid "That page contains no results"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:22
-msgid "Enter a valid value."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:70
-msgid "Enter a valid domain name."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:153
-#: .\venv\Lib\site-packages\django\forms\fields.py:774
-msgid "Enter a valid URL."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:200
-msgid "Enter a valid integer."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:211
-msgid "Enter a valid email address."
-msgstr ""
-
-#. Translators: "letters" means latin letters: a-z and A-Z.
-#: .\venv\Lib\site-packages\django\core\validators.py:289
-msgid ""
-"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:297
-msgid ""
-"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or"
-" hyphens."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:309
-#: .\venv\Lib\site-packages\django\core\validators.py:318
-#: .\venv\Lib\site-packages\django\core\validators.py:332
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2220
-#, python-format
-msgid "Enter a valid %(protocol)s address."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:311
-msgid "IPv4"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:320
-#: .\venv\Lib\site-packages\django\utils\ipv6.py:43
-msgid "IPv6"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:334
-msgid "IPv4 or IPv6"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:375
-msgid "Enter only digits separated by commas."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:381
-#, python-format
-msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:416
-#, python-format
-msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:425
-#, python-format
-msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:434
-#, python-format
-msgid "Ensure this value is a multiple of step size %(limit_value)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:441
-#, python-format
-msgid ""
-"Ensure this value is a multiple of step size %(limit_value)s, starting from "
-"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:473
-#, python-format
-msgid ""
-"Ensure this value has at least %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at least %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:491
-#, python-format
-msgid ""
-"Ensure this value has at most %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at most %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:514
-#: .\venv\Lib\site-packages\django\forms\fields.py:365
-#: .\venv\Lib\site-packages\django\forms\fields.py:404
-msgid "Enter a number."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:516
-#, python-format
-msgid "Ensure that there are no more than %(max)s digit in total."
-msgid_plural "Ensure that there are no more than %(max)s digits in total."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:521
-#, python-format
-msgid "Ensure that there are no more than %(max)s decimal place."
-msgid_plural "Ensure that there are no more than %(max)s decimal places."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:526
-#, python-format
-msgid ""
-"Ensure that there are no more than %(max)s digit before the decimal point."
-msgid_plural ""
-"Ensure that there are no more than %(max)s digits before the decimal point."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:597
-#, python-format
-msgid ""
-"File extension “%(extension)s” is not allowed. Allowed extensions are: "
-"%(allowed_extensions)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:659
-msgid "Null characters are not allowed."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\base.py:1600
-#: .\venv\Lib\site-packages\django\forms\models.py:908
-msgid "and"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\base.py:1602
-#, python-format
-msgid "%(model_name)s with this %(field_labels)s already exists."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\constraints.py:22
-#, python-format
-msgid "Constraint “%(name)s” is violated."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:134
-#, python-format
-msgid "Value %(value)r is not a valid choice."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:135
-msgid "This field cannot be null."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:136
-msgid "This field cannot be blank."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:137
-#, python-format
-msgid "%(model_name)s with this %(field_label)s already exists."
-msgstr ""
-
-#. Translators: The 'lookup_type' is one of 'date', 'year' or
-#. 'month'. Eg: "Title must be unique for pub_date year"
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:141
-#, python-format
-msgid ""
-"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:180
-#, python-format
-msgid "Field of type: %(field_type)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1162
-#, python-format
-msgid "“%(value)s” value must be either True or False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1163
-#, python-format
-msgid "“%(value)s” value must be either True, False, or None."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1165
-msgid "Boolean (Either True or False)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1215
-#, python-format
-msgid "String (up to %(max_length)s)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1217
-msgid "String (unlimited)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1326
-msgid "Comma-separated integers"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1427
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
-"format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1431
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1566
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
-"date."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1435
-msgid "Date (without time)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1562
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD "
-"HH:MM[:ss[.uuuuuu]][TZ] format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1570
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (YYYY-MM-DD "
-"HH:MM[:ss[.uuuuuu]][TZ]) but it is an invalid date/time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1575
-msgid "Date (with time)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1702
-#, python-format
-msgid "“%(value)s” value must be a decimal number."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1704
-msgid "Decimal number"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1864
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in [DD] "
-"[[HH:]MM:]ss[.uuuuuu] format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1868
-msgid "Duration"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1920
-msgid "Email address"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1945
-msgid "File path"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2023
-#, python-format
-msgid "“%(value)s” value must be a float."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2025
-msgid "Floating point number"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2065
-#, python-format
-msgid "“%(value)s” value must be an integer."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2067
-msgid "Integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2163
-msgid "Big (8 byte) integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2180
-msgid "Small integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2188
-msgid "IPv4 address"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2219
-msgid "IP address"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2310
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2311
-#, python-format
-msgid "“%(value)s” value must be either None, True or False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2313
-msgid "Boolean (Either True, False or None)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2364
-msgid "Positive big integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2379
-msgid "Positive integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2394
-msgid "Positive small integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2410
-#, python-format
-msgid "Slug (up to %(max_length)s)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2446
-msgid "Text"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2526
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
-"format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2530
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
-"invalid time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2534
-msgid "Time"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2642
-msgid "URL"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2666
-msgid "Raw binary data"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2731
-#, python-format
-msgid "“%(value)s” is not a valid UUID."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2733
-msgid "Universally unique identifier"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\files.py:244
-msgid "File"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\files.py:420
-msgid "Image"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\json.py:24
-msgid "A JSON object"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\json.py:26
-msgid "Value must be valid JSON."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:979
-#, python-format
-msgid "%(model)s instance with %(field)s %(value)r is not a valid choice."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:982
-msgid "Foreign Key (type determined by related field)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1276
-msgid "One-to-one relationship"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1333
-#, python-format
-msgid "%(from)s-%(to)s relationship"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1335
-#, python-format
-msgid "%(from)s-%(to)s relationships"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1383
-msgid "Many-to-many relationship"
-msgstr ""
-
-#. Translators: If found as last label character, these punctuation
-#. characters will prevent the default label_suffix to be appended to the
-#. label
-#: .\venv\Lib\site-packages\django\forms\boundfield.py:185
-msgid ":?.!"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:94
-msgid "This field is required."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:314
-msgid "Enter a whole number."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:485
-#: .\venv\Lib\site-packages\django\forms\fields.py:1257
-msgid "Enter a valid date."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:508
-#: .\venv\Lib\site-packages\django\forms\fields.py:1258
-msgid "Enter a valid time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:535
-msgid "Enter a valid date/time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:569
-msgid "Enter a valid duration."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:570
-#, python-brace-format
-msgid "The number of days must be between {min_days} and {max_days}."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:639
-msgid "No file was submitted. Check the encoding type on the form."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:640
-msgid "No file was submitted."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:641
-msgid "The submitted file is empty."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:643
-#, python-format
-msgid ""
-"Ensure this filename has at most %(max)d character (it has %(length)d)."
-msgid_plural ""
-"Ensure this filename has at most %(max)d characters (it has %(length)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:648
-msgid "Please either submit a file or check the clear checkbox, not both."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:716
-msgid ""
-"Upload a valid image. The file you uploaded was either not an image or a "
-"corrupted image."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:879
-#: .\venv\Lib\site-packages\django\forms\fields.py:965
-#: .\venv\Lib\site-packages\django\forms\models.py:1592
-#, python-format
-msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:967
-#: .\venv\Lib\site-packages\django\forms\fields.py:1086
-#: .\venv\Lib\site-packages\django\forms\models.py:1590
-msgid "Enter a list of values."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:1087
-msgid "Enter a complete value."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:1329
-msgid "Enter a valid UUID."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:1359
-msgid "Enter a valid JSON."
-msgstr ""
-
-#. Translators: This is the default suffix added to form field labels
-#: .\venv\Lib\site-packages\django\forms\forms.py:97
-msgid ":"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\forms.py:239
-#, python-format
-msgid "(Hidden field %(name)s) %(error)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:61
-#, python-format
-msgid ""
-"ManagementForm data is missing or has been tampered with. Missing fields: "
-"%(field_names)s. You may need to file a bug report if the issue persists."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:65
-#, python-format
-msgid "Please submit at most %(num)d form."
-msgid_plural "Please submit at most %(num)d forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:70
-#, python-format
-msgid "Please submit at least %(num)d form."
-msgid_plural "Please submit at least %(num)d forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:484
-#: .\venv\Lib\site-packages\django\forms\formsets.py:491
-msgid "Order"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:499
-msgid "Delete"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:901
-#, python-format
-msgid "Please correct the duplicate data for %(field)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:906
-#, python-format
-msgid "Please correct the duplicate data for %(field)s, which must be unique."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:913
-#, python-format
-msgid ""
-"Please correct the duplicate data for %(field_name)s which must be unique "
-"for the %(lookup)s in %(date_field)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:922
-msgid "Please correct the duplicate values below."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:1359
-msgid "The inline value did not match the parent instance."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:1450
-msgid ""
-"Select a valid choice. That choice is not one of the available choices."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:1594
-#, python-format
-msgid "“%(pk)s” is not a valid value."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\utils.py:229
-#, python-format
-msgid ""
-"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
-"may be ambiguous or it may not exist."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:527
-msgid "Clear"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:528
-msgid "Currently"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:529
-msgid "Change"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:866
-msgid "Unknown"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:867
-msgid "Yes"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:868
-msgid "No"
-msgstr ""
-
-#. Translators: Please do not add spaces around commas.
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:873
-msgid "yes,no,maybe"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:903
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:920
-#, python-format
-msgid "%(size)d byte"
-msgid_plural "%(size)d bytes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:922
-#, python-format
-msgid "%s KB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:924
-#, python-format
-msgid "%s MB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:926
-#, python-format
-msgid "%s GB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:928
-#, python-format
-msgid "%s TB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:930
-#, python-format
-msgid "%s PB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:74
-msgid "p.m."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:75
-msgid "a.m."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:80
-msgid "PM"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:81
-msgid "AM"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:153
-msgid "midnight"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:155
-msgid "noon"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:7
-msgid "Monday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:8
-msgid "Tuesday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:9
-msgid "Wednesday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:10
-msgid "Thursday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:11
-msgid "Friday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:12
-msgid "Saturday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:13
-msgid "Sunday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:16
-msgid "Mon"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:17
-msgid "Tue"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:18
-msgid "Wed"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:19
-msgid "Thu"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:20
-msgid "Fri"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:21
-msgid "Sat"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:22
-msgid "Sun"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:25
-msgid "January"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:26
-msgid "February"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:27
-msgid "March"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:28
-msgid "April"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:29
-msgid "May"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:30
-msgid "June"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:31
-msgid "July"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:32
-msgid "August"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:33
-msgid "September"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:34
-msgid "October"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:35
-msgid "November"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:36
-msgid "December"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:39
-msgid "jan"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:40
-msgid "feb"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:41
-msgid "mar"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:42
-msgid "apr"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:43
-msgid "may"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:44
-msgid "jun"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:45
-msgid "jul"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:46
-msgid "aug"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:47
-msgid "sep"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:48
-msgid "oct"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:49
-msgid "nov"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:50
-msgid "dec"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:53
-msgctxt "abbrev. month"
-msgid "Jan."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:54
-msgctxt "abbrev. month"
-msgid "Feb."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:55
-msgctxt "abbrev. month"
-msgid "March"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:56
-msgctxt "abbrev. month"
-msgid "April"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:57
-msgctxt "abbrev. month"
-msgid "May"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:58
-msgctxt "abbrev. month"
-msgid "June"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:59
-msgctxt "abbrev. month"
-msgid "July"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:60
-msgctxt "abbrev. month"
-msgid "Aug."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:61
-msgctxt "abbrev. month"
-msgid "Sept."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:62
-msgctxt "abbrev. month"
-msgid "Oct."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:63
-msgctxt "abbrev. month"
-msgid "Nov."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:64
-msgctxt "abbrev. month"
-msgid "Dec."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:67
-msgctxt "alt. month"
-msgid "January"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:68
-msgctxt "alt. month"
-msgid "February"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:69
-msgctxt "alt. month"
-msgid "March"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:70
-msgctxt "alt. month"
-msgid "April"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:71
-msgctxt "alt. month"
-msgid "May"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:72
-msgctxt "alt. month"
-msgid "June"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:73
-msgctxt "alt. month"
-msgid "July"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:74
-msgctxt "alt. month"
-msgid "August"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:75
-msgctxt "alt. month"
-msgid "September"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:76
-msgctxt "alt. month"
-msgid "October"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:77
-msgctxt "alt. month"
-msgid "November"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:78
-msgctxt "alt. month"
-msgid "December"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\ipv6.py:20
-msgid "This is not a valid IPv6 address."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\text.py:76
-#, python-format
-msgctxt "String to return when truncating text"
-msgid "%(truncated_text)s…"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\text.py:282
-msgid "or"
-msgstr ""
-
-#. Translators: This string is used as a separator between list elements
-#: .\venv\Lib\site-packages\django\utils\text.py:301
-#: .\venv\Lib\site-packages\django\utils\timesince.py:135
-msgid ", "
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:8
-#, python-format
-msgid "%(num)d year"
-msgid_plural "%(num)d years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:9
-#, python-format
-msgid "%(num)d month"
-msgid_plural "%(num)d months"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:10
-#, python-format
-msgid "%(num)d week"
-msgid_plural "%(num)d weeks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:11
-#, python-format
-msgid "%(num)d day"
-msgid_plural "%(num)d days"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:12
-#, python-format
-msgid "%(num)d hour"
-msgid_plural "%(num)d hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:13
-#, python-format
-msgid "%(num)d minute"
-msgid_plural "%(num)d minutes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:29
-msgid "Forbidden"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:30
-msgid "CSRF verification failed. Request aborted."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:34
-msgid ""
-"You are seeing this message because this HTTPS site requires a “Referer "
-"header” to be sent by your web browser, but none was sent. This header is "
-"required for security reasons, to ensure that your browser is not being "
-"hijacked by third parties."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:40
-msgid ""
-"If you have configured your browser to disable “Referer” headers, please re-"
-"enable them, at least for this site, or for HTTPS connections, or for “same-"
-"origin” requests."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:45
-msgid ""
-"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or"
-" including the “Referrer-Policy: no-referrer” header, please remove them. "
-"The CSRF protection requires the “Referer” header to do strict referer "
-"checking. If you’re concerned about privacy, use alternatives like <a "
-"rel=\"noreferrer\" …> for links to third-party sites."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:54
-msgid ""
-"You are seeing this message because this site requires a CSRF cookie when "
-"submitting forms. This cookie is required for security reasons, to ensure "
-"that your browser is not being hijacked by third parties."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:60
-msgid ""
-"If you have configured your browser to disable cookies, please re-enable "
-"them, at least for this site, or for “same-origin” requests."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:66
-msgid "More information is available with DEBUG=True."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:44
-msgid "No year specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:64
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:115
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:214
-msgid "Date out of range"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:94
-msgid "No month specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:147
-msgid "No day specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:194
-msgid "No week specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:353
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:384
-#, python-format
-msgid "No %(verbose_name_plural)s available"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:680
-#, python-format
-msgid ""
-"Future %(verbose_name_plural)s not available because "
-"%(class_name)s.allow_future is False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:720
-#, python-format
-msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\detail.py:56
-#, python-format
-msgid "No %(verbose_name)s found matching the query"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\list.py:70
-msgid "Page is not “last”, nor can it be converted to an int."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\list.py:77
-#, python-format
-msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\list.py:173
-#, python-format
-msgid "Empty list and “%(class_name)s.allow_empty” is False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\static.py:49
-msgid "Directory indexes are not allowed here."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\static.py:51
-#, python-format
-msgid "“%(path)s” does not exist"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\static.py:68
-#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:8
-#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:11
-#, python-format
-msgid "Index of %(directory)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:7
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:204
-msgid "The install worked successfully! Congratulations!"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:206
-#, python-format
-msgid ""
-"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
-"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:208
-#, python-format
-msgid ""
-"You are seeing this page because <a "
-"href=\"https://docs.djangoproject.com/en/%(version)s/ref/settings/#debug\" "
-"target=\"_blank\" rel=\"noopener\">DEBUG=True</a> is in your settings file "
-"and you have not configured any URLs."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:217
-msgid "Django Documentation"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:218
-msgid "Topics, references, &amp; how-to’s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:226
-msgid "Tutorial: A Polling App"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:227
-msgid "Get started with Django"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:235
-msgid "Django Community"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:236
-msgid "Connect, get help, or contribute"
-msgstr ""
+#~ msgid "Downgrade"
+#~ msgstr "تخفيض الخطة"

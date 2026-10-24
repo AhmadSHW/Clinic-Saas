@@ -78,6 +78,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.i18n",  
                 "tenants.context_processors.current_clinic",
+                "accounts.context_processors.current_staff_user",
                 "notifications.context_processors.unread_notifications_count",
             ],
         },
@@ -136,5 +137,7 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True") == "True"
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 EMAIL_TIMEOUT = 15
+# Verification emails ask for a "YES" reply, read back from this inbox over IMAP
+EMAIL_IMAP_HOST = os.getenv("EMAIL_IMAP_HOST", "imap.gmail.com")
 # Gmail sends as the account address anyway, so default the sender to it
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL") or EMAIL_HOST_USER or "noreply@clinicsaas.local"

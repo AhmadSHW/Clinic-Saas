@@ -7,6 +7,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from accounts.decorators import login_required_session
+from accounts.email_replies import check_replies, reply_verification_enabled
 from accounts.models import StaffUser
 from tenants.models import Clinic
 from appointments.models import Appointment
@@ -14,7 +15,7 @@ from appointments.utils import parse_scheduled_at
 from notifications.models import Notification
 from .models import Patient, MedicalRecord, PortalSignup
 from .decorators import login_required_patient
-from .utils import send_portal_verification_email, decode_signup_token
+from .utils import send_portal_verification_email, decode_signup_token, complete_portal_signup
 
 
 # ============ Staff-facing views ============
@@ -143,7 +144,15 @@ def portal_register(request, clinic_slug):
 
             send_portal_verification_email(request, signup)
 
-        return render(request, "patients/portal_check_email.html", {"clinic": clinic, "email": email})
+        # Lets the "check your email" page log them in once they reply YES
+        request.session["pending_verification"] = {
+            "kind": "portal", "clinic_id": str(clinic.id), "email": email,
+        }
+        return render(request, "patients/portal_check_email.html", {
+            "clinic": clinic,
+            "email": email,
+            "by_reply": reply_verification_enabled(),
+        })
 
     return render(request, "patients/portal_register.html", {"clinic": clinic})
 
@@ -165,28 +174,11 @@ def portal_verify_email(request, token):
     if clinic.needs_subscription:
         return _portal_unavailable(request)
 
-    with transaction.atomic():
-        pending = PortalSignup.objects.filter(clinic=clinic, email=signup.email)
-
-        if Patient.objects.filter(clinic=clinic, email=signup.email).exclude(password_hash="").exists():
-            # Another link for this email was confirmed first
-            pending.delete()
-            messages.info(request, "Your account is already active. Please log in.")
-            return redirect("patients:portal_login", clinic_slug=clinic.slug)
-
-        patient = Patient.objects.filter(clinic=clinic, email=signup.email).first()
-        if patient:
-            # Staff had already added this patient manually (e.g. a walk-in).
-            # The email is now proven, so link the portal login to that record.
-            patient.full_name = signup.full_name
-            patient.phone_number = signup.phone_number
-        else:
-            patient = Patient(clinic=clinic, email=signup.email,
-                              full_name=signup.full_name, phone_number=signup.phone_number)
-        patient.password_hash = signup.password_hash
-        patient.save()
-
-        pending.delete()
+    patient = complete_portal_signup(signup)
+    if not patient:
+        # Another link for this email was confirmed first
+        messages.info(request, "Your account is already active. Please log in.")
+        return redirect("patients:portal_login", clinic_slug=clinic.slug)
 
     request.session.cycle_key()
     request.session["patient_id"] = patient.id
@@ -207,6 +199,12 @@ def portal_login(request, clinic_slug):
         patient = Patient.objects.filter(
             clinic=clinic, email=email, is_active=True
         ).exclude(password_hash="").first()
+
+        if not patient and PortalSignup.objects.filter(clinic=clinic, email=email).exists() and check_replies():
+            # They may have just replied YES to the verification email
+            patient = Patient.objects.filter(
+                clinic=clinic, email=email, is_active=True
+            ).exclude(password_hash="").first()
 
         if not patient or not patient.check_password(password):
             messages.error(request, "Invalid email or password.")

@@ -6,7 +6,7 @@
 {% block content %}
 <div class="flex justify-between items-start mb-8">
     <div>
-        <h1 class="text-2xl font-bold text-slate-900">{% blocktrans %}Good morning, {{ staff_user.full_name }}{% endblocktrans %}</h1>
+        <h1 class="text-2xl font-bold text-slate-900">{% blocktrans with name=staff_user.full_name %}Good morning, {{ name }}{% endblocktrans %}</h1>
         <p class="text-slate-500">{% blocktrans with clinic_name=current_clinic.name %}Here's what's happening at {{ clinic_name }} today{% endblocktrans %}</p>
     </div>
     <a href="{% url 'appointments:book' %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
@@ -35,8 +35,8 @@
 
 <div class="bg-white rounded-xl border border-slate-100 p-6">
     <div class="flex justify-between items-center mb-4">
-        <h2 class="font-semibold">{% trans "Today's schedule" %}</h2>
-        <a href="{% url 'appointments:list' %}" class="text-teal-600 text-sm">{% trans "View all" %}</a>
+        <h2 class="font-semibold">{% if is_doctor_view %}{% trans "Your schedule today" %}{% else %}{% trans "Today's schedule" %}{% endif %}</h2>
+        <a href="{% url 'appointments:list' %}{% if is_doctor_view %}?doctor={{ staff_user.id }}{% endif %}" class="text-teal-600 text-sm">{% trans "View all" %}</a>
     </div>
     <div class="space-y-3">
         {% for appt in todays_appointments %}

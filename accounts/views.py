@@ -1,15 +1,21 @@
 # accounts/views.py
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.http import JsonResponse
+from django.urls import reverse
 from django.db import transaction
+from django.db.models import Count, Q
 from django.utils import timezone
 from django.utils.text import slugify
 from datetime import timedelta
 
+from appointments.models import Appointment
+from appointments.utils import today_range
 from tenants.models import Clinic
 from .models import StaffUser
 from .decorators import login_required_session, role_required
 from .utils import send_verification_email, decode_verification_token
+from .email_replies import check_replies, reply_verification_enabled
 
 
 def clinic_signup(request):
@@ -71,7 +77,12 @@ def clinic_signup(request):
 
             send_verification_email(request, admin_user)
 
-        return render(request, "accounts/check_email.html", {"email": admin_user.email})
+        # Lets the "check your email" page log them in once they reply YES
+        request.session["pending_verification"] = {"kind": "staff", "id": admin_user.id}
+        return render(request, "accounts/check_email.html", {
+            "email": admin_user.email,
+            "by_reply": reply_verification_enabled(),
+        })
 
     return render(request, "accounts/signup.html")
 
@@ -98,8 +109,12 @@ def login_view(request):
             messages.error(request, "Invalid clinic, email, or password.")
             return render(request, "accounts/login.html", context)
 
+        if not staff_user.is_email_verified and check_replies():
+            # They may have just replied YES to the verification email
+            staff_user.refresh_from_db()
+
         if not staff_user.is_email_verified:
-            messages.error(request, "Please verify your email before logging in. Check your inbox, or request a new link.")
+            messages.error(request, "Please verify your email before logging in. Check your inbox, or request a new email.")
             return render(request, "accounts/login.html", context)
 
         request.session.cycle_key()
@@ -124,9 +139,39 @@ def staff_list(request):
     return render(request, "accounts/staff_list.html", {"staff_members": staff_members})
 
 
+@login_required_session
+def doctor_list(request):
+    """
+    The clinic's doctors with today's and upcoming appointment counts.
+    Every staff member can see it (reception books for doctors);
+    only admins get the "Add doctor" button.
+    """
+    day_start, day_end = today_range()
+    open_statuses = [
+        Appointment.Status.PENDING, Appointment.Status.CONFIRMED, Appointment.Status.IN_QUEUE
+    ]
+    doctors = StaffUser.objects.filter(
+        clinic=request.clinic, role=StaffUser.Role.DOCTOR
+    ).annotate(
+        today_count=Count("appointments", filter=Q(
+            appointments__scheduled_at__gte=day_start,
+            appointments__scheduled_at__lt=day_end,
+            appointments__status__in=open_statuses + [Appointment.Status.COMPLETED],
+        )),
+        upcoming_count=Count("appointments", filter=Q(
+            appointments__scheduled_at__gte=timezone.now(),
+            appointments__status__in=open_statuses,
+        )),
+    )
+    return render(request, "accounts/doctor_list.html", {"doctors": doctors})
+
+
 @role_required("admin")
 def add_staff(request):
     """Only admins can add new staff (doctor/reception) to their clinic."""
+    # ?role=doctor (from the Doctors page) pre-selects the role
+    context = {"initial_role": request.GET.get("role", StaffUser.Role.DOCTOR)}
+
     if request.method == "POST":
         full_name = request.POST.get("full_name", "").strip()
         email = request.POST.get("email", "").strip()
@@ -147,7 +192,8 @@ def add_staff(request):
         if errors:
             for error in errors:
                 messages.error(request, error)
-            return render(request, "accounts/add_staff.html")
+            context["initial_role"] = role
+            return render(request, "accounts/add_staff.html", context)
 
         new_staff = StaffUser(
             clinic=request.clinic,
@@ -160,9 +206,11 @@ def add_staff(request):
         new_staff.save()
 
         messages.success(request, f"{full_name} has been added successfully.")
+        if new_staff.is_doctor:
+            return redirect("accounts:doctors")
         return redirect("accounts:staff_list")
 
-    return render(request, "accounts/add_staff.html")
+    return render(request, "accounts/add_staff.html", context)
 
 @role_required("admin")
 def clinic_settings(request):
@@ -215,6 +263,47 @@ def verify_email(request, token):
     return redirect("dashboard:home")
 
 
+def verification_status(request):
+    """
+    Polled by the "check your email" pages. Reads the inbox for a YES reply
+    (at most every 10 seconds) and, once this browser's pending signup is
+    verified, logs it in. Only the browser that signed up has the pending
+    entry, and it already knows the password.
+    """
+    pending = request.session.get("pending_verification")
+    if not pending:
+        return JsonResponse({"verified": False})
+
+    check_replies(throttle_seconds=10)
+
+    if pending["kind"] == "staff":
+        staff_user = StaffUser.objects.filter(
+            id=pending["id"], is_active=True, is_email_verified=True
+        ).select_related("clinic").first()
+        if not staff_user:
+            return JsonResponse({"verified": False})
+        request.session.cycle_key()
+        request.session["clinic_id"] = str(staff_user.clinic.id)
+        request.session["staff_user_id"] = staff_user.id
+        redirect_url = reverse("dashboard:home")
+        messages.success(request, f"Your email has been verified! Welcome, {staff_user.full_name}.")
+    else:
+        from patients.models import Patient
+
+        patient = Patient.objects.filter(
+            clinic_id=pending["clinic_id"], email=pending["email"], is_active=True
+        ).exclude(password_hash="").first()
+        if not patient:
+            return JsonResponse({"verified": False})
+        request.session.cycle_key()
+        request.session["patient_id"] = patient.id
+        redirect_url = reverse("patients:portal_dashboard")
+        messages.success(request, f"Your email is confirmed. Welcome, {patient.full_name}!")
+
+    request.session.pop("pending_verification", None)
+    return JsonResponse({"verified": True, "redirect": redirect_url})
+
+
 def resend_verification(request):
     if request.method == "POST":
         email = request.POST.get("email", "").strip()
@@ -223,7 +312,7 @@ def resend_verification(request):
         if staff_user:
             send_verification_email(request, staff_user)
 
-        messages.success(request, "If an account with that email exists, a verification link has been sent.")
+        messages.success(request, "If an account with that email exists, a new verification email has been sent.")
         return redirect("accounts:login")
 
     return render(request, "accounts/resend_verification.html")

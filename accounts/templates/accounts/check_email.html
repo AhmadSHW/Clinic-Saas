@@ -9,11 +9,15 @@
             ✉️
         </div>
         <h1 class="text-xl font-bold text-slate-900 mb-2">{% trans "Check your email" %}</h1>
-        <p class="text-slate-500 text-sm mb-1">{% trans "We sent a verification link to" %}</p>
-        <p class="font-medium text-slate-900 mb-6">{{ email }}</p>
+        {% if by_reply %}
+            {% include "accounts/_reply_wait.html" %}
+        {% else %}
+            <p class="text-slate-500 text-sm mb-1">{% trans "We sent a verification link to" %}</p>
+            <p class="font-medium text-slate-900 mb-6">{{ email }}</p>
+        {% endif %}
         <p class="text-slate-400 text-xs">
-            {% trans "Didn't get it?" %}
-            <a href="{% url 'accounts:resend_verification' %}" class="text-teal-600 font-medium">{% trans "Resend link" %}</a>
+            {% trans "Didn't get it? Check your Spam folder, or" %}
+            <a href="{% url 'accounts:resend_verification' %}" class="text-teal-600 font-medium">{% trans "send it again" %}</a>
         </p>
     </div>
 </section>

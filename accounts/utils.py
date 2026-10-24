@@ -22,6 +22,21 @@ def decode_verification_token(token):
 
 
 def send_verification_email(request, staff_user):
+    from .email_replies import reply_verification_enabled, send_reply_verification_email
+
+    if reply_verification_enabled():
+        send_reply_verification_email(
+            kind="staff",
+            obj_id=staff_user.id,
+            to=staff_user.email,
+            subject="Clinic SaS: reply YES to verify your account",
+            intro=(
+                f"Hi {staff_user.full_name},\n\n"
+                f"To activate your Clinic SaS account, just reply to this email with the word YES."
+            ),
+        )
+        return
+
     token = generate_verification_token(staff_user.id)
     verify_url = request.build_absolute_uri(
         reverse("accounts:verify_email", args=[token])

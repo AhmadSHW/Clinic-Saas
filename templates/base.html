@@ -42,6 +42,14 @@
             <a href="{% url 'appointments:queue' %}" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 {% block nav_queue %}{% endblock %}">
                 <span>⏱ {% trans "Waiting Queue" %}</span>
             </a>
+            <a href="{% url 'accounts:doctors' %}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 {% block nav_doctors %}{% endblock %}">
+                👨‍⚕️ {% trans "Doctors" %}
+            </a>
+            {% if staff_user.is_doctor %}
+            <a href="{% url 'appointments:list' %}?doctor={{ staff_user.id }}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50">
+                🩺 {% trans "My Appointments" %}
+            </a>
+            {% endif %}
 
             <p class="text-xs text-slate-400 font-semibold px-3 mb-2 mt-6">{% trans "ADMINISTRATION" %}</p>
             <a href="{% url 'billing:home' %}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 {% block nav_billing %}{% endblock %}">

@@ -20,9 +20,9 @@
         <div>
             <label class="block text-sm font-medium mb-1">{% trans "Role" %}</label>
             <select name="role" id="role-select" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
-                <option value="doctor">{% trans "Doctor" %}</option>
-                <option value="reception">{% trans "Reception" %}</option>
-                <option value="admin">{% trans "Admin" %}</option>
+                <option value="doctor" {% if initial_role == "doctor" %}selected{% endif %}>{% trans "Doctor" %}</option>
+                <option value="reception" {% if initial_role == "reception" %}selected{% endif %}>{% trans "Reception" %}</option>
+                <option value="admin" {% if initial_role == "admin" %}selected{% endif %}>{% trans "Admin" %}</option>
             </select>
         </div>
         <div id="specialty-field">
@@ -31,7 +31,8 @@
         </div>
         <div>
             <label class="block text-sm font-medium mb-1">{% trans "Password" %}</label>
-            <input type="password" name="password" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+            <input type="password" name="password" required minlength="8" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+            <p class="text-xs text-slate-400 mt-1">{% trans "Give this password to the staff member. They sign in with your clinic URL, their email and this password." %}</p>
         </div>
         <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg">
             {% trans "Add Staff Member" %}

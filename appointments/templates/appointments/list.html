@@ -6,10 +6,19 @@
 {% block content %}
 <div class="flex justify-between items-start mb-8">
     <div>
+        {% if filter_doctor %}
+        <h1 class="text-2xl font-bold text-slate-900">
+            {% if filter_doctor.id == staff_user.id %}{% trans "My Appointments" %}{% else %}{% blocktrans with name=filter_doctor.full_name %}Appointments for Dr. {{ name }}{% endblocktrans %}{% endif %}
+        </h1>
+        <p class="text-slate-500">
+            <a href="{% url 'appointments:list' %}" class="text-teal-600 hover:underline">{% trans "Show all doctors" %}</a>
+        </p>
+        {% else %}
         <h1 class="text-2xl font-bold text-slate-900">{% trans "Appointments" %}</h1>
         <p class="text-slate-500">{% trans "Schedule and manage visits across all practitioners" %}</p>
+        {% endif %}
     </div>
-    <a href="{% url 'appointments:book' %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
+    <a href="{% url 'appointments:book' %}{% if filter_doctor %}?doctor={{ filter_doctor.id }}{% endif %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
         + {% trans "New appointment" %}
     </a>
 </div>

@@ -33,17 +33,19 @@ def landing(request):
 def home(request):
     """Main dashboard page after login."""
     day_start, day_end = today_range()
-    todays_appointments = Appointment.objects.filter(
-        clinic=request.clinic, scheduled_at__gte=day_start, scheduled_at__lt=day_end
-    )
+    appointments = Appointment.objects.filter(clinic=request.clinic)
+    # Doctors see their own day; admins and reception see the whole clinic
+    if request.staff_user.is_doctor:
+        appointments = appointments.filter(doctor=request.staff_user)
+    todays_appointments = appointments.filter(
+        scheduled_at__gte=day_start, scheduled_at__lt=day_end
+    ).exclude(status=Appointment.Status.CANCELLED)
     context = {
-        "staff_user": request.staff_user,
         "clinic": request.clinic,
+        "is_doctor_view": request.staff_user.is_doctor,
         "total_patients": Patient.objects.filter(clinic=request.clinic).count(),
         "appointments_today": todays_appointments.count(),
-        "in_queue_count": Appointment.objects.filter(
-            clinic=request.clinic, status=Appointment.Status.IN_QUEUE
-        ).count(),
+        "in_queue_count": appointments.filter(status=Appointment.Status.IN_QUEUE).count(),
         "todays_appointments": todays_appointments.order_by("scheduled_at")[:5],
     }
     return render(request, "dashboard/home.html", context)

@@ -22,8 +22,11 @@
             <label class="block text-sm font-medium mb-1">{% trans "Doctor" %}</label>
             <select name="doctor_id" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
                 <option value="">-- {% trans "Select Doctor" %} --</option>
+                {% if not doctors %}
+                    <option value="" disabled>{% trans "No doctors yet. An admin can add them on the Doctors page." %}</option>
+                {% endif %}
                 {% for doctor in doctors %}
-                    <option value="{{ doctor.id }}">Dr. {{ doctor.full_name }} ({{ doctor.specialty }})</option>
+                    <option value="{{ doctor.id }}" {% if doctor.id|stringformat:"s" == selected_doctor %}selected{% endif %}>Dr. {{ doctor.full_name }}{% if doctor.specialty %} ({{ doctor.specialty }}){% endif %}</option>
                 {% endfor %}
             </select>
         </div>

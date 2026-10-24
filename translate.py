@@ -233,12 +233,87 @@ translations = {
     "Your last payment failed. Stripe will retry automatically — update your card to avoid losing access.": "فشلت آخر عملية دفع. سيعيد Stripe المحاولة تلقائياً — حدّث بطاقتك لتجنب فقدان الوصول.",
     "Update payment method": "تحديث طريقة الدفع",
     "Manage payment method": "إدارة طريقة الدفع",
+
+    "Doctors": "الأطباء",
+    "Your clinic's doctors and their schedules": "أطباء عيادتك ومواعيدهم",
+    "Add doctor": "إضافة طبيب",
+    "Add your first doctor": "أضف أول طبيب",
+    "No doctors yet.": "لا يوجد أطباء بعد.",
+    "Ask your clinic admin to add doctors.": "اطلب من مدير العيادة إضافة الأطباء.",
+    "General": "عام",
+    "Today": "اليوم",
+    "Upcoming": "القادمة",
+    "Appointments": "المواعيد",
+    "Book": "حجز",
+    "My Appointments": "مواعيدي",
+    "Appointments for Dr. %(name)s": "مواعيد د. %(name)s",
+    "Show all doctors": "عرض كل الأطباء",
+    "Your schedule today": "جدولك اليوم",
+    "No doctors yet. An admin can add them on the Doctors page.": "لا يوجد أطباء بعد. يمكن للمدير إضافتهم من صفحة الأطباء.",
+    "Give this password to the staff member. They sign in with your clinic URL, their email and this password.": "أعطِ كلمة المرور هذه للموظف. يسجّل الدخول برابط عيادتك وبريده الإلكتروني وكلمة المرور هذه.",
+    "Clinic Admin / Staff": "مدير / موظف العيادة",
+    "Doctor": "طبيب",
+    "Patient": "مريض",
+    "Doctor accounts are created by the clinic admin. Use the clinic URL, email and password they gave you.": "ينشئ مدير العيادة حسابات الأطباء. استخدم رابط العيادة والبريد الإلكتروني وكلمة المرور التي أعطاك إياها.",
+
+    "Check Your Email": "تحقق من بريدك الإلكتروني",
+    "Check your email": "تحقق من بريدك الإلكتروني",
+    "We sent a verification link to": "أرسلنا رابط التحقق إلى",
+    "Didn't get it?": "لم يصلك؟",
+    "Resend link": "إعادة إرسال الرابط",
+    "Resend Verification": "إعادة إرسال التحقق",
+    "Resend Verification Email": "إعادة إرسال رسالة التحقق",
+    "Enter your email and we'll send a new link.": "أدخل بريدك الإلكتروني وسنرسل لك رابطاً جديداً.",
+    "Your email": "بريدك الإلكتروني",
+    "Send Link": "إرسال الرابط",
+
+    "Sign In": "تسجيل الدخول",
+    "I am a...": "أنا...",
+    "New clinic?": "عيادة جديدة؟",
+    "Find Your Clinic": "ابحث عن عيادتك",
+    "Clinic name...": "اسم العيادة...",
+    "Continue": "متابعة",
+    "You'll search for your clinic, then sign in or create your patient account there.": "ستبحث عن عيادتك، ثم تسجّل الدخول أو تنشئ حساب المريض الخاص بك هناك.",
+    "Search for your clinic to sign in or create a patient account.": "ابحث عن عيادتك لتسجيل الدخول أو إنشاء حساب مريض.",
+    "No clinics found. Check the spelling and try again.": "لم يتم العثور على عيادات. تحقق من الإملاء وحاول مرة أخرى.",
+    "Start typing to search for your clinic.": "ابدأ الكتابة للبحث عن عيادتك.",
+
+    "Good morning, %(name)s": "صباح الخير، %(name)s",
+    "Here's what's happening at %(clinic_name)s today": "إليك ما يحدث في %(clinic_name)s اليوم",
+    "Add Patient": "إضافة مريض",
+
+    "Clinic SaS": "Clinic SaS",
+    "Clinic SaS — Everything your clinic needs": "Clinic SaS — كل ما تحتاجه عيادتك",
+    "Clinic SaS — Practice Management Platform": "Clinic SaS — منصة إدارة العيادات",
+
+    "Patient Portal": "بوابة المرضى",
+    "Logout": "تسجيل الخروج",
+    "Request Appointment": "طلب موعد",
+    "Welcome, %(name)s": "أهلاً، %(name)s",
+    "Sign in to manage your appointments": "سجّل الدخول لإدارة مواعيدك",
+    "Don't have an account yet?": "ليس لديك حساب بعد؟",
+    "Create one": "أنشئ حساباً",
+    "Create Your Account": "أنشئ حسابك",
+    "Book and manage your appointments at %(clinic_name)s": "احجز وأدر مواعيدك في %(clinic_name)s",
+    "Create Account": "إنشاء حساب",
+
+    "We sent an email to": "أرسلنا رسالة إلى",
+    "Open the email in your inbox.": "افتح الرسالة في بريدك الوارد.",
+    "Press Reply, type YES and send it.": "اضغط على رد، واكتب YES (أو نعم) وأرسلها.",
+    "Come back here. You'll be signed in automatically.": "ارجع إلى هنا، وسيتم تسجيل دخولك تلقائياً.",
+    "Waiting for your reply…": "بانتظار ردك…",
+    "Didn't get it? Check your Spam folder, or": "لم تصلك الرسالة؟ تحقق من مجلد الرسائل غير المرغوب فيها، أو",
+    "send it again": "أعد إرسالها",
 }
 
 count = 0
 for entry in po:
     if entry.msgid in translations:
         entry.msgstr = translations[entry.msgid]
+        # makemessages marks near-matches "fuzzy", and compilemessages skips those
+        if "fuzzy" in entry.flags:
+            entry.flags.remove("fuzzy")
+            entry.previous_msgid = None
         count += 1
 
 po.save("locale/ar/LC_MESSAGES/django.po")

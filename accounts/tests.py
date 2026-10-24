@@ -1,10 +1,17 @@
 from datetime import timedelta
 
-from django.test import Client
+from email import message_from_bytes, policy
+from email.message import EmailMessage as PyEmailMessage
+from unittest.mock import patch
+
+from django.core.cache import cache
+from django.test import Client, override_settings
 from django.utils import timezone
 
 from tenants.models import Clinic
 from tenants.testing import ClinicTestCase, PASSWORD
+from patients.models import Patient, PortalSignup
+from .email_replies import check_replies, make_token
 from .models import StaffUser
 from .utils import generate_verification_token
 
@@ -81,3 +88,149 @@ class TrialLockoutTests(ClinicTestCase):
         self.clinic.save()
         self.login_as()
         self.assertEqual(self.c.get("/en/dashboard/").status_code, 200)
+
+
+class DoctorSectionTests(ClinicTestCase):
+    def test_sidebar_knows_the_user_on_every_page(self):
+        self.login_as()
+        r = self.c.get("/en/appointments/")
+        self.assertEqual(r.context["staff_user"], self.admin)
+        self.assertContains(r, "/en/accounts/staff/")
+        self.assertContains(r, "/en/accounts/doctors/")
+
+    def test_admin_adds_doctor_who_can_then_log_in(self):
+        self.login_as()
+        page = self.c.get("/en/accounts/staff/add/?role=doctor")
+        self.assertEqual(page.context["initial_role"], "doctor")
+
+        r = self.c.post("/en/accounts/staff/add/", {
+            "full_name": "New Doc", "email": "new@a.com", "role": "doctor",
+            "specialty": "Dentist", "password": PASSWORD,
+        })
+        self.assertRedirects(r, "/en/accounts/doctors/", fetch_redirect_response=False)
+        doctors = self.c.get("/en/accounts/doctors/").context["doctors"]
+        self.assertIn("New Doc", [d.full_name for d in doctors])
+
+        doctor_client = Client()
+        self.login_as("new@a.com", client=doctor_client)
+        self.assertEqual(doctor_client.get("/en/dashboard/").status_code, 200)
+        # Doctors can see the doctors page but not add staff
+        self.assertEqual(doctor_client.get("/en/accounts/doctors/").status_code, 200)
+        self.assertNotEqual(doctor_client.get("/en/accounts/staff/add/").status_code, 200)
+
+    def test_doctor_list_counts(self):
+        from appointments.models import Appointment
+        Appointment.objects.create(
+            clinic=self.clinic, patient=self.patient, doctor=self.doc,
+            scheduled_at=timezone.now() + timedelta(days=2), status=Appointment.Status.CONFIRMED,
+        )
+        self.login_as()
+        doctor = self.c.get("/en/accounts/doctors/").context["doctors"].get(id=self.doc.id)
+        self.assertEqual(doctor.upcoming_count, 1)
+
+
+@override_settings(
+    EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",
+    EMAIL_HOST_USER="clinic@gmail.com",
+    EMAIL_HOST_PASSWORD="app-password",
+    DEFAULT_FROM_EMAIL="clinic@gmail.com",
+)
+class ReplyVerificationTests(ClinicTestCase):
+    """Verification by replying YES, with SMTP sending and the IMAP inbox faked."""
+
+    def setUp(self):
+        super().setUp()
+        cache.clear()
+        self.sent = []
+        self.inbox = []
+        patchers = [
+            patch("django.core.mail.backends.smtp.EmailBackend.send_messages",
+                  side_effect=lambda msgs: self.sent.extend(msgs) or len(msgs)),
+            patch("accounts.email_replies.fetch_replies", side_effect=lambda: iter(self.inbox)),
+        ]
+        for p in patchers:
+            p.start()
+            self.addCleanup(p.stop)
+
+    def reply(self, body="Yes\n\nOn Fri, Clinic wrote:\n> quoted", sender=None, threaded=True, quote_ref=False):
+        sent = self.sent[-1]
+        msg = PyEmailMessage()
+        msg["From"] = sender or sent.to[0]
+        msg["Subject"] = "Re: " + sent.subject
+        if threaded:
+            msg["In-Reply-To"] = sent.extra_headers["Message-ID"]
+        if quote_ref:
+            body += "\n> " + sent.body.splitlines()[-1]
+        msg.set_content(body)
+        self.inbox.append(message_from_bytes(bytes(msg), policy=policy.default))
+
+    def signup(self):
+        return self.c.post("/en/accounts/signup/", {
+            "clinic_name": "New", "clinic_slug": "new-clinic", "owner_email": "me@gmail.com",
+            "admin_full_name": "Me", "admin_email": "me@gmail.com",
+            "password": PASSWORD, "confirm_password": PASSWORD,
+        })
+
+    def status(self):
+        return self.c.get("/en/accounts/verification-status/").json()
+
+    def test_email_asks_for_reply_without_a_link(self):
+        page = self.signup()
+        self.assertTrue(page.context["by_reply"])
+        sent = self.sent[-1]
+        self.assertIn("reply YES to", sent.subject)
+        self.assertNotIn("http", sent.body)
+        self.assertEqual(sent.reply_to, ["clinic@gmail.com"])
+
+    def test_yes_reply_verifies_and_waiting_page_logs_in(self):
+        self.signup()
+        self.assertFalse(self.status()["verified"])
+
+        self.reply()
+        cache.clear()  # skip the 10s throttle
+        data = self.status()
+        self.assertTrue(data["verified"])
+        self.assertEqual(data["redirect"], "/en/dashboard/")
+        user = StaffUser.objects.get(email="me@gmail.com")
+        self.assertTrue(user.is_email_verified)
+        self.assertEqual(self.c.session["staff_user_id"], user.id)
+
+    def test_rejects_other_sender_or_other_answer(self):
+        self.signup()
+        self.reply(sender="attacker@evil.com")
+        self.reply(body="No thanks")
+        self.reply(body="Who is this?\n\nyes")
+        check_replies()
+        self.assertFalse(StaffUser.objects.get(email="me@gmail.com").is_email_verified)
+
+    def test_forged_token_is_ignored(self):
+        self.signup()
+        msg = PyEmailMessage()
+        msg["From"] = "me@gmail.com"
+        msg["Subject"] = "Re: Clinic SaS: reply YES to verify your account"
+        user = StaffUser.objects.get(email="me@gmail.com")
+        msg["In-Reply-To"] = f"<{make_token('staff', user.id)}x@verify.clinicsaas>"
+        msg.set_content("yes")
+        self.inbox.append(message_from_bytes(bytes(msg), policy=policy.default))
+        check_replies()
+        user.refresh_from_db()
+        self.assertFalse(user.is_email_verified)
+
+    def test_login_checks_inbox(self):
+        self.signup()
+        self.reply(threaded=False, quote_ref=True)  # matched through the quoted Ref: line
+        r = self.c.post("/en/accounts/login/", {"clinic_slug": "new-clinic", "email": "me@gmail.com", "password": PASSWORD})
+        self.assertRedirects(r, "/en/dashboard/", fetch_redirect_response=False)
+
+    def test_patient_portal_reply(self):
+        self.c.post("/en/patients/portal/clinic-a/register/", {
+            "full_name": "Pat", "email": "pat@gmail.com", "phone_number": "5",
+            "password": PASSWORD, "confirm_password": PASSWORD,
+        })
+        self.assertIn("reply YES to", self.sent[-1].subject)
+        self.reply(body="نعم")
+        data = self.status()
+        self.assertTrue(data["verified"])
+        self.assertEqual(data["redirect"], "/en/patients/portal/dashboard/")
+        self.assertTrue(Patient.objects.filter(email="pat@gmail.com").exclude(password_hash="").exists())
+        self.assertFalse(PortalSignup.objects.exists())

@@ -46,7 +46,7 @@ A multi-tenant SaaS platform for managing small clinics and pharmacies — appoi
    | `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` | Stripe keys |
    | `EMAIL_BACKEND` | Optional; defaults to printing emails to the console. Set to `django.core.mail.backends.smtp.EmailBackend` to really send |
    | `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` | SMTP login. For Gmail use your address and a [Google App Password](https://myaccount.google.com/apppasswords) |
-   | `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USE_TLS`, `DEFAULT_FROM_EMAIL` | Optional; default to Gmail (`smtp.gmail.com`, 587, TLS) and the login address |
+   | `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USE_TLS`, `EMAIL_IMAP_HOST`, `DEFAULT_FROM_EMAIL` | Optional; default to Gmail (`smtp.gmail.com`, 587, TLS, `imap.gmail.com`) and the login address |
 
 5. Create the MySQL database
 6. Run migrations:
@@ -58,7 +58,7 @@ A multi-tenant SaaS platform for managing small clinics and pharmacies — appoi
    python manage.py runserver
 ```
 
-In development, verification emails are printed to the runserver console — copy the link from there.
+**Email verification:** with Gmail configured (SMTP backend plus `EMAIL_HOST_USER`/`EMAIL_HOST_PASSWORD`), the verification email has no link. The user just replies **YES** (or نعم). The app reads the replies from the same Gmail inbox over IMAP, using the same App Password, and the "check your email" page signs the user in as soon as the reply arrives. Without SMTP configured, emails are printed to the runserver console with a verification link instead.
 
 ### Signing in
 
@@ -94,6 +94,11 @@ Tests use a temporary MySQL database, so the database user needs permission to c
 Delete pending patient signups whose verification link has expired (run daily, e.g. with cron or Task Scheduler):
 ```bash
 python manage.py cleanup_portal_signups            # add --dry-run to preview
+```
+
+Activate accounts that replied YES but never came back to the site (optional; the site also checks on its own while someone waits or logs in):
+```bash
+python manage.py check_verification_replies
 ```
 
 ## Translations

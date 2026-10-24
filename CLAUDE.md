@@ -19,6 +19,7 @@ python manage.py test                                   # all tests
 python manage.py test appointments                      # one app
 python manage.py test appointments.tests.SomeTestCase.test_method   # one test
 python manage.py cleanup_portal_signups [--dry-run]     # delete expired pending patient signups (run daily)
+python manage.py check_verification_replies             # activate accounts that replied YES to the verification email
 ```
 
 Settings come from `.env` (see `.env.example`): `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS` (comma-separated, defaults to localhost), `CSRF_TRUSTED_ORIGINS` (comma-separated full origins like `https://host`; empty by default), `DB_*` (MySQL), `STRIPE_*`, optionally `EMAIL_BACKEND` (defaults to the console backend, so verification emails print to the runserver log) plus `EMAIL_HOST_USER`/`EMAIL_HOST_PASSWORD` for SMTP (other SMTP settings default to Gmail; the sender defaults to `EMAIL_HOST_USER`). There's no lint config.
@@ -33,7 +34,7 @@ python translate.py                      # fill msgstr from the dict in translat
 python manage.py compilemessages         # build django.mo
 ```
 
-When you add a new `{% trans %}`/`gettext` string, add its Arabic translation to the `translations` dict in `translate.py`. All app URLs sit under `i18n_patterns` with `prefix_default_language=True`, so every page URL starts with `/en/` or `/ar/`. Language switching goes through `/i18n/`.
+When you add a new `{% trans %}`/`gettext` string, add its Arabic translation to the `translations` dict in `translate.py`. That script also clears the `fuzzy` flag on entries it fills (compilemessages skips fuzzy entries). All app URLs sit under `i18n_patterns` with `prefix_default_language=True`, so every page URL starts with `/en/` or `/ar/`. Language switching goes through `/i18n/`.
 
 ## Architecture
 
@@ -41,11 +42,15 @@ When you add a new `{% trans %}`/`gettext` string, add its Arabic translation to
 - `tenants.Clinic` (UUID PK, unique `slug`) is the tenant. Every tenant-owned model has a `clinic` FK.
 - `tenants.middleware.CurrentClinicMiddleware` sets `request.clinic` from `session["clinic_id"]`, or `None` if that clinic is missing or inactive.
 - **Tenant isolation depends on views filtering every query by `clinic=request.clinic`.** Use `get_object_or_404(Model, id=..., clinic=request.clinic)`, never a bare lookup by id.
-- Context processors expose `current_clinic` and `unread_notifications_count` to all templates.
+- Context processors expose `current_clinic`, `staff_user` (`accounts.context_processors`, from `request.staff_user`) and `unread_notifications_count` to all templates, so views don't need to pass `staff_user` for the sidebar.
 
 ### Authentication (custom, not `django.contrib.auth`)
 There are two separate session-based identities:
-- **Staff**: `accounts.StaffUser` (bcrypt `password_hash`, roles `admin`/`doctor`/`reception`, email unique per clinic only). Staff log in with clinic slug + email + password; login sets both `clinic_id` and `staff_user_id` in the session (and calls `session.cycle_key()`, as all logins should). Guard staff views with `accounts.decorators.login_required_session` (sets `request.staff_user`, scoped to `request.clinic`) or `@role_required("admin", ...)`, which already includes the login check. A new clinic is created through `accounts` signup, and the account is activated by an email verification link: a signed token from `accounts/utils.py`, valid 24 hours.
+- **Staff**: `accounts.StaffUser` (bcrypt `password_hash`, roles `admin`/`doctor`/`reception`, email unique per clinic only). Staff log in with clinic slug + email + password; login sets both `clinic_id` and `staff_user_id` in the session (and calls `session.cycle_key()`, as all logins should). Guard staff views with `accounts.decorators.login_required_session` (sets `request.staff_user`, scoped to `request.clinic`) or `@role_required("admin", ...)`, which already includes the login check. A new clinic is created through `accounts` signup, and the account is activated by email verification (24h).
+
+**Email verification has two modes**, picked by `accounts.email_replies.reply_verification_enabled()`:
+- **Reply mode** (SMTP backend plus `EMAIL_HOST_USER`/`EMAIL_HOST_PASSWORD` set): the email has no link and asks the user to reply YES. Its `Message-ID` and a `Ref:` line carry a signed token. `check_replies()` reads the inbox over IMAP (`EMAIL_IMAP_HOST`, read-only) and activates the account when a reply says yes (or نعم) and comes from the address being verified. Replies are checked when the "check your email" page polls `accounts:verification_status` (throttled to once per 10s; it logs in the browser that signed up, using `session["pending_verification"]`), on a login attempt by an unverified user, and by `manage.py check_verification_replies`.
+- **Link mode** (otherwise, e.g. the console backend in development): signed links from `accounts/utils.py` and `patients/utils.py`.
 - **Patient portal**: `patients.Patient` logs in at `/patients/portal/<clinic_slug>/login/`. The session holds `patient_id`. Registration writes only a `PortalSignup` row (with the password already hashed) and emails a signed link (`patients/utils.py`, 24h). `portal_verify_email` creates the `Patient`, or attaches the login to a staff-created patient with the same email, and then deletes every pending signup for that email, so each link works once. Never write to `Patient` before the email is verified, or someone could take over a staff-created record just by knowing the patient's email. Guard portal views with `patients.decorators.login_required_patient` (sets `request.patient`, and its clinic is `request.patient.clinic`, not `request.clinic`).
 
 `django.contrib.auth`/admin are installed but are not used for app users.
@@ -63,6 +68,7 @@ There are two separate session-based identities:
   - Stripe event objects in stripe-python v15 are **not dicts** (`.get()` raises `AttributeError`). The webhook calls `.to_dict()` once and passes plain dicts to the handlers.
   - `billing:portal` sends admins to Stripe's hosted billing portal to update their card. The billing page price comes from `PRO_PLAN_PRICE_CENTS`.
   - Events to enable on the Stripe endpoint: `checkout.session.completed`, `invoice.paid`, `invoice.payment_failed`, `customer.subscription.deleted`.
+- **Doctors** are `StaffUser`s with `role="doctor"`, created by an admin through `accounts:add_staff` (`?role=doctor` pre-selects the role). They log in through the same staff login. `accounts:doctors` lists them with today's and upcoming counts for all staff. `appointments:list?doctor=<id>` filters to one doctor (this is "My Appointments" in the doctor sidebar), and `appointments:book?doctor=<id>` pre-selects one. The dashboard shows doctors only their own appointments.
 - `dashboard`: public landing page (`dashboard:landing`), clinic finder and account chooser, and the staff home (`dashboard:home`).
 
 ### Templates/static

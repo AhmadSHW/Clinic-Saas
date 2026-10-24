@@ -1,0 +1,38 @@
+{% load i18n %}
+{% comment %}
+Shown on the "check your email" pages when verification is by reply.
+Polls accounts:verification_status and follows its redirect once the YES reply arrives.
+{% endcomment %}
+<p class="text-slate-500 text-sm mb-1">{% trans "We sent an email to" %}</p>
+<p class="font-medium text-slate-900 mb-5">{{ email }}</p>
+
+<ol class="text-left text-sm text-slate-600 bg-slate-50 rounded-xl p-4 space-y-2 mb-5">
+    <li>1. {% trans "Open the email in your inbox." %}</li>
+    <li>2. {% trans "Press Reply, type YES and send it." %}</li>
+    <li>3. {% trans "Come back here. You'll be signed in automatically." %}</li>
+</ol>
+
+<div id="reply-wait" class="flex items-center justify-center gap-2 text-sm text-teal-700 mb-6">
+    <span class="w-4 h-4 border-2 border-teal-500 border-t-transparent rounded-full animate-spin"></span>
+    {% trans "Waiting for your reply…" %}
+</div>
+
+<script>
+    (function () {
+        const url = "{% url 'accounts:verification_status' %}";
+        async function check() {
+            try {
+                const response = await fetch(url, { credentials: "same-origin" });
+                const data = await response.json();
+                if (data.verified) {
+                    window.location.href = data.redirect;
+                    return;
+                }
+            } catch (e) {
+                // Network hiccup: just try again on the next tick
+            }
+            setTimeout(check, 5000);
+        }
+        setTimeout(check, 5000);
+    })();
+</script>

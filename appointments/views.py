@@ -19,7 +19,20 @@ def appointment_list(request):
     appointments = Appointment.objects.filter(clinic=request.clinic).exclude(
         status=Appointment.Status.COMPLETED
     )
-    return render(request, "appointments/list.html", {"appointments": appointments})
+
+    # ?doctor=<id> shows one doctor's appointments (Doctors page, "My Appointments")
+    doctor = None
+    doctor_id = request.GET.get("doctor", "")
+    if doctor_id.isdigit():
+        doctor = get_object_or_404(
+            StaffUser, id=doctor_id, clinic=request.clinic, role=StaffUser.Role.DOCTOR
+        )
+        appointments = appointments.filter(doctor=doctor)
+
+    return render(request, "appointments/list.html", {
+        "appointments": appointments,
+        "filter_doctor": doctor,
+    })
 
 
 @login_required_session
@@ -28,7 +41,12 @@ def book_appointment(request):
     doctors = StaffUser.objects.filter(
         clinic=request.clinic, role=StaffUser.Role.DOCTOR, is_active=True
     )
-    context = {"patients": patients, "doctors": doctors}
+    context = {
+        "patients": patients,
+        "doctors": doctors,
+        # ?doctor=<id> (from the Doctors page) pre-selects the doctor
+        "selected_doctor": request.POST.get("doctor_id") or request.GET.get("doctor", ""),
+    }
 
     if request.method == "POST":
         patient_id = request.POST.get("patient_id")

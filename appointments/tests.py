@@ -55,3 +55,20 @@ class AppointmentTests(ClinicTestCase):
         self.login_as()
         for url in ["/en/appointments/", "/en/appointments/queue/", "/en/appointments/book/"]:
             self.assertEqual(self.c.get(url).status_code, 200, url)
+
+    def test_list_filters_by_doctor_and_book_preselects(self):
+        other = self.make_staff("Other", "o@a.com", "doctor")
+        self.make_appointment()
+        self.login_as()
+
+        r = self.c.get(f"/en/appointments/?doctor={other.id}")
+        self.assertEqual(r.context["filter_doctor"], other)
+        self.assertEqual(len(r.context["appointments"]), 0)
+        r = self.c.get(f"/en/appointments/?doctor={self.doc.id}")
+        self.assertEqual(len(r.context["appointments"]), 1)
+        # Not a doctor of this clinic
+        self.assertEqual(self.c.get(f"/en/appointments/?doctor={self.admin.id}").status_code, 404)
+
+        r = self.c.get(f"/en/appointments/book/?doctor={self.doc.id}")
+        self.assertEqual(r.context["selected_doctor"], str(self.doc.id))
+        self.assertContains(r, f'value="{self.doc.id}" selected')
