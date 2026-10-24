@@ -44,7 +44,9 @@ A multi-tenant SaaS platform for managing small clinics and pharmacies — appoi
    | `CSRF_TRUSTED_ORIGINS` | Comma-separated origins with scheme, e.g. `https://clinic.example.com` (needed in production behind HTTPS) |
    | `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT` | MySQL connection |
    | `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` | Stripe keys |
-   | `EMAIL_BACKEND` | Optional; defaults to printing emails to the console |
+   | `EMAIL_BACKEND` | Optional; defaults to printing emails to the console. Set to `django.core.mail.backends.smtp.EmailBackend` to really send |
+   | `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` | SMTP login. For Gmail use your address and a [Google App Password](https://myaccount.google.com/apppasswords) |
+   | `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USE_TLS`, `DEFAULT_FROM_EMAIL` | Optional; default to Gmail (`smtp.gmail.com`, 587, TLS) and the login address |
 
 5. Create the MySQL database
 6. Run migrations:

@@ -21,7 +21,7 @@ python manage.py test appointments.tests.SomeTestCase.test_method   # one test
 python manage.py cleanup_portal_signups [--dry-run]     # delete expired pending patient signups (run daily)
 ```
 
-Settings come from `.env` (see `.env.example`): `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS` (comma-separated, defaults to localhost), `CSRF_TRUSTED_ORIGINS` (comma-separated full origins like `https://host`; empty by default), `DB_*` (MySQL), `STRIPE_*`, optionally `EMAIL_BACKEND` (defaults to the console backend, so verification emails print to the runserver log). There's no lint config.
+Settings come from `.env` (see `.env.example`): `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS` (comma-separated, defaults to localhost), `CSRF_TRUSTED_ORIGINS` (comma-separated full origins like `https://host`; empty by default), `DB_*` (MySQL), `STRIPE_*`, optionally `EMAIL_BACKEND` (defaults to the console backend, so verification emails print to the runserver log) plus `EMAIL_HOST_USER`/`EMAIL_HOST_PASSWORD` for SMTP (other SMTP settings default to Gmail; the sender defaults to `EMAIL_HOST_USER`). There's no lint config.
 
 Tests run against a temporary MySQL test database, so the DB user needs permission to create databases. Each app's `tests.py` builds on `tenants.testing.ClinicTestCase`, which sets up clinic `clinic-a` with an admin (`a@a.com`), a doctor (`d@a.com`) and a patient, plus helpers `login_as()`, `portal_login()`, `make_staff()`, `make_portal_patient()` and `expire_trial()`. `billing/tests.py` sends correctly signed Stripe webhooks, so webhook handlers can be tested without Stripe.
 
