@@ -1,44 +1,58 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}{% trans "Waiting Queue" %}{% endblock %}
-{% block nav_queue %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+{% block nav_queue %}nav-link-active{% endblock %}
 
 {% block content %}
-<h1 class="text-2xl font-bold text-slate-900 mb-1">{% trans "Waiting Queue" %}</h1>
-<p class="text-slate-500 mb-6">{% trans "Live queue positions, tracked per doctor per day" %}</p>
+<div class="page-header">
+    <div>
+        <h1 class="page-title">{% trans "Waiting Queue" %}</h1>
+        <p class="page-subtitle">{% trans "Live queue positions, tracked per doctor per day" %}</p>
+    </div>
+    <a href="{% url 'appointments:list' %}" class="btn-secondary">
+        {% icon "log-in" "h-4 w-4" %} {% trans "Check in a patient" %}
+    </a>
+</div>
 
-<div class="grid md:grid-cols-3 gap-6">
-    {% regroup queue by doctor as doctor_queues %}
+{% regroup queue by doctor as doctor_queues %}
+<div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
     {% for group in doctor_queues %}
-    <div class="bg-white rounded-xl border border-slate-100 p-5">
-        <div class="flex justify-between items-start mb-4">
-            <div>
-                <p class="font-semibold">Dr. {{ group.grouper.full_name }}</p>
-                <p class="text-xs text-slate-400">{{ group.list|length }} {% trans "checked in" %}</p>
+    <div class="card flex flex-col">
+        <div class="flex items-center gap-3 border-b border-slate-100 px-5 py-4">
+            <span class="avatar-md bg-orange-100 text-orange-700">{{ group.grouper.full_name|initials }}</span>
+            <div class="min-w-0 flex-1">
+                <p class="truncate font-semibold text-slate-900">{% if group.grouper %}Dr. {{ group.grouper.full_name }}{% else %}{% trans "No doctor" %}{% endif %}</p>
+                <p class="text-xs text-slate-500">{% blocktrans count total=group.list|length %}{{ total }} waiting{% plural %}{{ total }} waiting{% endblocktrans %}</p>
             </div>
         </div>
-        <div class="space-y-3 mb-4">
+        <ul class="flex-1 divide-y divide-slate-100">
             {% for appt in group.list %}
-            <div class="flex items-center justify-between border-b border-slate-50 pb-2 last:border-0">
-                <div class="flex items-center gap-2">
-                    <span class="w-6 h-6 rounded-full bg-slate-100 text-xs flex items-center justify-center font-medium">
-                        {{ appt.queue_position }}
-                    </span>
-                    <span class="text-sm">{{ appt.patient.full_name }}</span>
+            <li class="flex items-center gap-3 px-5 py-3 {% if forloop.first %}bg-teal-50/50{% endif %}">
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-bold tabular-nums {% if forloop.first %}bg-teal-600 text-white{% else %}bg-slate-100 text-slate-600{% endif %}">
+                    {{ appt.queue_position }}
+                </span>
+                <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-medium text-slate-900">{{ appt.patient.full_name }}</p>
+                    {% if forloop.first %}<p class="text-xs font-medium text-teal-700">{% trans "Next in line" %}</p>{% endif %}
                 </div>
                 <form method="post" action="{% url 'appointments:complete' appt.id %}">
                     {% csrf_token %}
-                    <button type="submit"
-                            class="text-xs bg-teal-50 text-teal-700 px-2 py-1 rounded-full hover:bg-teal-100">
-                        {% trans "Done" %}
+                    <button type="submit" class="{% if forloop.first %}btn-primary{% else %}btn-secondary{% endif %} btn-sm">
+                        {% icon "check" "h-3.5 w-3.5" %} {% trans "Done" %}
                     </button>
                 </form>
-            </div>
+            </li>
             {% endfor %}
-        </div>
+        </ul>
     </div>
     {% empty %}
-    <p class="text-slate-400 text-sm">{% trans "Queue is empty." %}</p>
+    <div class="card md:col-span-2 xl:col-span-3">
+        <div class="empty-state">
+            <span class="empty-icon">{% icon "clock" %}</span>
+            <p class="font-medium text-slate-700">{% trans "Queue is empty." %}</p>
+            <p class="text-sm text-slate-500">{% trans "Patients appear here when you check them in from the appointments list." %}</p>
+        </div>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}

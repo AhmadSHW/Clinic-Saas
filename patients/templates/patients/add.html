@@ -1,57 +1,62 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}{% trans "Add Patient" %}{% endblock %}
-{% block nav_patients %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+{% block nav_patients %}nav-link-active{% endblock %}
 
 {% block content %}
-<div class="max-w-xl">
-    <h1 class="text-2xl font-bold text-slate-900 mb-6">{% trans "Add New Patient" %}</h1>
+<div class="mx-auto max-w-2xl">
+    <a href="{% url 'patients:list' %}" class="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-800">
+        {% icon "arrow-left" "h-4 w-4 rtl:rotate-180" %} {% trans "Back to patients" %}
+    </a>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">{% trans "Add New Patient" %}</h1>
+            <p class="page-subtitle">{% trans "Create a record for a walk-in or phone booking." %}</p>
+        </div>
+    </div>
 
-    <form method="post" class="bg-white rounded-xl border border-slate-100 p-6 space-y-4">
+    <form method="post" class="card card-body space-y-5">
         {% csrf_token %}
         <div>
-            <label class="block text-sm font-medium mb-1">{% trans "Full Name" %}</label>
-            <input type="text" name="full_name" required
-                   class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <label class="label" for="full_name">{% trans "Full Name" %}</label>
+            <input id="full_name" type="text" name="full_name" required class="input">
         </div>
-        <div>
-            <label class="block text-sm font-medium mb-1">{% trans "Phone Number" %}</label>
-            <input type="text" name="phone_number" required
-                   class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-        </div>
-        <div>
-            <label class="block text-sm font-medium mb-1">{% trans "Email" %}</label>
-            <input type="email" name="email"
-                   class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-        </div>
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid gap-5 sm:grid-cols-2">
             <div>
-                <label class="block text-sm font-medium mb-1">{% trans "Date of Birth" %}</label>
-                <input type="date" name="date_of_birth"
-                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <label class="label" for="phone_number">{% trans "Phone Number" %}</label>
+                <input id="phone_number" type="tel" name="phone_number" required class="input" dir="ltr">
             </div>
             <div>
-                <label class="block text-sm font-medium mb-1">{% trans "Gender" %}</label>
-                <select name="gender" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
-                    <option value="">-</option>
+                <label class="label" for="email">{% trans "Email" %}</label>
+                <input id="email" type="email" name="email" class="input" dir="ltr">
+            </div>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-3">
+            <div>
+                <label class="label" for="date_of_birth">{% trans "Date of Birth" %}</label>
+                <input id="date_of_birth" type="date" name="date_of_birth" class="input">
+            </div>
+            <div>
+                <label class="label" for="gender">{% trans "Gender" %}</label>
+                <select id="gender" name="gender" class="input">
+                    <option value="">—</option>
                     <option value="male">{% trans "Male" %}</option>
                     <option value="female">{% trans "Female" %}</option>
                 </select>
             </div>
+            <div>
+                <label class="label" for="blood_type">{% trans "Blood Type" %}</label>
+                <input id="blood_type" type="text" name="blood_type" placeholder="{% trans 'e.g. O+' %}" class="input">
+            </div>
         </div>
         <div>
-            <label class="block text-sm font-medium mb-1">{% trans "Blood Type" %}</label>
-            <input type="text" name="blood_type" placeholder="{% trans 'e.g. O+' %}"
-                   class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <label class="label" for="allergies">{% trans "Allergies" %}</label>
+            <textarea id="allergies" name="allergies" rows="2" class="input"></textarea>
         </div>
-        <div>
-            <label class="block text-sm font-medium mb-1">{% trans "Allergies" %}</label>
-            <textarea name="allergies" rows="2"
-                      class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
+        <div class="flex flex-col-reverse gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:justify-end">
+            <a href="{% url 'patients:list' %}" class="btn-secondary">{% trans "Cancel" %}</a>
+            <button type="submit" class="btn-primary">{% icon "check" "h-4 w-4" %} {% trans "Save Patient" %}</button>
         </div>
-        <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg">
-            {% trans "Save Patient" %}
-        </button>
     </form>
 </div>
 {% endblock %}

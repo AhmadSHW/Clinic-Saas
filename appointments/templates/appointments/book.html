@@ -1,27 +1,38 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}{% trans "Book Appointment" %}{% endblock %}
-{% block nav_appointments %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+{% block nav_appointments %}nav-link-active{% endblock %}
 
 {% block content %}
-<div class="max-w-xl">
-    <h1 class="text-2xl font-bold text-slate-900 mb-6">{% trans "Book Appointment" %}</h1>
+<div class="mx-auto max-w-2xl">
+    <a href="{% url 'appointments:list' %}" class="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-800">
+        {% icon "arrow-left" "h-4 w-4 rtl:rotate-180" %} {% trans "Back to appointments" %}
+    </a>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">{% trans "Book Appointment" %}</h1>
+            <p class="page-subtitle">{% trans "The doctor gets a notification as soon as it's booked." %}</p>
+        </div>
+    </div>
 
-    <form method="post" class="bg-white rounded-xl border border-slate-100 p-6 space-y-4">
+    <form method="post" class="card card-body space-y-5">
         {% csrf_token %}
         <div>
-            <label class="block text-sm font-medium mb-1">{% trans "Patient" %}</label>
-            <select name="patient_id" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
-                <option value="">-- {% trans "Select Patient" %} --</option>
+            <div class="mb-1.5 flex items-center justify-between">
+                <label class="label mb-0" for="patient_id">{% trans "Patient" %}</label>
+                <a href="{% url 'patients:add' %}" class="text-xs font-medium text-teal-700 hover:underline">+ {% trans "New patient" %}</a>
+            </div>
+            <select id="patient_id" name="patient_id" required class="input">
+                <option value="">{% trans "Select Patient" %}</option>
                 {% for patient in patients %}
                     <option value="{{ patient.id }}">{{ patient.full_name }}</option>
                 {% endfor %}
             </select>
         </div>
         <div>
-            <label class="block text-sm font-medium mb-1">{% trans "Doctor" %}</label>
-            <select name="doctor_id" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
-                <option value="">-- {% trans "Select Doctor" %} --</option>
+            <label class="label" for="doctor_id">{% trans "Doctor" %}</label>
+            <select id="doctor_id" name="doctor_id" required class="input">
+                <option value="">{% trans "Select Doctor" %}</option>
                 {% if not doctors %}
                     <option value="" disabled>{% trans "No doctors yet. An admin can add them on the Doctors page." %}</option>
                 {% endif %}
@@ -30,18 +41,20 @@
                 {% endfor %}
             </select>
         </div>
-        <div>
-            <label class="block text-sm font-medium mb-1">{% trans "Date & Time" %}</label>
-            <input type="datetime-local" name="scheduled_at" required
-                   class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+        <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+                <label class="label" for="scheduled_at">{% trans "Date & Time" %}</label>
+                <input id="scheduled_at" type="datetime-local" name="scheduled_at" required class="input">
+            </div>
+            <div>
+                <label class="label" for="reason">{% trans "Reason" %}</label>
+                <input id="reason" type="text" name="reason" class="input" placeholder="{% trans 'e.g. Follow-up' %}">
+            </div>
         </div>
-        <div>
-            <label class="block text-sm font-medium mb-1">{% trans "Reason" %}</label>
-            <input type="text" name="reason" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+        <div class="flex flex-col-reverse gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:justify-end">
+            <a href="{% url 'appointments:list' %}" class="btn-secondary">{% trans "Cancel" %}</a>
+            <button type="submit" class="btn-primary">{% icon "calendar-check" "h-4 w-4" %} {% trans "Book Appointment" %}</button>
         </div>
-        <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg">
-            {% trans "Book Appointment" %}
-        </button>
     </form>
 </div>
 {% endblock %}

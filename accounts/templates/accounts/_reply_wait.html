@@ -3,17 +3,26 @@
 Shown on the "check your email" pages when verification is by reply.
 Polls accounts:verification_status and follows its redirect once the YES reply arrives.
 {% endcomment %}
-<p class="text-slate-500 text-sm mb-1">{% trans "We sent an email to" %}</p>
-<p class="font-medium text-slate-900 mb-5">{{ email }}</p>
+<p class="mb-1 text-sm text-slate-500">{% trans "We sent an email to" %}</p>
+<p class="mb-6 font-medium text-slate-900">{{ email }}</p>
 
-<ol class="text-left text-sm text-slate-600 bg-slate-50 rounded-xl p-4 space-y-2 mb-5">
-    <li>1. {% trans "Open the email in your inbox." %}</li>
-    <li>2. {% trans "Press Reply, type YES and send it." %}</li>
-    <li>3. {% trans "Come back here. You'll be signed in automatically." %}</li>
+<ol class="mb-6 space-y-3 rounded-xl bg-slate-50 p-4 text-start text-sm text-slate-600">
+    <li class="flex items-start gap-3">
+        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-bold text-teal-700 ring-1 ring-slate-200">1</span>
+        {% trans "Open the email in your inbox." %}
+    </li>
+    <li class="flex items-start gap-3">
+        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-bold text-teal-700 ring-1 ring-slate-200">2</span>
+        {% trans "Press Reply, type YES and send it." %}
+    </li>
+    <li class="flex items-start gap-3">
+        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-bold text-teal-700 ring-1 ring-slate-200">3</span>
+        {% trans "Come back here. You'll be signed in automatically." %}
+    </li>
 </ol>
 
-<div id="reply-wait" class="flex items-center justify-center gap-2 text-sm text-teal-700 mb-6">
-    <span class="w-4 h-4 border-2 border-teal-500 border-t-transparent rounded-full animate-spin"></span>
+<div class="mb-6 inline-flex items-center gap-2 rounded-full bg-teal-50 px-4 py-2 text-sm font-medium text-teal-700">
+    <span class="spinner"></span>
     {% trans "Waiting for your reply…" %}
 </div>
 

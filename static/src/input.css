@@ -1,0 +1,205 @@
+/* static/src/input.css
+   Source for static/css/app.css. Rebuild with: npm run build:css
+   (or npm run watch:css while editing templates). */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    html[lang="ar"] body {
+        @apply font-arabic;
+    }
+    body {
+        @apply bg-slate-50 text-slate-800 font-sans;
+    }
+    ::selection {
+        @apply bg-teal-100 text-teal-900;
+    }
+}
+
+@layer components {
+    /* ---------- Buttons ---------- */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium
+               transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500
+               focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 whitespace-nowrap;
+    }
+    .btn-primary   { @apply btn bg-teal-600 text-white shadow-sm hover:bg-teal-700; }
+    .btn-secondary { @apply btn border border-slate-200 bg-white text-slate-700 shadow-sm hover:bg-slate-50 hover:border-slate-300; }
+    .btn-ghost     { @apply btn text-slate-600 hover:bg-slate-100 hover:text-slate-900; }
+    .btn-danger    { @apply btn bg-red-600 text-white shadow-sm hover:bg-red-700; }
+    .btn-sm        { @apply px-3 py-1.5 text-xs; }
+    .btn-block     { @apply w-full; }
+
+    /* Small inline actions inside tables and lists */
+    .link-action        { @apply inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-colors; }
+    .link-action-teal   { @apply link-action text-teal-700 hover:bg-teal-50; }
+    .link-action-red    { @apply link-action text-red-600 hover:bg-red-50; }
+    .link-action-slate  { @apply link-action text-slate-600 hover:bg-slate-100; }
+
+    /* ---------- Forms ---------- */
+    .label { @apply mb-1.5 block text-sm font-medium text-slate-700; }
+    .input {
+        @apply block w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm
+               placeholder:text-slate-400 transition focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-500/10;
+    }
+    .help { @apply mt-1.5 text-xs text-slate-500; }
+    .form-section { @apply pt-2 text-xs font-semibold uppercase tracking-wider text-slate-400; }
+
+    /* ---------- Surfaces ---------- */
+    .card       { @apply rounded-2xl border border-slate-200/70 bg-white shadow-soft; }
+    .card-body  { @apply p-5 sm:p-6; }
+    .card-title { @apply text-base font-semibold text-slate-900; }
+
+    .page-header   { @apply mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-start sm:justify-between; }
+    .page-title    { @apply text-2xl font-bold tracking-tight text-slate-900; }
+    .page-subtitle { @apply mt-1 text-sm text-slate-500; }
+
+    .stat-card  { @apply card flex items-center gap-4 p-5; }
+    .stat-icon  { @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl; }
+    .stat-value { @apply text-2xl font-bold tracking-tight text-slate-900; }
+    .stat-label { @apply text-sm text-slate-500; }
+
+    .avatar    { @apply inline-flex shrink-0 items-center justify-center rounded-full bg-teal-100 font-semibold text-teal-700; }
+    .avatar-sm { @apply avatar h-8 w-8 text-xs; }
+    .avatar-md { @apply avatar h-10 w-10 text-sm; }
+    .avatar-lg { @apply avatar h-14 w-14 text-lg; }
+
+    .empty-state { @apply flex flex-col items-center justify-center gap-3 px-6 py-14 text-center; }
+    .empty-icon  { @apply flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400; }
+
+    /* ---------- Badges ---------- */
+    .badge        { @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset; }
+    .badge-teal   { @apply badge bg-teal-50 text-teal-700 ring-teal-600/20; }
+    .badge-amber  { @apply badge bg-amber-50 text-amber-700 ring-amber-600/20; }
+    .badge-orange { @apply badge bg-orange-50 text-orange-700 ring-orange-600/20; }
+    .badge-blue   { @apply badge bg-sky-50 text-sky-700 ring-sky-600/20; }
+    .badge-red    { @apply badge bg-red-50 text-red-700 ring-red-600/20; }
+    .badge-slate  { @apply badge bg-slate-50 text-slate-600 ring-slate-500/20; }
+    .badge-green  { @apply badge bg-emerald-50 text-emerald-700 ring-emerald-600/20; }
+
+    /* ---------- Tables (wrap in .table-wrap so they scroll on phones) ---------- */
+    .table-wrap { @apply overflow-x-auto; }
+    .table { @apply w-full min-w-[640px] text-sm; }
+    .table thead th {
+        @apply border-b border-slate-100 bg-slate-50/70 px-5 py-3 text-start text-xs font-semibold uppercase tracking-wide text-slate-500;
+    }
+    .table tbody td { @apply border-b border-slate-100 px-5 py-3.5 align-middle; }
+    .table tbody tr:last-child td { @apply border-b-0; }
+    .table tbody tr { @apply transition-colors hover:bg-slate-50/60; }
+
+    /* ---------- Sidebar ---------- */
+    .nav-section { @apply mb-2 mt-6 px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400 first:mt-0; }
+    .nav-link {
+        @apply flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors
+               hover:bg-slate-100 hover:text-slate-900;
+    }
+    .nav-link svg { @apply h-[18px] w-[18px] shrink-0 text-slate-400 transition-colors; }
+    .nav-link:hover svg { @apply text-slate-600; }
+    .nav-link-active { @apply bg-teal-50 text-teal-700 hover:bg-teal-50 hover:text-teal-700; }
+    .nav-link-active svg,
+    .nav-link-active:hover svg { @apply text-teal-600; }
+
+    /* ---------- Language switch pill ---------- */
+    .lang-pill {
+        @apply inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium
+               text-slate-600 transition hover:border-teal-300 hover:text-teal-700;
+    }
+
+    /* ---------- Toasts ---------- */
+    .toast {
+        @apply pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-xl border bg-white p-4 text-sm shadow-lift animate-toast-in;
+    }
+    .toast-success { @apply border-teal-200; }
+    .toast-error   { @apply border-red-200; }
+    .toast-info    { @apply border-slate-200; }
+    .toast-warning { @apply border-amber-200; }
+}
+
+/* ---------- Off-canvas sidebar on phones/tablets ---------- */
+.app-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+}
+[dir="rtl"] .app-sidebar {
+    transform: translateX(100%);
+}
+body.sidebar-open .app-sidebar {
+    transform: none;
+}
+@media (min-width: 1024px) {
+    .app-sidebar,
+    [dir="rtl"] .app-sidebar {
+        transform: none;
+    }
+}
+
+/* Spinner used by buttons while their form submits */
+.spinner {
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 9999px;
+    animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ---------- Landing page ---------- */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-on-scroll.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+    .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
+}
+
+.feature-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px -12px rgba(15, 23, 42, 0.15);
+    border-color: transparent;
+}
+.feature-icon {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--icon-from), var(--icon-to));
+    box-shadow: 0 8px 20px -6px var(--icon-shadow);
+    transition: transform 0.3s ease;
+}
+.feature-card:hover .feature-icon {
+    transform: scale(1.08) rotate(-4deg);
+}
+.feature-icon--teal {
+    --icon-from: #ccfbf1;
+    --icon-to: #5eead4;
+    --icon-shadow: rgba(13, 148, 136, 0.35);
+    color: #0f766e;
+}
+.feature-icon--orange {
+    --icon-from: #ffedd5;
+    --icon-to: #fdba74;
+    --icon-shadow: rgba(234, 88, 12, 0.3);
+    color: #c2410c;
+}

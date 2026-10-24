@@ -3,46 +3,46 @@
 {% block title %}{% trans "Login" %}{% endblock %}
 
 {% block content %}
-<section class="min-h-[80vh] flex items-center justify-center px-6 py-12 bg-slate-50">
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 w-full max-w-sm">
-        <h1 class="text-2xl font-bold text-slate-900 mb-1">
-            {% if current_clinic %}{{ current_clinic.name }}{% else %}{% trans "Welcome back" %}{% endif %}
-        </h1>
-        <p class="text-slate-500 text-sm mb-6">{% trans "Sign in to your clinic workspace." %}</p>
-
-        {% if messages %}
-            {% for message in messages %}
-                <div class="mb-4 px-4 py-3 rounded-lg text-sm bg-red-50 text-red-700">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
+<section class="flex min-h-[75vh] items-center justify-center bg-gradient-to-b from-teal-50/60 to-slate-50 px-4 py-12">
+    <div class="card w-full max-w-sm p-6 sm:p-8">
+        <div class="mb-6">
+            <div class="mb-4">{% include "includes/logo_mark.html" %}</div>
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">
+                {% if current_clinic %}{{ current_clinic.name }}{% else %}{% trans "Welcome back" %}{% endif %}
+            </h1>
+            <p class="mt-1 text-sm text-slate-500">{% trans "Sign in to your clinic workspace." %}</p>
+        </div>
 
         <form method="post" class="space-y-4">
             {% csrf_token %}
             <div>
-                <label class="block text-sm font-medium mb-1">{% trans "Clinic URL" %}</label>
-                <input type="text" name="clinic_slug" required placeholder="my-clinic"
+                <label class="label" for="clinic_slug">{% trans "Clinic URL" %}</label>
+                <input id="clinic_slug" type="text" name="clinic_slug" required placeholder="my-clinic" dir="ltr"
                        value="{% if clinic_slug %}{{ clinic_slug }}{% elif current_clinic %}{{ current_clinic.slug }}{% endif %}"
-                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                       class="input">
             </div>
             <div>
-                <label class="block text-sm font-medium mb-1">{% trans "Email" %}</label>
-                <input type="email" name="email" required
-                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <label class="label" for="email">{% trans "Email" %}</label>
+                <input id="email" type="email" name="email" required autocomplete="email" dir="ltr" class="input">
             </div>
             <div>
-                <label class="block text-sm font-medium mb-1">{% trans "Password" %}</label>
-                <input type="password" name="password" required
-                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <label class="label" for="password">{% trans "Password" %}</label>
+                <input id="password" type="password" name="password" required autocomplete="current-password" class="input">
             </div>
-            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg mt-2">
-                {% trans "Login" %}
+            <button type="submit" class="btn-primary btn-block">
+                {% icon "log-in" "h-4 w-4" %} {% trans "Login" %}
             </button>
         </form>
 
-        <p class="text-center text-sm text-slate-500 mt-5">
-            {% trans "Don't have a clinic yet?" %}
-            <a href="{% url 'accounts:signup' %}" class="text-teal-600 font-medium">{% trans "Register one" %}</a>
-        </p>
+        <div class="mt-6 space-y-2 text-center text-sm text-slate-500">
+            <p>
+                {% trans "Don't have a clinic yet?" %}
+                <a href="{% url 'accounts:signup' %}" class="font-medium text-teal-700 hover:underline">{% trans "Register one" %}</a>
+            </p>
+            <p>
+                <a href="{% url 'accounts:resend_verification' %}" class="text-xs text-slate-400 hover:text-slate-600">{% trans "Didn't get the verification email?" %}</a>
+            </p>
+        </div>
     </div>
 </section>
 {% endblock %}

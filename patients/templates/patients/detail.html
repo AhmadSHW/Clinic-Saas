@@ -1,67 +1,81 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}{{ patient.full_name }}{% endblock %}
-{% block nav_patients %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+{% block nav_patients %}nav-link-active{% endblock %}
 
 {% block content %}
-<a href="{% url 'patients:list' %}" class="text-sm text-slate-500 hover:text-slate-700 mb-4 inline-block">← {% trans "Back to patients" %}</a>
+<a href="{% url 'patients:list' %}" class="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-800">
+    {% icon "arrow-left" "h-4 w-4 rtl:rotate-180" %} {% trans "Back to patients" %}
+</a>
 
-<div class="bg-white rounded-xl border border-slate-100 p-6 mb-6">
-    <div class="flex items-center gap-4">
-        <div class="w-14 h-14 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-lg font-medium">
-            {{ patient.full_name|slice:":2"|upper }}
+<div class="card card-body mb-6">
+    <div class="flex flex-col gap-5 sm:flex-row sm:items-center">
+        <span class="avatar-lg">{{ patient.full_name|initials }}</span>
+        <div class="min-w-0 flex-1">
+            <h1 class="page-title">{{ patient.full_name }}</h1>
+            <div class="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-600">
+                <span class="inline-flex items-center gap-1.5">{% icon "phone" "h-4 w-4 text-slate-400" %} <span dir="ltr">{{ patient.phone_number }}</span></span>
+                {% if patient.email %}<span class="inline-flex items-center gap-1.5">{% icon "mail" "h-4 w-4 text-slate-400" %} {{ patient.email }}</span>{% endif %}
+            </div>
         </div>
-        <div>
-            <h1 class="text-xl font-bold text-slate-900">{{ patient.full_name }}</h1>
-            <p class="text-slate-500 text-sm">
-                {{ patient.phone_number }} · {% trans "Blood" %}: {{ patient.blood_type|default:"-" }} ·
-                {% trans "Allergies" %}: {{ patient.allergies|default:_("None") }}
-            </p>
+        <div class="flex flex-wrap gap-2">
+            <span class="badge-red">{% icon "droplet" "h-3 w-3" %} {% trans "Blood" %}: {% if patient.blood_type %}{{ patient.blood_type }}{% else %}—{% endif %}</span>
+            <span class="{% if patient.allergies %}badge-amber{% else %}badge-slate{% endif %}">
+                {% icon "alert-triangle" "h-3 w-3" %} {% trans "Allergies" %}: {% if patient.allergies %}{{ patient.allergies }}{% else %}{% trans "None" %}{% endif %}
+            </span>
         </div>
     </div>
 </div>
 
-<div class="grid {% if can_write_records %}md:grid-cols-2{% endif %} gap-6">
+<div class="grid gap-6 {% if can_write_records %}lg:grid-cols-5{% endif %}">
     {% if can_write_records %}
-    <div class="bg-white rounded-xl border border-slate-100 p-6">
-        <h2 class="font-semibold mb-4">{% trans "Add Medical Record" %}</h2>
-        <form method="post" class="space-y-3">
+    <div class="card card-body lg:col-span-2 lg:self-start">
+        <h2 class="card-title mb-4">{% trans "Add Medical Record" %}</h2>
+        <form method="post" class="space-y-4">
             {% csrf_token %}
             <div>
-                <label class="block text-sm font-medium mb-1">{% trans "Diagnosis" %}</label>
-                <textarea name="diagnosis" rows="2" required
-                          class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></textarea>
+                <label class="label" for="diagnosis">{% trans "Diagnosis" %}</label>
+                <textarea id="diagnosis" name="diagnosis" rows="2" required class="input"></textarea>
             </div>
             <div>
-                <label class="block text-sm font-medium mb-1">{% trans "Prescription" %}</label>
-                <textarea name="prescription" rows="2"
-                          class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></textarea>
+                <label class="label" for="prescription">{% trans "Prescription" %}</label>
+                <textarea id="prescription" name="prescription" rows="2" class="input"></textarea>
             </div>
             <div>
-                <label class="block text-sm font-medium mb-1">{% trans "Notes" %}</label>
-                <textarea name="notes" rows="2"
-                          class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"></textarea>
+                <label class="label" for="notes">{% trans "Notes" %}</label>
+                <textarea id="notes" name="notes" rows="2" class="input"></textarea>
             </div>
-            <button type="submit" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
-                {% trans "Add Record" %}
+            <button type="submit" class="btn-primary btn-block">
+                {% icon "plus" "h-4 w-4" %} {% trans "Add Record" %}
             </button>
         </form>
     </div>
     {% endif %}
 
-    <div class="bg-white rounded-xl border border-slate-100 p-6">
-        <h2 class="font-semibold mb-4">{% trans "Medical History" %}</h2>
-        <div class="space-y-3">
+    <div class="card card-body {% if can_write_records %}lg:col-span-3{% endif %}">
+        <h2 class="card-title mb-5">{% trans "Medical History" %}</h2>
+        {% if records %}
+        <ol class="relative space-y-6 border-s border-slate-200 ps-6">
             {% for record in records %}
-            <div class="border-b border-slate-50 pb-3 last:border-0">
-                <p class="text-xs text-slate-400 mb-1">{{ record.visit_date|date:"M d, Y H:i" }}</p>
-                <p class="text-sm font-medium">{{ record.diagnosis }}</p>
-                {% if record.prescription %}<p class="text-sm text-slate-500">Rx: {{ record.prescription }}</p>{% endif %}
-            </div>
-            {% empty %}
-            <p class="text-slate-400 text-sm">{% trans "No records yet." %}</p>
+            <li class="relative">
+                <span class="absolute -start-[31px] top-1 flex h-3 w-3 items-center justify-center rounded-full bg-teal-500 ring-4 ring-white"></span>
+                <p class="text-xs font-medium text-slate-400">{{ record.visit_date|date:"M d, Y · H:i" }}</p>
+                <p class="mt-1 text-sm font-semibold text-slate-900">{{ record.diagnosis }}</p>
+                {% if record.prescription %}
+                <p class="mt-1 text-sm text-slate-600"><span class="font-medium text-slate-500">Rx:</span> {{ record.prescription }}</p>
+                {% endif %}
+                {% if record.notes %}
+                <p class="mt-1 text-sm text-slate-500">{{ record.notes }}</p>
+                {% endif %}
+            </li>
             {% endfor %}
+        </ol>
+        {% else %}
+        <div class="empty-state py-10">
+            <span class="empty-icon">{% icon "file-text" %}</span>
+            <p class="text-sm text-slate-500">{% trans "No records yet." %}</p>
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

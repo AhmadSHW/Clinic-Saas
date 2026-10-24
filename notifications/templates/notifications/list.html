@@ -1,45 +1,50 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}{% trans "Notifications" %}{% endblock %}
-{% block nav_notifications %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+{% block nav_notifications %}nav-link-active{% endblock %}
 
 {% block content %}
-<div class="flex justify-between items-start mb-8">
+<div class="page-header">
     <div>
-        <h1 class="text-2xl font-bold text-slate-900">{% trans "Notifications" %}</h1>
-        <p class="text-slate-500">{% trans "Stay on top of appointments and updates" %}</p>
+        <h1 class="page-title">{% trans "Notifications" %}</h1>
+        <p class="page-subtitle">{% trans "Stay on top of appointments and updates" %}</p>
     </div>
 </div>
 
-<div class="bg-white rounded-xl border border-slate-100 divide-y divide-slate-50">
-    {% for notification in notifications %}
-    <div class="flex items-start justify-between px-5 py-4 {% if not notification.is_read %}bg-teal-50/30{% endif %}">
-        <div class="flex items-start gap-3">
-            <span class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
-                {% if notification.notification_type == "new_appointment" %}📅
-                {% elif notification.notification_type == "appointment_cancelled" %}❌
-                {% else %}🔔{% endif %}
+<div class="card mx-auto max-w-3xl overflow-hidden">
+    <ul class="divide-y divide-slate-100">
+        {% for notification in notifications %}
+        <li class="flex items-start gap-4 px-5 py-4 sm:px-6 {% if not notification.is_read %}bg-teal-50/40{% endif %}">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl
+                {% if notification.notification_type == 'new_appointment' %}bg-teal-50 text-teal-600
+                {% elif notification.notification_type == 'appointment_cancelled' %}bg-red-50 text-red-600
+                {% else %}bg-orange-50 text-orange-600{% endif %}">
+                {% if notification.notification_type == "new_appointment" %}{% icon "calendar-plus" %}
+                {% elif notification.notification_type == "appointment_cancelled" %}{% icon "x-circle" %}
+                {% else %}{% icon "bell" %}{% endif %}
             </span>
-            <div>
-                <p class="text-sm font-medium flex items-center gap-2">
+            <div class="min-w-0 flex-1">
+                <p class="flex items-center gap-2 text-sm font-semibold text-slate-900">
                     {{ notification.title }}
-                    {% if not notification.is_read %}<span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>{% endif %}
+                    {% if not notification.is_read %}<span class="h-2 w-2 rounded-full bg-orange-500" title="{% trans 'Unread' %}"></span>{% endif %}
                 </p>
-                <p class="text-sm text-slate-500">{{ notification.message }}</p>
-                <p class="text-xs text-slate-400 mt-1">{{ notification.created_at|timesince }} {% trans "ago" %}</p>
+                <p class="mt-0.5 text-sm text-slate-600">{{ notification.message }}</p>
+                <p class="mt-1 text-xs text-slate-400">{% blocktrans with time=notification.created_at|timesince %}{{ time }} ago{% endblocktrans %}</p>
             </div>
-        </div>
-        {% if not notification.is_read %}
-        <form method="post" action="{% url 'notifications:mark_read' notification.id %}" class="shrink-0">
-            {% csrf_token %}
-            <button type="submit" class="text-xs text-teal-600 hover:text-teal-700">
-                {% trans "Mark read" %}
-            </button>
-        </form>
-        {% endif %}
-    </div>
-    {% empty %}
-    <p class="text-center text-slate-400 py-10">{% trans "No notifications yet." %}</p>
-    {% endfor %}
+            {% if not notification.is_read %}
+            <form method="post" action="{% url 'notifications:mark_read' notification.id %}" class="shrink-0">
+                {% csrf_token %}
+                <button type="submit" class="link-action-teal">{% icon "check" "h-3.5 w-3.5" %} {% trans "Mark read" %}</button>
+            </form>
+            {% endif %}
+        </li>
+        {% empty %}
+        <li class="empty-state">
+            <span class="empty-icon">{% icon "inbox" %}</span>
+            <p class="font-medium text-slate-700">{% trans "You're all caught up" %}</p>
+            <p class="text-sm text-slate-500">{% trans "No notifications yet." %}</p>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

@@ -3,16 +3,16 @@
 {% block title %}{% trans "Plan Inactive" %}{% endblock %}
 
 {% block content %}
-<section class="min-h-[70vh] flex items-center justify-center px-6 py-16 bg-slate-50">
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 max-w-md w-full text-center">
-        <div class="w-14 h-14 mx-auto rounded-full bg-orange-100 text-orange-700 flex items-center justify-center text-2xl mb-5">
-            ⏳
+<section class="flex min-h-[70vh] items-center justify-center bg-slate-50 px-4 py-16">
+    <div class="card w-full max-w-md p-6 text-center sm:p-8">
+        <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-50 text-orange-600">
+            {% icon "hourglass" "h-7 w-7" %}
         </div>
-        <h1 class="text-xl font-bold text-slate-900 mb-2">{% trans "Your clinic's plan is inactive" %}</h1>
-        <p class="text-slate-500 text-sm mb-6">
+        <h1 class="mb-2 text-xl font-bold text-slate-900">{% trans "Your clinic's plan is inactive" %}</h1>
+        <p class="mb-6 text-sm text-slate-500">
             {% trans "The free trial or subscription has ended. Ask your clinic administrator to subscribe to continue using Clinic SaS." %}
         </p>
-        <a href="{% url 'accounts:logout' %}" class="text-teal-600 text-sm font-medium">{% trans "Log out" %}</a>
+        <a href="{% url 'accounts:logout' %}" class="btn-secondary">{% icon "log-out" "h-4 w-4" %} {% trans "Log out" %}</a>
     </div>
 </section>
 {% endblock %}

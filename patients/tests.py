@@ -31,6 +31,18 @@ class MedicalRecordTests(ClinicTestCase):
             self.assertEqual(MedicalRecord.objects.count(), before + (1 if allowed else 0), email)
 
 
+class PatientSearchTests(ClinicTestCase):
+    def test_search_by_name_phone_or_email(self):
+        Patient.objects.create(clinic=self.clinic, full_name="Lina Haddad", phone_number="0599123", email="lina@x.com")
+        self.login_as()
+        for q in ["lina", "0599", "lina@x"]:
+            r = self.c.get(f"/en/patients/?q={q}")
+            self.assertEqual([p.full_name for p in r.context["patients"]], ["Lina Haddad"], q)
+        r = self.c.get("/en/patients/?q=nobody")
+        self.assertEqual(len(r.context["patients"]), 0)
+        self.assertEqual(r.context["total_patients"], 2)
+
+
 class PortalTests(ClinicTestCase):
     def test_login_with_duplicate_emails_and_cancel(self):
         # Staff can add several records with the same email; only one has a login

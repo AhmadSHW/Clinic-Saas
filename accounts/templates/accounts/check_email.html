@@ -3,21 +3,21 @@
 {% block title %}{% trans "Check Your Email" %}{% endblock %}
 
 {% block content %}
-<section class="min-h-[70vh] flex items-center justify-center px-6 py-16 bg-slate-50">
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 max-w-md w-full text-center">
-        <div class="w-14 h-14 mx-auto rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-2xl mb-5">
-            ✉️
+<section class="flex min-h-[70vh] items-center justify-center bg-gradient-to-b from-teal-50/60 to-slate-50 px-4 py-16">
+    <div class="card w-full max-w-md p-6 text-center sm:p-8">
+        <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-50 text-teal-600">
+            {% icon "mail" "h-7 w-7" %}
         </div>
-        <h1 class="text-xl font-bold text-slate-900 mb-2">{% trans "Check your email" %}</h1>
+        <h1 class="mb-2 text-xl font-bold text-slate-900">{% trans "Check your email" %}</h1>
         {% if by_reply %}
             {% include "accounts/_reply_wait.html" %}
         {% else %}
-            <p class="text-slate-500 text-sm mb-1">{% trans "We sent a verification link to" %}</p>
-            <p class="font-medium text-slate-900 mb-6">{{ email }}</p>
+            <p class="mb-1 text-sm text-slate-500">{% trans "We sent a verification link to" %}</p>
+            <p class="mb-6 font-medium text-slate-900">{{ email }}</p>
         {% endif %}
-        <p class="text-slate-400 text-xs">
+        <p class="text-xs text-slate-400">
             {% trans "Didn't get it? Check your Spam folder, or" %}
-            <a href="{% url 'accounts:resend_verification' %}" class="text-teal-600 font-medium">{% trans "send it again" %}</a>
+            <a href="{% url 'accounts:resend_verification' %}" class="font-medium text-teal-700 hover:underline">{% trans "send it again" %}</a>
         </p>
     </div>
 </section>

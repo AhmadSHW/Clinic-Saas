@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Multi-tenant SaaS for small clinics/pharmacies (Django 5.2 + MySQL, server-rendered templates with Bootstrap 5 and vanilla JS, Stripe billing). English and Arabic UI. Comments in `config/settings.py` and some files are in Arabic.
+Multi-tenant SaaS for small clinics/pharmacies (Django 5.2 + MySQL, server-rendered templates with Tailwind CSS 3 and vanilla JS, Stripe billing). English and Arabic UI. Comments in `config/settings.py` and some files are in Arabic.
 
 ## Commands
 
@@ -20,6 +20,7 @@ python manage.py test appointments                      # one app
 python manage.py test appointments.tests.SomeTestCase.test_method   # one test
 python manage.py cleanup_portal_signups [--dry-run]     # delete expired pending patient signups (run daily)
 python manage.py check_verification_replies             # activate accounts that replied YES to the verification email
+npm install && npm run build:css                        # rebuild static/css/app.css after changing template classes (watch:css while editing)
 ```
 
 Settings come from `.env` (see `.env.example`): `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS` (comma-separated, defaults to localhost), `CSRF_TRUSTED_ORIGINS` (comma-separated full origins like `https://host`; empty by default), `DB_*` (MySQL), `STRIPE_*`, optionally `EMAIL_BACKEND` (defaults to the console backend, so verification emails print to the runserver log) plus `EMAIL_HOST_USER`/`EMAIL_HOST_PASSWORD` for SMTP (other SMTP settings default to Gmail; the sender defaults to `EMAIL_HOST_USER`). There's no lint config.
@@ -72,7 +73,11 @@ There are two separate session-based identities:
 - `dashboard`: public landing page (`dashboard:landing`), clinic finder and account chooser, and the staff home (`dashboard:home`).
 
 ### Templates/static
-Project-level `templates/base.html` (staff app shell) and `templates/public_base.html` (landing/portal). Each app has its own templates under `<app>/templates/<app>/`. Shared assets are `static/css/style.css` and `static/js/main.js`.
+- **Layouts:** `templates/base.html` is the staff shell: an off-canvas sidebar below `lg`, a top bar whose search submits `?q=` to `patients:list`, and toasts. `templates/public_base.html` is for the landing and auth pages, and `patients/templates/patients/portal_base.html` is for the patient portal. All three include `templates/includes/` (head with fonts/CSS/favicon, logo mark, language switch, toasts, confirm modal). Each app's pages are under `<app>/templates/<app>/`. A page marks its sidebar item active with `{% block nav_<name> %}nav-link-active{% endblock %}`.
+- **CSS:** Tailwind 3.4 is **built**, not loaded from a CDN. The source is `static/src/input.css`, which defines the component classes (`btn-primary`/`btn-secondary`/`btn-ghost`/`btn-danger`, `input`, `label`, `card`, `badge-*`, `table` inside `table-wrap`, `page-header`/`page-title`, `stat-card`, `empty-state`, `nav-link`). The output is the committed `static/css/app.css`. After changing classes in templates, run `npm install` once, then `npm run build:css` (or `npm run watch:css`). Classes that aren't in a scanned file (`tailwind.config.js` `content`) are purged.
+- **Template helpers** (`dashboard/templatetags/ui.py`, registered as a builtin, so no `{% load %}` is needed): `{% icon "name" "classes" %}` renders an inline Lucide SVG (add icons to `ICONS`; no emojis in the UI), `|status_badge` maps an appointment/billing status to a badge class, `|initials` gives avatar initials, and `|days_left` counts days until a datetime.
+- **RTL:** use logical utilities (`ms-`/`me-`/`ps-`/`pe-`, `start-`/`end-`, `text-start`, `border-s`/`border-e`), never `ml`/`mr`/`left`/`right`. Arrows and chevrons get `rtl:rotate-180`. Phone numbers and emails get `dir="ltr"`.
+- **JS** (`static/js/main.js`): sidebar toggle, auto-dismissing toasts, `<form data-confirm="Question?" data-confirm-button="Label">` opens the confirm modal before submitting, and every form's submit button is disabled and shows a spinner while it submits (opt out with `data-no-loading`).
 
 ## Known gotchas
 - `TIME_ZONE` is `Asia/Hebron`. Use `timezone.localdate()`/`localtime()`, not `timezone.now().date()`.

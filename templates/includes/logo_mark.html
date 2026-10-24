@@ -1,0 +1,4 @@
+{# The square app mark. Pass size="sm" for the compact version. #}
+<span class="{% if size == 'sm' %}h-8 w-8 rounded-lg{% else %}h-9 w-9 rounded-xl{% endif %} inline-flex shrink-0 items-center justify-center bg-gradient-to-br from-teal-500 to-teal-700 text-white shadow-sm shadow-teal-700/30">
+    {% icon "logo" "h-[18px] w-[18px]" "2.2" %}
+</span>

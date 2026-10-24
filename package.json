@@ -1,0 +1,12 @@
+{
+  "name": "clinic-saas-frontend",
+  "private": true,
+  "description": "Builds static/css/app.css from static/src/input.css with Tailwind",
+  "scripts": {
+    "build:css": "tailwindcss -i static/src/input.css -o static/css/app.css --minify",
+    "watch:css": "tailwindcss -i static/src/input.css -o static/css/app.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

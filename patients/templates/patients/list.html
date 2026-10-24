@@ -1,61 +1,80 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}{% trans "Patients" %}{% endblock %}
-{% block nav_patients %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+{% block nav_patients %}nav-link-active{% endblock %}
 
 {% block content %}
-<div class="flex justify-between items-start mb-8">
+<div class="page-header">
     <div>
-        <h1 class="text-2xl font-bold text-slate-900">{% trans "Patients" %}</h1>
-        <p class="text-slate-500">{% trans "Manage records and medical history across all your patients" %}</p>
+        <h1 class="page-title">{% trans "Patients" %}</h1>
+        <p class="page-subtitle">
+            {% blocktrans count total=total_patients %}{{ total }} patient in your clinic{% plural %}{{ total }} patients in your clinic{% endblocktrans %}
+        </p>
     </div>
-    <a href="{% url 'patients:add' %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
-        + {% trans "Add patient" %}
+    <a href="{% url 'patients:add' %}" class="btn-primary">
+        {% icon "user-plus" "h-4 w-4" %} {% trans "Add patient" %}
     </a>
 </div>
 
-<div class="grid grid-cols-4 gap-4 mb-6">
-    <div class="bg-white rounded-xl border border-slate-100 p-5">
-        <p class="text-2xl font-bold">{{ total_patients }}</p>
-        <p class="text-sm text-slate-500">{% trans "Total patients" %}</p>
-    </div>
+{% if query %}
+<div class="mb-4 flex flex-wrap items-center gap-3 text-sm text-slate-600">
+    <span>{% blocktrans count total=patients|length %}{{ total }} result for “{{ query }}”{% plural %}{{ total }} results for “{{ query }}”{% endblocktrans %}</span>
+    <a href="{% url 'patients:list' %}" class="link-action-slate">{% icon "x" "h-3.5 w-3.5" %} {% trans "Clear search" %}</a>
 </div>
+{% endif %}
 
-<div class="bg-white rounded-xl border border-slate-100 overflow-hidden">
-    <table class="w-full text-sm">
-        <thead class="bg-slate-50 text-slate-500 text-xs uppercase">
-            <tr>
-                <th class="text-left px-5 py-3">{% trans "Patient" %}</th>
-                <th class="text-left px-5 py-3">{% trans "Contact" %}</th>
-                <th class="text-left px-5 py-3">{% trans "Blood Type" %}</th>
-                <th class="text-left px-5 py-3">{% trans "Last Visit" %}</th>
-                <th class="text-left px-5 py-3"></th>
-            </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-50">
-            {% for patient in patients %}
-            <tr class="hover:bg-slate-50">
-                <td class="px-5 py-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-medium">
-                            {{ patient.full_name|slice:":2"|upper }}
+<div class="card overflow-hidden">
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{% trans "Patient" %}</th>
+                    <th>{% trans "Contact" %}</th>
+                    <th>{% trans "Blood Type" %}</th>
+                    <th>{% trans "Last Visit" %}</th>
+                    <th><span class="sr-only">{% trans "Actions" %}</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                <tr>
+                    <td>
+                        <a href="{% url 'patients:detail' patient.id %}" class="flex items-center gap-3">
+                            <span class="avatar-sm">{{ patient.full_name|initials }}</span>
+                            <span class="font-medium text-slate-900">{{ patient.full_name }}</span>
+                        </a>
+                    </td>
+                    <td class="text-slate-600">
+                        <p dir="ltr" class="text-start">{{ patient.phone_number }}</p>
+                        {% if patient.email %}<p class="text-xs text-slate-400">{{ patient.email }}</p>{% endif %}
+                    </td>
+                    <td>
+                        {% if patient.blood_type %}<span class="badge-red">{% icon "droplet" "h-3 w-3" %} {{ patient.blood_type }}</span>{% else %}<span class="text-slate-400">—</span>{% endif %}
+                    </td>
+                    <td class="text-slate-500">{{ patient.updated_at|date:"M d, Y" }}</td>
+                    <td class="text-end">
+                        <a href="{% url 'patients:detail' patient.id %}" class="link-action-teal">
+                            {% trans "View" %} {% icon "chevron-right" "h-3.5 w-3.5 rtl:rotate-180" %}
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">
+                        <div class="empty-state">
+                            <span class="empty-icon">{% icon "users" %}</span>
+                            {% if query %}
+                            <p class="text-sm text-slate-500">{% trans "No patients match your search." %}</p>
+                            {% else %}
+                            <p class="text-sm text-slate-500">{% trans "No patients yet." %}</p>
+                            <a href="{% url 'patients:add' %}" class="btn-secondary btn-sm">{% icon "user-plus" "h-4 w-4" %} {% trans "Add your first patient" %}</a>
+                            {% endif %}
                         </div>
-                        <span class="font-medium">{{ patient.full_name }}</span>
-                    </div>
-                </td>
-                <td class="px-5 py-4 text-slate-500">{{ patient.phone_number }}</td>
-                <td class="px-5 py-4">
-                    <span class="bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded-full">{{ patient.blood_type|default:"-" }}</span>
-                </td>
-                <td class="px-5 py-4 text-slate-500">{{ patient.updated_at|date:"M d, Y" }}</td>
-                <td class="px-5 py-4 text-right">
-                    <a href="{% url 'patients:detail' patient.id %}" class="text-teal-600 hover:text-teal-700">{% trans "View" %} →</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr><td colspan="5" class="text-center text-slate-400 py-10">{% trans "No patients yet." %}</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

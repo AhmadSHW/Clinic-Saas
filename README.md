@@ -22,7 +22,7 @@ A multi-tenant SaaS platform for managing small clinics and pharmacies — appoi
 ## Tech Stack
 
 - **Backend**: Django 5.2, MySQL
-- **Frontend**: Django templates, Tailwind CSS, vanilla JavaScript
+- **Frontend**: Django templates, Tailwind CSS 3 (built with npm, output committed), vanilla JavaScript, Lucide icons, Inter and IBM Plex Sans Arabic fonts. Responsive on phones and fully right-to-left in Arabic
 - **Payments**: Stripe API (Checkout, webhooks, billing portal)
 - **Auth**: Custom session-based authentication with bcrypt password hashing and signed email-verification links
 
@@ -99,6 +99,15 @@ python manage.py cleanup_portal_signups            # add --dry-run to preview
 Activate accounts that replied YES but never came back to the site (optional; the site also checks on its own while someone waits or logs in):
 ```bash
 python manage.py check_verification_replies
+```
+
+## Frontend (CSS)
+
+The stylesheet `static/css/app.css` is built by Tailwind from `static/src/input.css` and is committed, so running the app doesn't need Node. If you change classes in a template, rebuild it (requires Node.js):
+
+```bash
+npm install           # once
+npm run build:css     # or: npm run watch:css while editing
 ```
 
 ## Translations

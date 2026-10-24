@@ -1,72 +1,91 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}{% trans "Appointments" %}{% endblock %}
-{% block nav_appointments %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+{% block nav_appointments %}{% if not filter_doctor or filter_doctor.id != staff_user.id %}nav-link-active{% endif %}{% endblock %}
+{% block nav_my_appointments %}{% if filter_doctor and filter_doctor.id == staff_user.id %}nav-link-active{% endif %}{% endblock %}
 
 {% block content %}
-<div class="flex justify-between items-start mb-8">
+<div class="page-header">
     <div>
         {% if filter_doctor %}
-        <h1 class="text-2xl font-bold text-slate-900">
+        <h1 class="page-title">
             {% if filter_doctor.id == staff_user.id %}{% trans "My Appointments" %}{% else %}{% blocktrans with name=filter_doctor.full_name %}Appointments for Dr. {{ name }}{% endblocktrans %}{% endif %}
         </h1>
-        <p class="text-slate-500">
-            <a href="{% url 'appointments:list' %}" class="text-teal-600 hover:underline">{% trans "Show all doctors" %}</a>
+        <p class="page-subtitle">
+            <a href="{% url 'appointments:list' %}" class="font-medium text-teal-700 hover:underline">{% trans "Show all doctors" %}</a>
         </p>
         {% else %}
-        <h1 class="text-2xl font-bold text-slate-900">{% trans "Appointments" %}</h1>
-        <p class="text-slate-500">{% trans "Schedule and manage visits across all practitioners" %}</p>
+        <h1 class="page-title">{% trans "Appointments" %}</h1>
+        <p class="page-subtitle">{% trans "Schedule and manage visits across all practitioners" %}</p>
         {% endif %}
     </div>
-    <a href="{% url 'appointments:book' %}{% if filter_doctor %}?doctor={{ filter_doctor.id }}{% endif %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
-        + {% trans "New appointment" %}
+    <a href="{% url 'appointments:book' %}{% if filter_doctor %}?doctor={{ filter_doctor.id }}{% endif %}" class="btn-primary">
+        {% icon "calendar-plus" "h-4 w-4" %} {% trans "New appointment" %}
     </a>
 </div>
 
-<div class="bg-white rounded-xl border border-slate-100 overflow-hidden">
-    <table class="w-full text-sm">
-        <thead class="bg-slate-50 text-slate-500 text-xs uppercase">
-            <tr>
-                <th class="text-left px-5 py-3">{% trans "Patient" %}</th>
-                <th class="text-left px-5 py-3">{% trans "Doctor" %}</th>
-                <th class="text-left px-5 py-3">{% trans "Date / Time" %}</th>
-                <th class="text-left px-5 py-3">{% trans "Status" %}</th>
-                <th class="text-left px-5 py-3"></th>
-            </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-50">
-            {% for appt in appointments %}
-            <tr class="hover:bg-slate-50">
-                <td class="px-5 py-4 font-medium">{{ appt.patient.full_name }}</td>
-                <td class="px-5 py-4 text-slate-500">Dr. {{ appt.doctor.full_name|default:"N/A" }}</td>
-                <td class="px-5 py-4 text-slate-500">{{ appt.scheduled_at|date:"M d, Y H:i" }}</td>
-                <td class="px-5 py-4">
-                    <span class="text-xs px-2 py-1 rounded-full
-                        {% if appt.status == 'confirmed' %}bg-teal-100 text-teal-700
-                        {% elif appt.status == 'in_queue' %}bg-orange-100 text-orange-700
-                        {% else %}bg-slate-100 text-slate-600{% endif %}">
-                        {{ appt.get_status_display }}
-                    </span>
-                </td>
-                <td class="px-5 py-4 text-right space-x-3">
-                    {% if appt.status == "pending" or appt.status == "confirmed" %}
-                    <form method="post" action="{% url 'appointments:check_in' appt.id %}" class="inline">
-                        {% csrf_token %}
-                        <button type="submit" class="text-teal-600 hover:text-teal-700">{% trans "Check In" %}</button>
-                    </form>
-                    {% endif %}
-                    {% if appt.status != "cancelled" %}
-                    <form method="post" action="{% url 'appointments:cancel' appt.id %}" class="inline">
-                        {% csrf_token %}
-                        <button type="submit" class="text-red-500 hover:text-red-600">{% trans "Cancel" %}</button>
-                    </form>
-                    {% endif %}
-                </td>
-            </tr>
-            {% empty %}
-            <tr><td colspan="5" class="text-center text-slate-400 py-10">{% trans "No appointments yet." %}</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="card overflow-hidden">
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{% trans "Patient" %}</th>
+                    <th>{% trans "Doctor" %}</th>
+                    <th>{% trans "Date / Time" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    <th><span class="sr-only">{% trans "Actions" %}</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appt in appointments %}
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <span class="avatar-sm">{{ appt.patient.full_name|initials }}</span>
+                            <div class="min-w-0">
+                                <p class="font-medium text-slate-900">{{ appt.patient.full_name }}</p>
+                                {% if appt.reason %}<p class="truncate text-xs text-slate-500">{{ appt.reason }}</p>{% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-slate-600">{% if appt.doctor %}Dr. {{ appt.doctor.full_name }}{% else %}—{% endif %}</td>
+                    <td>
+                        <p class="font-medium text-slate-900">{{ appt.scheduled_at|date:"M d, Y" }}</p>
+                        <p class="text-xs tabular-nums text-slate-500">{{ appt.scheduled_at|date:"H:i" }}</p>
+                    </td>
+                    <td><span class="{{ appt.status|status_badge }}">{{ appt.get_status_display }}</span></td>
+                    <td>
+                        <div class="flex items-center justify-end gap-1">
+                            {% if appt.status == "pending" or appt.status == "confirmed" %}
+                            <form method="post" action="{% url 'appointments:check_in' appt.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="link-action-teal">{% icon "log-in" "h-3.5 w-3.5" %} {% trans "Check In" %}</button>
+                            </form>
+                            {% endif %}
+                            {% if appt.status != "cancelled" %}
+                            <form method="post" action="{% url 'appointments:cancel' appt.id %}"
+                                  data-confirm="{% blocktrans with name=appt.patient.full_name %}Cancel the appointment for {{ name }}?{% endblocktrans %}"
+                                  data-confirm-button="{% trans 'Cancel appointment' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="link-action-red">{% icon "x-circle" "h-3.5 w-3.5" %} {% trans "Cancel" %}</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">
+                        <div class="empty-state">
+                            <span class="empty-icon">{% icon "calendar" %}</span>
+                            <p class="text-sm text-slate-500">{% trans "No appointments yet." %}</p>
+                            <a href="{% url 'appointments:book' %}{% if filter_doctor %}?doctor={{ filter_doctor.id }}{% endif %}" class="btn-secondary btn-sm">{% icon "calendar-plus" "h-4 w-4" %} {% trans "Book one" %}</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

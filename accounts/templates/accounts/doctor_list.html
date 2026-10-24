@@ -1,73 +1,71 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}{% trans "Doctors" %}{% endblock %}
-{% block nav_doctors %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+{% block nav_doctors %}nav-link-active{% endblock %}
 
 {% block content %}
-<div class="flex justify-between items-start mb-8">
+<div class="page-header">
     <div>
-        <h1 class="text-2xl font-bold text-slate-900">{% trans "Doctors" %}</h1>
-        <p class="text-slate-500">{% trans "Your clinic's doctors and their schedules" %}</p>
+        <h1 class="page-title">{% trans "Doctors" %}</h1>
+        <p class="page-subtitle">{% trans "Your clinic's doctors and their schedules" %}</p>
     </div>
     {% if staff_user.is_admin %}
-    <a href="{% url 'accounts:add_staff' %}?role=doctor" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
-        + {% trans "Add doctor" %}
+    <a href="{% url 'accounts:add_staff' %}?role=doctor" class="btn-primary">
+        {% icon "user-plus" "h-4 w-4" %} {% trans "Add doctor" %}
     </a>
     {% endif %}
 </div>
 
-<div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+<div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
     {% for doctor in doctors %}
-    <div class="bg-white rounded-xl border border-slate-100 p-5 flex flex-col">
-        <div class="flex items-center gap-3 mb-4">
-            <div class="w-11 h-11 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center text-sm font-semibold">
-                {{ doctor.full_name|slice:":2"|upper }}
-            </div>
-            <div class="min-w-0">
-                <p class="font-semibold truncate">Dr. {{ doctor.full_name }}</p>
-                <p class="text-xs text-slate-500">{% if doctor.specialty %}{{ doctor.specialty }}{% else %}{% trans "General" %}{% endif %}</p>
+    <div class="card flex flex-col p-5 transition-shadow hover:shadow-lift">
+        <div class="mb-5 flex items-start gap-3">
+            <span class="avatar-lg bg-orange-100 text-orange-700">{{ doctor.full_name|initials }}</span>
+            <div class="min-w-0 flex-1">
+                <p class="truncate font-semibold text-slate-900">Dr. {{ doctor.full_name }}</p>
+                <p class="text-sm text-slate-500">{% if doctor.specialty %}{{ doctor.specialty }}{% else %}{% trans "General" %}{% endif %}</p>
+                <p class="mt-1 truncate text-xs text-slate-400">{{ doctor.email }}</p>
             </div>
             {% if not doctor.is_active %}
-            <span class="ml-auto text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-500">{% trans "Inactive" %}</span>
+            <span class="badge-slate">{% trans "Inactive" %}</span>
             {% endif %}
         </div>
 
-        <div class="grid grid-cols-2 gap-3 mb-4">
-            <div class="bg-slate-50 rounded-lg p-3">
-                <p class="text-xl font-bold">{{ doctor.today_count }}</p>
+        <div class="mb-5 grid grid-cols-2 gap-3">
+            <div class="rounded-xl bg-slate-50 px-4 py-3">
+                <p class="text-xl font-bold tabular-nums text-slate-900">{{ doctor.today_count }}</p>
                 <p class="text-xs text-slate-500">{% trans "Today" %}</p>
             </div>
-            <div class="bg-slate-50 rounded-lg p-3">
-                <p class="text-xl font-bold">{{ doctor.upcoming_count }}</p>
+            <div class="rounded-xl bg-slate-50 px-4 py-3">
+                <p class="text-xl font-bold tabular-nums text-slate-900">{{ doctor.upcoming_count }}</p>
                 <p class="text-xs text-slate-500">{% trans "Upcoming" %}</p>
             </div>
         </div>
 
-        <p class="text-xs text-slate-400 mb-4 truncate">{{ doctor.email }}</p>
-
-        <div class="mt-auto flex gap-2 text-sm">
-            <a href="{% url 'appointments:list' %}?doctor={{ doctor.id }}"
-               class="flex-1 text-center border border-slate-200 hover:border-teal-300 rounded-lg py-2">
-                {% trans "Appointments" %}
+        <div class="mt-auto flex gap-2">
+            <a href="{% url 'appointments:list' %}?doctor={{ doctor.id }}" class="btn-secondary flex-1">
+                {% icon "calendar" "h-4 w-4" %} {% trans "Appointments" %}
             </a>
             {% if doctor.is_active %}
-            <a href="{% url 'appointments:book' %}?doctor={{ doctor.id }}"
-               class="flex-1 text-center bg-teal-500 hover:bg-teal-600 text-white rounded-lg py-2">
-                {% trans "Book" %}
+            <a href="{% url 'appointments:book' %}?doctor={{ doctor.id }}" class="btn-primary flex-1">
+                {% icon "calendar-plus" "h-4 w-4" %} {% trans "Book" %}
             </a>
             {% endif %}
         </div>
     </div>
     {% empty %}
-    <div class="sm:col-span-2 xl:col-span-3 bg-white rounded-xl border border-slate-100 p-10 text-center">
-        <p class="text-slate-500 mb-4">{% trans "No doctors yet." %}</p>
-        {% if staff_user.is_admin %}
-        <a href="{% url 'accounts:add_staff' %}?role=doctor" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
-            + {% trans "Add your first doctor" %}
-        </a>
-        {% else %}
-        <p class="text-slate-400 text-sm">{% trans "Ask your clinic admin to add doctors." %}</p>
-        {% endif %}
+    <div class="card sm:col-span-2 xl:col-span-3">
+        <div class="empty-state">
+            <span class="empty-icon">{% icon "stethoscope" %}</span>
+            <p class="font-medium text-slate-700">{% trans "No doctors yet." %}</p>
+            {% if staff_user.is_admin %}
+            <a href="{% url 'accounts:add_staff' %}?role=doctor" class="btn-primary btn-sm">
+                {% icon "user-plus" "h-4 w-4" %} {% trans "Add your first doctor" %}
+            </a>
+            {% else %}
+            <p class="text-sm text-slate-500">{% trans "Ask your clinic admin to add doctors." %}</p>
+            {% endif %}
+        </div>
     </div>
     {% endfor %}
 </div>

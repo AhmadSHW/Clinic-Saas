@@ -3,28 +3,31 @@
 {% block title %}{% trans "Login" %}{% endblock %}
 
 {% block content %}
-<div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 max-w-sm mx-auto">
-    <h1 class="text-2xl font-bold text-slate-900 mb-1">{{ clinic.name }}</h1>
-    <p class="text-slate-500 text-sm mb-6">{% trans "Sign in to manage your appointments" %}</p>
+<div class="card mx-auto max-w-sm p-6 sm:p-8">
+    <div class="mb-6">
+        <span class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-50 text-sm font-semibold text-teal-700">{{ clinic.name|initials }}</span>
+        <h1 class="text-2xl font-bold tracking-tight text-slate-900">{{ clinic.name }}</h1>
+        <p class="mt-1 text-sm text-slate-500">{% trans "Sign in to manage your appointments" %}</p>
+    </div>
 
     <form method="post" class="space-y-4">
         {% csrf_token %}
         <div>
-            <label class="block text-sm font-medium mb-1">{% trans "Email" %}</label>
-            <input type="email" name="email" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <label class="label" for="email">{% trans "Email" %}</label>
+            <input id="email" type="email" name="email" required autocomplete="email" dir="ltr" class="input">
         </div>
         <div>
-            <label class="block text-sm font-medium mb-1">{% trans "Password" %}</label>
-            <input type="password" name="password" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <label class="label" for="password">{% trans "Password" %}</label>
+            <input id="password" type="password" name="password" required autocomplete="current-password" class="input">
         </div>
-        <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg mt-2">
-            {% trans "Login" %}
+        <button type="submit" class="btn-primary btn-block">
+            {% icon "log-in" "h-4 w-4" %} {% trans "Login" %}
         </button>
     </form>
 
-    <p class="text-center text-sm text-slate-500 mt-5">
+    <p class="mt-6 text-center text-sm text-slate-500">
         {% trans "Don't have an account yet?" %}
-        <a href="{% url 'patients:portal_register' clinic.slug %}" class="text-teal-600 font-medium">{% trans "Create one" %}</a>
+        <a href="{% url 'patients:portal_register' clinic.slug %}" class="font-medium text-teal-700 hover:underline">{% trans "Create one" %}</a>
     </p>
 </div>
 {% endblock %}

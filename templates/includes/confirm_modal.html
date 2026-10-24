@@ -1,0 +1,16 @@
+{% load i18n %}
+{# Shown by main.js for any <form data-confirm="question"> before it submits. #}
+<div id="confirm-modal" class="fixed inset-0 z-[70] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] animate-fade-in" data-confirm-cancel></div>
+    <div class="relative w-full max-w-sm rounded-2xl bg-white p-6 shadow-lift animate-pop-in">
+        <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-full bg-red-50 text-red-600">
+            {% icon "alert-triangle" %}
+        </div>
+        <h2 id="confirm-title" class="text-base font-semibold text-slate-900" data-confirm-text>{% trans "Are you sure?" %}</h2>
+        <p class="mt-1 text-sm text-slate-500">{% trans "This can't be undone." %}</p>
+        <div class="mt-6 flex justify-end gap-3">
+            <button type="button" class="btn-secondary" data-confirm-cancel>{% trans "Go back" %}</button>
+            <button type="button" class="btn-danger" data-confirm-ok>{% trans "Yes, continue" %}</button>
+        </div>
+    </div>
+</div>

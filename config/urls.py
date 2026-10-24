@@ -18,10 +18,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.i18n import i18n_patterns
+from django.templatetags.static import static
+from django.views.generic import RedirectView
 from billing.views import stripe_webhook
 
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
+    # Browsers ask for /favicon.ico on their own; point them at the SVG icon
+    path("favicon.ico", RedirectView.as_view(url=static("favicon.svg"), permanent=True)),
     # Outside i18n_patterns: Stripe POSTs here, and a language redirect would drop the body
     path("billing/webhook/", stripe_webhook, name="stripe_webhook"),
 ]

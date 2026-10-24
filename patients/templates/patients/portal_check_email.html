@@ -3,23 +3,23 @@
 {% block title %}{% trans "Check Your Email" %}{% endblock %}
 
 {% block content %}
-<div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 max-w-md mx-auto text-center">
-    <div class="w-14 h-14 mx-auto rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-2xl mb-5">
-        ✉️
+<div class="card mx-auto max-w-md p-6 text-center sm:p-8">
+    <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-50 text-teal-600">
+        {% icon "mail" "h-7 w-7" %}
     </div>
-    <h1 class="text-xl font-bold text-slate-900 mb-2">{% trans "Check your email" %}</h1>
+    <h1 class="mb-2 text-xl font-bold text-slate-900">{% trans "Check your email" %}</h1>
     {% if by_reply %}
         {% include "accounts/_reply_wait.html" %}
-        <p class="text-slate-400 text-xs">
+        <p class="text-xs text-slate-400">
             {% trans "Didn't get it? Check your Spam folder, or" %}
-            <a href="{% url 'patients:portal_register' clinic.slug %}" class="text-teal-600 font-medium">{% trans "Register again" %}</a>
+            <a href="{% url 'patients:portal_register' clinic.slug %}" class="font-medium text-teal-700 hover:underline">{% trans "Register again" %}</a>
         </p>
     {% else %}
-        <p class="text-slate-500 text-sm mb-1">{% trans "We sent a verification link to" %}</p>
-        <p class="font-medium text-slate-900 mb-6">{{ email }}</p>
-        <p class="text-slate-400 text-xs">
+        <p class="mb-1 text-sm text-slate-500">{% trans "We sent a verification link to" %}</p>
+        <p class="mb-6 font-medium text-slate-900">{{ email }}</p>
+        <p class="text-xs text-slate-400">
             {% trans "Click the link to finish creating your account. Didn't get it?" %}
-            <a href="{% url 'patients:portal_register' clinic.slug %}" class="text-teal-600 font-medium">{% trans "Register again" %}</a>
+            <a href="{% url 'patients:portal_register' clinic.slug %}" class="font-medium text-teal-700 hover:underline">{% trans "Register again" %}</a>
         </p>
     {% endif %}
 </div>

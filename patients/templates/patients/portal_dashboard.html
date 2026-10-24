@@ -3,40 +3,48 @@
 {% block title %}{% trans "My Appointments" %}{% endblock %}
 
 {% block content %}
-<div class="flex justify-between items-start mb-8">
+<div class="page-header">
     <div>
-        <h1 class="text-2xl font-bold text-slate-900">{% blocktrans with name=patient.full_name %}Welcome, {{ name }}{% endblocktrans %}</h1>
-        <p class="text-slate-500">{{ patient.clinic.name }}</p>
+        <h1 class="page-title">{% blocktrans with name=patient.full_name %}Welcome, {{ name }}{% endblocktrans %}</h1>
+        <p class="page-subtitle">{{ patient.clinic.name }}</p>
     </div>
-    <a href="{% url 'patients:portal_book' %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
-        + {% trans "Book Appointment" %}
+    <a href="{% url 'patients:portal_book' %}" class="btn-primary">
+        {% icon "calendar-plus" "h-4 w-4" %} {% trans "Book Appointment" %}
     </a>
 </div>
 
-<div class="bg-white rounded-xl border border-slate-100 divide-y divide-slate-50">
-    {% for appt in appointments %}
-    <div class="flex items-center justify-between px-5 py-4">
-        <div>
-            <p class="font-medium text-sm">{{ appt.reason|default:_("Visit") }} — Dr. {{ appt.doctor.full_name }}</p>
-            <p class="text-xs text-slate-500">{{ appt.scheduled_at|date:"M d, Y H:i" }}</p>
-        </div>
-        <div class="flex items-center gap-3">
-            <span class="text-xs px-2 py-1 rounded-full
-                {% if appt.status == 'confirmed' %}bg-teal-100 text-teal-700
-                {% elif appt.status == 'pending' or appt.status == 'in_queue' %}bg-orange-100 text-orange-700
-                {% else %}bg-slate-100 text-slate-600{% endif %}">
-                {{ appt.get_status_display }}
-            </span>
-            {% if appt.status == "pending" or appt.status == "confirmed" %}
-            <form method="post" action="{% url 'patients:portal_cancel' appt.id %}">
-                {% csrf_token %}
-                <button type="submit" class="text-xs text-red-500 hover:text-red-600">{% trans "Cancel" %}</button>
-            </form>
-            {% endif %}
-        </div>
-    </div>
-    {% empty %}
-    <p class="text-center text-slate-400 py-10">{% trans "No appointments yet." %}</p>
-    {% endfor %}
+<div class="card overflow-hidden">
+    <ul class="divide-y divide-slate-100">
+        {% for appt in appointments %}
+        <li class="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:px-6">
+            <div class="flex w-14 shrink-0 flex-col items-center rounded-xl border border-slate-200 py-1.5 text-center">
+                <span class="text-[11px] font-semibold uppercase text-teal-700">{{ appt.scheduled_at|date:"M" }}</span>
+                <span class="text-lg font-bold leading-tight text-slate-900">{{ appt.scheduled_at|date:"j" }}</span>
+            </div>
+            <div class="min-w-0 flex-1">
+                <p class="font-medium text-slate-900">{% if appt.reason %}{{ appt.reason }}{% else %}{% trans "Visit" %}{% endif %}</p>
+                <p class="text-sm text-slate-500">
+                    {{ appt.scheduled_at|date:"l, H:i" }}{% if appt.doctor %} · Dr. {{ appt.doctor.full_name }}{% endif %}
+                </p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="{{ appt.status|status_badge }}">{{ appt.get_status_display }}</span>
+                {% if appt.status == "pending" or appt.status == "confirmed" %}
+                <form method="post" action="{% url 'patients:portal_cancel' appt.id %}"
+                      data-confirm="{% trans 'Cancel this appointment?' %}" data-confirm-button="{% trans 'Cancel appointment' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="link-action-red">{% icon "x-circle" "h-3.5 w-3.5" %} {% trans "Cancel" %}</button>
+                </form>
+                {% endif %}
+            </div>
+        </li>
+        {% empty %}
+        <li class="empty-state">
+            <span class="empty-icon">{% icon "calendar" %}</span>
+            <p class="font-medium text-slate-700">{% trans "No appointments yet." %}</p>
+            <a href="{% url 'patients:portal_book' %}" class="btn-primary btn-sm">{% icon "calendar-plus" "h-4 w-4" %} {% trans "Book Appointment" %}</a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

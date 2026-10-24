@@ -1,60 +1,129 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}{% trans "Dashboard" %}{% endblock %}
-{% block nav_dashboard %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+{% block nav_dashboard %}nav-link-active{% endblock %}
 
 {% block content %}
-<div class="flex justify-between items-start mb-8">
+<div class="page-header">
     <div>
-        <h1 class="text-2xl font-bold text-slate-900">{% blocktrans with name=staff_user.full_name %}Good morning, {{ name }}{% endblocktrans %}</h1>
-        <p class="text-slate-500">{% blocktrans with clinic_name=current_clinic.name %}Here's what's happening at {{ clinic_name }} today{% endblocktrans %}</p>
+        <h1 class="page-title">
+            {% if greeting == "morning" %}{% blocktrans with name=staff_user.full_name %}Good morning, {{ name }}{% endblocktrans %}
+            {% elif greeting == "afternoon" %}{% blocktrans with name=staff_user.full_name %}Good afternoon, {{ name }}{% endblocktrans %}
+            {% else %}{% blocktrans with name=staff_user.full_name %}Good evening, {{ name }}{% endblocktrans %}{% endif %}
+        </h1>
+        <p class="page-subtitle">
+            {% now "l, j F" as today_label %}
+            {% blocktrans with clinic_name=current_clinic.name %}Here's what's happening at {{ clinic_name }} today{% endblocktrans %} · {{ today_label }}
+        </p>
     </div>
-    <a href="{% url 'appointments:book' %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
-        + {% trans "New appointment" %}
+    <a href="{% url 'appointments:book' %}" class="btn-primary sm:hidden">
+        {% icon "plus" "h-4 w-4" %} {% trans "New appointment" %}
     </a>
 </div>
 
-<div class="grid grid-cols-4 gap-4 mb-8">
-    <div class="bg-white rounded-xl border border-slate-100 p-5">
-        <p class="text-2xl font-bold">{{ total_patients }}</p>
-        <p class="text-sm text-slate-500">{% trans "Total patients" %}</p>
+<!-- Stat cards -->
+<div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="stat-card">
+        <span class="stat-icon bg-teal-50 text-teal-600">{% icon "calendar" %}</span>
+        <div>
+            <p class="stat-value">{{ appointments_today }}</p>
+            <p class="stat-label">{% if is_doctor_view %}{% trans "Your appointments today" %}{% else %}{% trans "Appointments today" %}{% endif %}</p>
+        </div>
     </div>
-    <div class="bg-white rounded-xl border border-slate-100 p-5">
-        <p class="text-2xl font-bold">{{ appointments_today }}</p>
-        <p class="text-sm text-slate-500">{% trans "Appointments today" %}</p>
+    <div class="stat-card">
+        <span class="stat-icon bg-sky-50 text-sky-600">{% icon "clock" %}</span>
+        <div>
+            <p class="stat-value">{{ in_queue_count }}</p>
+            <p class="stat-label">{% trans "In waiting queue" %}</p>
+        </div>
     </div>
-    <div class="bg-white rounded-xl border border-slate-100 p-5">
-        <p class="text-2xl font-bold">{{ in_queue_count }}</p>
-        <p class="text-sm text-slate-500">{% trans "In waiting queue" %}</p>
+    <div class="stat-card">
+        <span class="stat-icon bg-emerald-50 text-emerald-600">{% icon "check-circle" %}</span>
+        <div>
+            <p class="stat-value">{{ completed_today }}</p>
+            <p class="stat-label">{% trans "Completed today" %}</p>
+        </div>
     </div>
-    <div class="bg-white rounded-xl border border-slate-100 p-5">
-        <p class="text-2xl font-bold">{{ current_clinic.get_plan_display }}</p>
-        <p class="text-sm text-slate-500">{% trans "Current plan" %}</p>
+    <div class="stat-card">
+        <span class="stat-icon bg-orange-50 text-orange-600">{% icon "users" %}</span>
+        <div>
+            <p class="stat-value">{{ total_patients }}</p>
+            <p class="stat-label">{% trans "Total patients" %}</p>
+        </div>
     </div>
 </div>
 
-<div class="bg-white rounded-xl border border-slate-100 p-6">
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="font-semibold">{% if is_doctor_view %}{% trans "Your schedule today" %}{% else %}{% trans "Today's schedule" %}{% endif %}</h2>
-        <a href="{% url 'appointments:list' %}{% if is_doctor_view %}?doctor={{ staff_user.id }}{% endif %}" class="text-teal-600 text-sm">{% trans "View all" %}</a>
-    </div>
-    <div class="space-y-3">
-        {% for appt in todays_appointments %}
-        <div class="flex items-center justify-between border-b border-slate-50 pb-3 last:border-0">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-medium">
-                    {{ appt.patient.full_name|slice:":2"|upper }}
-                </div>
-                <div>
-                    <p class="text-sm font-medium">{{ appt.patient.full_name }}</p>
-                    <p class="text-xs text-slate-500">{{ appt.reason|default:_("Visit") }} · Dr. {{ appt.doctor.full_name }}</p>
-                </div>
-            </div>
-            <span class="text-sm text-slate-400">{{ appt.scheduled_at|date:"H:i" }}</span>
+<div class="grid gap-6 lg:grid-cols-3">
+    <!-- Today's schedule -->
+    <div class="card lg:col-span-2">
+        <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-6">
+            <h2 class="card-title">{% if is_doctor_view %}{% trans "Your schedule today" %}{% else %}{% trans "Today's schedule" %}{% endif %}</h2>
+            <a href="{% url 'appointments:list' %}{% if is_doctor_view %}?doctor={{ staff_user.id }}{% endif %}" class="inline-flex items-center gap-1 text-sm font-medium text-teal-700 hover:text-teal-800">
+                {% trans "View all" %} {% icon "chevron-right" "h-4 w-4 rtl:rotate-180" %}
+            </a>
         </div>
-        {% empty %}
-        <p class="text-slate-400 text-sm">{% trans "No appointments scheduled for today." %}</p>
-        {% endfor %}
+        <ul class="divide-y divide-slate-100">
+            {% for appt in todays_appointments %}
+            <li class="flex items-center gap-4 px-5 py-3.5 sm:px-6">
+                <span class="w-12 shrink-0 text-sm font-semibold tabular-nums text-slate-900">{{ appt.scheduled_at|date:"H:i" }}</span>
+                <span class="avatar-md">{{ appt.patient.full_name|initials }}</span>
+                <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-medium text-slate-900">{{ appt.patient.full_name }}</p>
+                    <p class="truncate text-xs text-slate-500">{% if appt.reason %}{{ appt.reason }}{% else %}{% trans "Visit" %}{% endif %}{% if appt.doctor %} · Dr. {{ appt.doctor.full_name }}{% endif %}</p>
+                </div>
+                <span class="{{ appt.status|status_badge }}">{{ appt.get_status_display }}</span>
+            </li>
+            {% empty %}
+            <li class="empty-state">
+                <span class="empty-icon">{% icon "calendar" %}</span>
+                <p class="text-sm text-slate-500">{% trans "No appointments scheduled for today." %}</p>
+                <a href="{% url 'appointments:book' %}" class="btn-secondary btn-sm">{% icon "plus" "h-4 w-4" %} {% trans "Book one" %}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="space-y-6">
+        <!-- Next in queue -->
+        <div class="card">
+            <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+                <h2 class="card-title">{% trans "Next in queue" %}</h2>
+                <a href="{% url 'appointments:queue' %}" class="text-sm font-medium text-teal-700 hover:text-teal-800">{% trans "Open queue" %}</a>
+            </div>
+            <ul class="divide-y divide-slate-100">
+                {% for appt in next_in_queue %}
+                <li class="flex items-center gap-3 px-5 py-3">
+                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg {% if forloop.first %}bg-teal-600 text-white{% else %}bg-slate-100 text-slate-600{% endif %} text-sm font-bold tabular-nums">
+                        {{ appt.queue_position }}
+                    </span>
+                    <div class="min-w-0">
+                        <p class="truncate text-sm font-medium text-slate-900">{{ appt.patient.full_name }}</p>
+                        {% if appt.doctor %}<p class="truncate text-xs text-slate-500">Dr. {{ appt.doctor.full_name }}</p>{% endif %}
+                    </div>
+                    {% if forloop.first %}<span class="badge-teal ms-auto">{% trans "Next" %}</span>{% endif %}
+                </li>
+                {% empty %}
+                <li class="px-5 py-8 text-center text-sm text-slate-500">{% trans "Nobody is waiting right now." %}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Next 7 days -->
+        <div class="card card-body">
+            <div class="mb-4 flex items-baseline justify-between">
+                <h2 class="card-title">{% trans "Next 7 days" %}</h2>
+                <p class="text-sm text-slate-500">{% blocktrans count total=week_total %}{{ total }} appointment{% plural %}{{ total }} appointments{% endblocktrans %}</p>
+            </div>
+            <div class="flex h-32 items-end gap-2">
+                {% for d in week %}
+                <div class="flex h-full flex-1 flex-col items-center justify-end gap-1.5" title="{{ d.day|date:'l j F' }}: {{ d.count }}">
+                    <span class="text-[11px] font-medium tabular-nums text-slate-500">{{ d.count }}</span>
+                    <div class="w-full rounded-md {% if forloop.first %}bg-teal-500{% else %}bg-teal-200{% endif %}" style="height: max({{ d.percent }}%, 4px)"></div>
+                    <span class="text-[11px] {% if forloop.first %}font-semibold text-slate-900{% else %}text-slate-400{% endif %}">{{ d.day|date:"D" }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

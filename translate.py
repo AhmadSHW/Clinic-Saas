@@ -307,12 +307,84 @@ translations = {
 
     "Go to dashboard": "الذهاب إلى لوحة التحكم",
     "My appointments": "مواعيدي",
+
+    "Back": "رجوع",
+    "They can sign in right away. No email verification is needed.": "يمكنهم تسجيل الدخول فوراً، دون الحاجة إلى تأكيد البريد الإلكتروني.",
+    "Didn't get the verification email?": "لم تصلك رسالة التحقق؟",
+    "Enter your email and we'll send a new one.": "أدخل بريدك الإلكتروني وسنرسل لك رسالة جديدة.",
+    "Send again": "إعادة الإرسال",
+    "Back to sign in": "العودة إلى تسجيل الدخول",
+    "Staff use this to sign in. It can't be changed.": "يستخدمه الموظفون لتسجيل الدخول، ولا يمكن تغييره.",
+    "14-day free trial, no credit card needed": "تجربة مجانية لمدة 14 يوماً، دون الحاجة إلى بطاقة ائتمان",
+    "Add doctors and reception staff right away": "أضف الأطباء وموظفي الاستقبال فوراً",
+    "Your clinic's data stays private to your clinic": "تبقى بيانات عيادتك خاصة بعيادتك",
+    "Letters, numbers and hyphens. Staff use it to sign in.": "أحرف إنجليزية وأرقام وشرطات. يستخدمه الموظفون لتسجيل الدخول.",
+    "At least 8 characters.": "8 أحرف على الأقل.",
+    "you": "أنت",
+    "Back to appointments": "العودة إلى المواعيد",
+    "The doctor gets a notification as soon as it's booked.": "يصل إشعار إلى الطبيب فور الحجز.",
+    "e.g. Follow-up": "مثال: مراجعة",
+    "Actions": "إجراءات",
+    "Cancel the appointment for %(name)s?": "هل تريد إلغاء موعد %(name)s؟",
+    "Cancel appointment": "إلغاء الموعد",
+    "Book one": "احجز موعداً",
+    "Check in a patient": "تسجيل وصول مريض",
+    "No doctor": "بدون طبيب",
+    "Next in line": "التالي في الدور",
+    "Patients appear here when you check them in from the appointments list.": "يظهر المرضى هنا عند تسجيل وصولهم من قائمة المواعيد.",
+    "Your free trial has ended. Upgrade to keep using Clinic SaS.": "انتهت الفترة التجريبية المجانية. قم بالترقية لمتابعة استخدام Clinic SaS.",
+    "Good afternoon, %(name)s": "طاب يومك، %(name)s",
+    "Good evening, %(name)s": "مساء الخير، %(name)s",
+    "Your appointments today": "مواعيدك اليوم",
+    "Completed today": "المكتملة اليوم",
+    "Next in queue": "التالي في قائمة الانتظار",
+    "Open queue": "فتح قائمة الانتظار",
+    "Next": "التالي",
+    "Nobody is waiting right now.": "لا يوجد أحد في الانتظار الآن.",
+    "Next 7 days": "الأيام السبعة القادمة",
+    "Ready to run a calmer clinic?": "مستعد لإدارة عيادة أكثر هدوءاً؟",
+    "Start your 14-day free trial. No credit card needed.": "ابدأ تجربتك المجانية لمدة 14 يوماً. لا حاجة لبطاقة ائتمان.",
+    "Unread": "غير مقروء",
+    "%(time)s ago": "منذ %(time)s",
+    "You're all caught up": "لا جديد لديك",
+    "Create a record for a walk-in or phone booking.": "أنشئ سجلاً لمريض حضر مباشرة أو حجز عبر الهاتف.",
+    "Clear search": "مسح البحث",
+    "No patients match your search.": "لا يوجد مرضى يطابقون بحثك.",
+    "Add your first patient": "أضف أول مريض",
+    "The clinic will confirm your request.": "ستؤكد العيادة طلبك.",
+    "Cancel this appointment?": "هل تريد إلغاء هذا الموعد؟",
+    "Close menu": "إغلاق القائمة",
+    "Trial ended": "انتهت التجربة",
+    "%(plan)s plan": "خطة %(plan)s",
+    "Clinic": "العيادة",
+    "Administration": "الإدارة",
+    "Open menu": "فتح القائمة",
+    "Search patients by name, phone or email…": "ابحث عن المرضى بالاسم أو الهاتف أو البريد…",
+    "Are you sure?": "هل أنت متأكد؟",
+    "This can't be undone.": "لا يمكن التراجع عن هذا الإجراء.",
+    "Go back": "رجوع",
+    "Yes, continue": "نعم، متابعة",
+    "Close": "إغلاق",
+
+    # Plural entries: Arabic has 6 plural forms, so these use a number-neutral
+    # phrasing ("Label: 5") that reads correctly for every count
+    "%(total)s waiting": "في الانتظار: %(total)s",
+    "You're on the free trial. %(days)s day left.": "أنت في الفترة التجريبية المجانية. الأيام المتبقية: %(days)s.",
+    "%(total)s appointment": "عدد المواعيد: %(total)s",
+    "%(total)s patient in your clinic": "عدد المرضى في عيادتك: %(total)s",
+    "%(total)s result for “%(query)s”": "نتائج البحث عن «%(query)s»: %(total)s",
+    "Free trial · %(days)s day left": "تجربة مجانية · الأيام المتبقية: %(days)s",
 }
 
 count = 0
 for entry in po:
     if entry.msgid in translations:
-        entry.msgstr = translations[entry.msgid]
+        if entry.msgid_plural:
+            # Same text for every Arabic plural form (see the note above)
+            for form in range(6):
+                entry.msgstr_plural[form] = translations[entry.msgid]
+        else:
+            entry.msgstr = translations[entry.msgid]
         # makemessages marks near-matches "fuzzy", and compilemessages skips those
         if "fuzzy" in entry.flags:
             entry.flags.remove("fuzzy")

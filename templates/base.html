@@ -2,133 +2,151 @@
 {% load static i18n %}
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% trans "Clinic SaS" %}{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    {% include "includes/head.html" %}
+    <title>{% block title %}{% trans "Clinic SaS" %}{% endblock %} · Clinic SaS</title>
 </head>
-<body class="bg-slate-50 text-slate-800 flex min-h-screen">
+<body class="min-h-screen">
 
-    <aside class="w-64 bg-white border-r border-slate-100 flex flex-col shrink-0">
-        <div class="px-5 py-5 border-b border-slate-100">
-            <div class="flex items-center gap-2">
-                <a href="{% url 'dashboard:landing' %}" class="flex items-center gap-2 cursor-pointer no-underline text-inherit rounded-lg transition-opacity hover:opacity-80">
-                    <span class="w-8 h-8 rounded-lg bg-teal-500 text-white flex items-center justify-center text-sm">♡</span>
-                     <div>
-                         <p class="font-bold text-sm leading-none">Clinic SaS</p>
-                         <p class="text-xs text-slate-400">{% trans "Practice platform" %}</p>
-                     </div>
+    <!-- Dark backdrop behind the sidebar on phones -->
+    <div class="fixed inset-0 z-30 hidden bg-slate-900/40 lg:hidden" data-sidebar-backdrop data-sidebar-close></div>
+
+    <aside class="app-sidebar fixed inset-y-0 start-0 z-40 flex w-64 flex-col border-e border-slate-200/70 bg-white">
+        <div class="flex h-16 shrink-0 items-center justify-between gap-2 px-5">
+            <a href="{% url 'dashboard:landing' %}" class="flex items-center gap-2.5 cursor-pointer rounded-lg transition-opacity hover:opacity-80">
+                {% include "includes/logo_mark.html" with size="sm" %}
+                <div>
+                    <p class="text-sm font-bold leading-none text-slate-900">Clinic SaS</p>
+                    <p class="mt-1 text-xs text-slate-400">{% trans "Practice platform" %}</p>
+                </div>
+            </a>
+            <button type="button" class="btn-ghost -me-2 p-2 lg:hidden" data-sidebar-close aria-label="{% trans 'Close menu' %}">
+                {% icon "x" %}
+            </button>
+        </div>
+
+        <!-- Current clinic and its plan -->
+        <div class="mx-3 mb-2 rounded-xl border border-slate-200/70 bg-slate-50/70 px-3 py-2.5">
+            <div class="flex items-center gap-2.5">
+                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-slate-500 ring-1 ring-slate-200">
+                    {% icon "building" "h-4 w-4" %}
+                </span>
+                <div class="min-w-0">
+                    <p class="truncate text-sm font-semibold text-slate-900">{{ current_clinic.name }}</p>
+                    <p class="truncate text-xs text-slate-500">
+                        {% if current_clinic.plan == "trial" %}
+                            {% with days=current_clinic.trial_ends_at|days_left %}
+                            {% if days %}{% blocktrans count days=days %}Free trial · {{ days }} day left{% plural %}Free trial · {{ days }} days left{% endblocktrans %}{% else %}{% trans "Trial ended" %}{% endif %}
+                            {% endwith %}
+                        {% else %}
+                            {% blocktrans with plan=current_clinic.get_plan_display %}{{ plan }} plan{% endblocktrans %}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto px-3 py-3">
+            <p class="nav-section">{% trans "Clinic" %}</p>
+            <div class="space-y-0.5">
+                <a href="{% url 'dashboard:home' %}" class="nav-link {% block nav_dashboard %}{% endblock %}">
+                    {% icon "dashboard" %} {% trans "Dashboard" %}
+                </a>
+                <a href="{% url 'patients:list' %}" class="nav-link {% block nav_patients %}{% endblock %}">
+                    {% icon "users" %} {% trans "Patients" %}
+                </a>
+                <a href="{% url 'appointments:list' %}" class="nav-link {% block nav_appointments %}{% endblock %}">
+                    {% icon "calendar" %} {% trans "Appointments" %}
+                </a>
+                <a href="{% url 'appointments:queue' %}" class="nav-link {% block nav_queue %}{% endblock %}">
+                    {% icon "clock" %} {% trans "Waiting Queue" %}
+                </a>
+                <a href="{% url 'accounts:doctors' %}" class="nav-link {% block nav_doctors %}{% endblock %}">
+                    {% icon "stethoscope" %} {% trans "Doctors" %}
+                </a>
+                {% if staff_user.is_doctor %}
+                <a href="{% url 'appointments:list' %}?doctor={{ staff_user.id }}" class="nav-link {% block nav_my_appointments %}{% endblock %}">
+                    {% icon "calendar-check" %} {% trans "My Appointments" %}
+                </a>
+                {% endif %}
+            </div>
+
+            <p class="nav-section">{% trans "Administration" %}</p>
+            <div class="space-y-0.5">
+                <a href="{% url 'billing:home' %}" class="nav-link {% block nav_billing %}{% endblock %}">
+                    {% icon "credit-card" %} {% trans "Billing" %}
+                </a>
+                {% if staff_user.is_admin %}
+                <a href="{% url 'accounts:staff_list' %}" class="nav-link {% block nav_staff %}{% endblock %}">
+                    {% icon "user-cog" %} {% trans "Staff" %}
+                </a>
+                {% endif %}
+                <a href="{% url 'notifications:list' %}" class="nav-link {% block nav_notifications %}{% endblock %}">
+                    {% icon "bell" %}
+                    <span class="flex-1">{% trans "Notifications" %}</span>
+                    {% if unread_notifications_count > 0 %}
+                    <span class="rounded-full bg-orange-500 px-1.5 py-0.5 text-[10px] font-semibold leading-none text-white">{{ unread_notifications_count }}</span>
+                    {% endif %}
+                </a>
+                <a href="{% url 'accounts:settings' %}" class="nav-link {% block nav_settings %}{% endblock %}">
+                    {% icon "settings" %} {% trans "Settings" %}
                 </a>
             </div>
-        </div>
-
-        <div class="px-5 py-4 border-b border-slate-100">
-            <p class="text-sm font-medium">{{ current_clinic.name }}</p>
-            <p class="text-xs text-slate-400">{% trans "Downtown branch" %}</p>
-        </div>
-
-        <nav class="flex-1 px-3 py-4 text-sm space-y-1">
-            <p class="text-xs text-slate-400 font-semibold px-3 mb-2">{% trans "CLINIC" %}</p>
-            <a href="{% url 'dashboard:home' %}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 {% block nav_dashboard %}{% endblock %}">
-                📊 {% trans "Dashboard" %}
-            </a>
-            <a href="{% url 'patients:list' %}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 {% block nav_patients %}{% endblock %}">
-                🧑 {% trans "Patients" %}
-            </a>
-            <a href="{% url 'appointments:list' %}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 {% block nav_appointments %}{% endblock %}">
-                📅 {% trans "Appointments" %}
-            </a>
-            <a href="{% url 'appointments:queue' %}" class="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 {% block nav_queue %}{% endblock %}">
-                <span>⏱ {% trans "Waiting Queue" %}</span>
-            </a>
-            <a href="{% url 'accounts:doctors' %}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 {% block nav_doctors %}{% endblock %}">
-                👨‍⚕️ {% trans "Doctors" %}
-            </a>
-            {% if staff_user.is_doctor %}
-            <a href="{% url 'appointments:list' %}?doctor={{ staff_user.id }}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50">
-                🩺 {% trans "My Appointments" %}
-            </a>
-            {% endif %}
-
-            <p class="text-xs text-slate-400 font-semibold px-3 mb-2 mt-6">{% trans "ADMINISTRATION" %}</p>
-            <a href="{% url 'billing:home' %}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 {% block nav_billing %}{% endblock %}">
-                💳 {% trans "Billing" %}
-            </a>
-            {% if staff_user.is_admin %}
-            <a href="{% url 'accounts:staff_list' %}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 {% block nav_staff %}{% endblock %}">
-                👥 {% trans "Staff" %}
-            </a>
-            {% endif %}
-            <a href="{% url 'notifications:list' %}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 {% block nav_notifications %}{% endblock %}">
-                🔔 {% trans "Notifications" %}
-            </a>
-            <a href="{% url 'accounts:settings' %}" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 {% block nav_settings %}{% endblock %}">
-                ⚙️ {% trans "Settings" %}
-            </a>
         </nav>
 
-        <!-- Language switcher -->
-        <div class="px-5 py-3 border-t border-slate-100">
-            <form action="{% url 'set_language' %}" method="post">
-                {% csrf_token %}
-                 <input name="next" type="hidden" value="{{ request.path }}">
-                 {% if LANGUAGE_CODE == 'ar' %}
-                     <input type="hidden" name="language" value="en">
-                     <button type="submit" class="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-600 border border-slate-200 hover:border-teal-300 rounded-full px-3 py-1.5 transition">
-                          🌐 English
-                     </button>
-                 {% else %}
-                    <input type="hidden" name="language" value="ar">
-                   <button type="submit" class="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-600 border border-slate-200 hover:border-teal-300 rounded-full px-3 py-1.5 transition">
-                       🌐 عربي
-                   </button>
-                {% endif %}
-            </form>
+        <div class="border-t border-slate-100 px-4 py-3">
+            {% include "includes/lang_switch.html" %}
         </div>
 
-        <div class="px-5 py-4 border-t border-slate-100 flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-medium">
-                {{ staff_user.full_name|slice:":2"|upper }}
+        <div class="flex items-center gap-3 border-t border-slate-100 px-4 py-4">
+            <span class="avatar-sm">{{ staff_user.full_name|initials }}</span>
+            <div class="min-w-0 flex-1">
+                <p class="truncate text-sm font-medium leading-tight text-slate-900">{{ staff_user.full_name }}</p>
+                <p class="truncate text-xs text-slate-500">{{ staff_user.get_role_display }}</p>
             </div>
-            <div>
-                <p class="text-sm font-medium leading-none">{{ staff_user.full_name }}</p>
-                <p class="text-xs text-slate-400">{{ staff_user.get_role_display }}</p>
-            </div>
-            <a href="{% url 'accounts:logout' %}" class="ml-auto text-xs text-slate-400 hover:text-slate-700">{% trans "Exit" %}</a>
+            <a href="{% url 'accounts:logout' %}" class="btn-ghost p-2" title="{% trans 'Log out' %}" aria-label="{% trans 'Log out' %}">
+                {% icon "log-out" "h-[18px] w-[18px]" %}
+            </a>
         </div>
     </aside>
 
-    <div class="flex-1 flex flex-col">
-        <header class="bg-white border-b border-slate-100 px-8 py-4 flex items-center gap-4">
-            <input type="text" placeholder="{% trans 'Search patients, appointments...' %}"
-                   class="flex-1 max-w-md bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm">
-            <a href="{% url 'notifications:list' %}" class="relative text-lg">
-                🔔
-                {% if unread_notifications_count > 0 %}
-                <span class="absolute -top-1 -right-1 bg-orange-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
-                    {{ unread_notifications_count }}
+    <div class="flex min-h-screen flex-col lg:ps-64">
+        <header class="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-slate-200/70 bg-white/85 px-4 backdrop-blur sm:px-6 lg:px-8">
+            <button type="button" class="btn-ghost -ms-2 p-2 lg:hidden" data-sidebar-open aria-label="{% trans 'Open menu' %}">
+                {% icon "menu" %}
+            </button>
+
+            <form method="get" action="{% url 'patients:list' %}" class="relative w-full max-w-md" role="search" data-no-loading>
+                <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-400">
+                    {% icon "search" "h-4 w-4" %}
                 </span>
-                {% endif %}
-            </a>
+                <input type="search" name="q" value="{{ request.GET.q }}" placeholder="{% trans 'Search patients by name, phone or email…' %}"
+                       class="input border-slate-200 bg-slate-50 ps-9 shadow-none focus:bg-white">
+            </form>
+
+            <div class="ms-auto flex items-center gap-2">
+                <a href="{% url 'notifications:list' %}" class="btn-ghost relative p-2" aria-label="{% trans 'Notifications' %}">
+                    {% icon "bell" %}
+                    {% if unread_notifications_count > 0 %}
+                    <span class="absolute -top-0.5 -end-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-semibold text-white ring-2 ring-white">
+                        {{ unread_notifications_count }}
+                    </span>
+                    {% endif %}
+                </a>
+                <a href="{% url 'appointments:book' %}" class="btn-primary hidden sm:inline-flex">
+                    {% icon "plus" "h-4 w-4" %} {% trans "New appointment" %}
+                </a>
+            </div>
         </header>
 
-        <main class="flex-1 p-8">
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="mb-4 px-4 py-3 rounded-lg text-sm
-                        {% if message.tags == 'success' %}bg-teal-50 text-teal-700
-                        {% elif message.tags == 'error' %}bg-red-50 text-red-700
-                        {% else %}bg-slate-100 text-slate-700{% endif %}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-
-            {% block content %}{% endblock %}
+        <main class="flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+            <div class="mx-auto max-w-7xl">
+                {% block content %}{% endblock %}
+            </div>
         </main>
     </div>
 
+    {% include "includes/toasts.html" %}
+    {% include "includes/confirm_modal.html" %}
     <script src="{% static 'js/main.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>

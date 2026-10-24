@@ -71,6 +71,8 @@ TEMPLATES = [
         "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
+            # {% icon %}, |status_badge and |initials in every template without {% load %}
+            "builtins": ["dashboard.templatetags.ui"],
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",

@@ -2,60 +2,69 @@
 {% load static i18n %}
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include "includes/head.html" %}
     <title>{% block title %}{% trans "Clinic SaS — Practice Management Platform" %}{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
-<body class="bg-white text-slate-800">
-    <nav class="border-b border-slate-100 px-6 md:px-12 py-4 flex items-center justify-between">
-        <a href="{% url 'dashboard:landing' %}" class="flex items-center gap-2">
-            <span class="w-9 h-9 rounded-lg bg-teal-500 text-white flex items-center justify-center text-lg">♡</span>
-            <span class="font-bold text-lg">Clinic SaS</span>
-        </a>
-        <div class="hidden md:flex items-center gap-8 text-sm text-slate-600">
-            <a href="{% url 'dashboard:landing' %}#features" class="hover:text-slate-900">{% trans "Features" %}</a>
-            <a href="{% url 'dashboard:landing' %}#how-it-works" class="hover:text-slate-900">{% trans "How it works" %}</a>
-            <a href="{% url 'dashboard:landing' %}#testimonials" class="hover:text-slate-900">{% trans "Testimonials" %}</a>
-            <a href="{% url 'dashboard:landing' %}#faq" class="hover:text-slate-900">{% trans "FAQ" %}</a>
-        </div>
-        <div class="flex items-center gap-3">
-            <form action="{% url 'set_language' %}" method="post">
-                {% csrf_token %}
-                 <input name="next" type="hidden" value="{{ request.path }}">
-                {% if LANGUAGE_CODE == 'ar' %}
-                    <input type="hidden" name="language" value="en">
-                     <button type="submit" class="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-600 border border-slate-200 hover:border-teal-300 rounded-full px-3 py-1.5 transition">
-                      🌐 English
-                    </button>
-                 {% else %}
-                     <input type="hidden" name="language" value="ar">
-                      <button type="submit" class="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-600 border border-slate-200 hover:border-teal-300 rounded-full px-3 py-1.5 transition">
-                         🌐 عربي
-                     </button>
-                 {% endif %}
-            </form>
-            {% if staff_user %}
-            <span class="hidden sm:inline text-sm text-slate-600">{{ staff_user.full_name }}</span>
-            <a href="{% url 'dashboard:home' %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
-                {% trans "Go to dashboard" %}
+<body class="flex min-h-screen flex-col bg-white">
+    <nav class="sticky top-0 z-30 border-b border-slate-100 bg-white/85 backdrop-blur">
+        <div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+            <a href="{% url 'dashboard:landing' %}" class="flex items-center gap-2.5 transition-opacity hover:opacity-80">
+                {% include "includes/logo_mark.html" %}
+                <span class="text-lg font-bold tracking-tight text-slate-900">Clinic SaS</span>
             </a>
-            {% elif request.session.patient_id %}
-            <a href="{% url 'patients:portal_dashboard' %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
-                {% trans "My appointments" %}
-            </a>
-            {% else %}
-            <a href="{% url 'dashboard:account_chooser' %}" class="text-sm text-slate-600 hover:text-slate-900">{% trans "Sign in" %}</a>
-            <a href="{% url 'accounts:signup' %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
-                {% trans "Open the app" %}
-            </a>
-            {% endif %}
+
+            <div class="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
+                <a href="{% url 'dashboard:landing' %}#features" class="transition-colors hover:text-slate-900">{% trans "Features" %}</a>
+                <a href="{% url 'dashboard:landing' %}#how-it-works" class="transition-colors hover:text-slate-900">{% trans "How it works" %}</a>
+                <a href="{% url 'dashboard:landing' %}#testimonials" class="transition-colors hover:text-slate-900">{% trans "Testimonials" %}</a>
+                <a href="{% url 'dashboard:landing' %}#faq" class="transition-colors hover:text-slate-900">{% trans "FAQ" %}</a>
+            </div>
+
+            <div class="flex items-center gap-2 sm:gap-3">
+                {% include "includes/lang_switch.html" %}
+                {% if staff_user %}
+                <span class="hidden text-sm text-slate-600 lg:inline">{{ staff_user.full_name }}</span>
+                <a href="{% url 'dashboard:home' %}" class="btn-primary">
+                    {% trans "Go to dashboard" %}
+                </a>
+                {% elif request.session.patient_id %}
+                <a href="{% url 'patients:portal_dashboard' %}" class="btn-primary">
+                    {% trans "My appointments" %}
+                </a>
+                {% else %}
+                <a href="{% url 'dashboard:account_chooser' %}" class="btn-ghost hidden sm:inline-flex">{% trans "Sign in" %}</a>
+                <a href="{% url 'accounts:signup' %}" class="btn-primary">
+                    {% trans "Open the app" %}
+                </a>
+                {% endif %}
+            </div>
         </div>
     </nav>
 
-    {% block content %}{% endblock %}
+    <div class="flex-1">
+        {% block content %}{% endblock %}
+    </div>
 
+    <footer class="border-t border-slate-100 bg-white">
+        <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-slate-500 sm:flex-row sm:px-6 lg:px-8">
+            <div class="flex items-center gap-2">
+                {% include "includes/logo_mark.html" with size="sm" %}
+                <span>© {% now "Y" %} Clinic SaS</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="{% url 'dashboard:landing' %}#features" class="hover:text-slate-900">{% trans "Features" %}</a>
+                <a href="{% url 'dashboard:landing' %}#faq" class="hover:text-slate-900">{% trans "FAQ" %}</a>
+                {% if staff_user %}
+                <a href="{% url 'dashboard:home' %}" class="hover:text-slate-900">{% trans "Go to dashboard" %}</a>
+                {% elif not request.session.patient_id %}
+                <a href="{% url 'dashboard:account_chooser' %}" class="hover:text-slate-900">{% trans "Sign in" %}</a>
+                {% endif %}
+            </div>
+        </div>
+    </footer>
+
+    {% include "includes/toasts.html" %}
+    {% include "includes/confirm_modal.html" %}
     <script src="{% static 'js/main.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>

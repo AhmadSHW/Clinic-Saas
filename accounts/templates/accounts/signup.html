@@ -1,69 +1,83 @@
 {% extends "public_base.html" %}
-{% block title %}Register Your Clinic{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Register Your Clinic" %}{% endblock %}
 
 {% block content %}
-<section class="min-h-[80vh] flex items-center justify-center px-6 py-12 bg-slate-50">
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 w-full max-w-lg">
-        <h1 class="text-2xl font-bold text-slate-900 mb-1">Register Your Clinic</h1>
-        <p class="text-slate-500 text-sm mb-6">Create your workspace in a couple of minutes.</p>
+<section class="bg-gradient-to-b from-teal-50/60 to-slate-50 px-4 py-12">
+    <div class="mx-auto grid max-w-5xl items-start gap-10 lg:grid-cols-5">
+        <div class="lg:col-span-2 lg:pt-6">
+            {% include "includes/logo_mark.html" %}
+            <h1 class="mt-5 text-3xl font-bold tracking-tight text-slate-900">{% trans "Register Your Clinic" %}</h1>
+            <p class="mt-2 text-slate-600">{% trans "Create your workspace in a couple of minutes." %}</p>
+            <ul class="mt-8 space-y-4 text-sm text-slate-600">
+                <li class="flex items-start gap-3">
+                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-700">{% icon "check" "h-3.5 w-3.5" %}</span>
+                    {% trans "14-day free trial, no credit card needed" %}
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-700">{% icon "check" "h-3.5 w-3.5" %}</span>
+                    {% trans "Add doctors and reception staff right away" %}
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-700">{% icon "check" "h-3.5 w-3.5" %}</span>
+                    {% trans "Your clinic's data stays private to your clinic" %}
+                </li>
+            </ul>
+        </div>
 
-        {% if messages %}
-            {% for message in messages %}
-                <div class="mb-4 px-4 py-3 rounded-lg text-sm bg-red-50 text-red-700">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
+        <div class="card p-6 sm:p-8 lg:col-span-3">
+            <form method="post" class="space-y-5">
+                {% csrf_token %}
 
-        <form method="post" class="space-y-4">
-            {% csrf_token %}
+                <p class="form-section">{% trans "Clinic Info" %}</p>
+                <div class="grid gap-5 sm:grid-cols-2">
+                    <div>
+                        <label class="label" for="clinic_name">{% trans "Clinic Name" %}</label>
+                        <input id="clinic_name" type="text" name="clinic_name" required value="{{ request.POST.clinic_name }}" class="input">
+                    </div>
+                    <div>
+                        <label class="label" for="clinic_slug">{% trans "Clinic URL" %}</label>
+                        <input id="clinic_slug" type="text" name="clinic_slug" required placeholder="my-clinic" dir="ltr"
+                               pattern="[a-zA-Z0-9-]+" value="{{ request.POST.clinic_slug }}" class="input">
+                        <p class="help">{% trans "Letters, numbers and hyphens. Staff use it to sign in." %}</p>
+                    </div>
+                </div>
+                <div>
+                    <label class="label" for="owner_email">{% trans "Owner Email" %}</label>
+                    <input id="owner_email" type="email" name="owner_email" required dir="ltr" value="{{ request.POST.owner_email }}" class="input">
+                </div>
 
-            <p class="text-xs font-semibold text-slate-400 uppercase pt-2">Clinic Info</p>
-            <div>
-                <label class="block text-sm font-medium mb-1">Clinic Name</label>
-                <input type="text" name="clinic_name" required
-                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1">Clinic URL (slug, e.g. my-clinic)</label>
-                <input type="text" name="clinic_slug" required
-                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1">Owner Email</label>
-                <input type="email" name="owner_email" required
-                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-            </div>
+                <p class="form-section border-t border-slate-100 pt-5">{% trans "Admin Account" %}</p>
+                <div class="grid gap-5 sm:grid-cols-2">
+                    <div>
+                        <label class="label" for="admin_full_name">{% trans "Your Full Name" %}</label>
+                        <input id="admin_full_name" type="text" name="admin_full_name" required value="{{ request.POST.admin_full_name }}" class="input">
+                    </div>
+                    <div>
+                        <label class="label" for="admin_email">{% trans "Your Email (for login)" %}</label>
+                        <input id="admin_email" type="email" name="admin_email" required dir="ltr" value="{{ request.POST.admin_email }}" class="input">
+                    </div>
+                    <div>
+                        <label class="label" for="password">{% trans "Password" %}</label>
+                        <input id="password" type="password" name="password" required minlength="8" autocomplete="new-password" class="input">
+                        <p class="help">{% trans "At least 8 characters." %}</p>
+                    </div>
+                    <div>
+                        <label class="label" for="confirm_password">{% trans "Confirm Password" %}</label>
+                        <input id="confirm_password" type="password" name="confirm_password" required minlength="8" autocomplete="new-password" class="input">
+                    </div>
+                </div>
 
-            <p class="text-xs font-semibold text-slate-400 uppercase pt-4">Admin Account</p>
-            <div>
-                <label class="block text-sm font-medium mb-1">Your Full Name</label>
-                <input type="text" name="admin_full_name" required
-                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1">Your Email (for login)</label>
-                <input type="email" name="admin_email" required
-                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1">Password</label>
-                <input type="password" name="password" required
-                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1">Confirm Password</label>
-                <input type="password" name="confirm_password" required
-                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-            </div>
+                <button type="submit" class="btn-primary btn-block py-3">
+                    {% trans "Create Clinic" %} {% icon "arrow-right" "h-4 w-4 rtl:rotate-180" %}
+                </button>
+            </form>
 
-            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg mt-2">
-                Create Clinic
-            </button>
-        </form>
-
-        <p class="text-center text-sm text-slate-500 mt-5">
-            Already have an account?
-            <a href="{% url 'accounts:login' %}" class="text-teal-600 font-medium">Sign in</a>
-        </p>
+            <p class="mt-6 text-center text-sm text-slate-500">
+                {% trans "Already have an account?" %}
+                <a href="{% url 'accounts:login' %}" class="font-medium text-teal-700 hover:underline">{% trans "Sign in" %}</a>
+            </p>
+        </div>
     </div>
 </section>
 {% endblock %}

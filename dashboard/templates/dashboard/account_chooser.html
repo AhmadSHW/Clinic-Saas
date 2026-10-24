@@ -3,78 +3,76 @@
 {% block title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
-<section class="min-h-[80vh] flex items-center justify-center px-6 py-16 bg-slate-50">
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 w-full max-w-md">
-        <div class="text-center mb-6">
-            <div class="w-14 h-14 mx-auto rounded-full bg-teal-500 text-white flex items-center justify-center text-2xl mb-4">
-                ♡
-            </div>
-            <h1 class="text-2xl font-bold text-slate-900">{% trans "Sign In" %}</h1>
-            <p class="text-slate-500 text-sm mt-1">{% trans "I am a..." %}</p>
+<section class="flex min-h-[75vh] items-center justify-center bg-gradient-to-b from-teal-50/60 to-slate-50 px-4 py-12">
+    <div class="card w-full max-w-md p-6 sm:p-8">
+        <div class="mb-6 text-center">
+            <div class="mb-4 flex justify-center">{% include "includes/logo_mark.html" %}</div>
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">{% trans "Sign In" %}</h1>
+            <p class="mt-1 text-sm text-slate-500">{% trans "I am a..." %}</p>
         </div>
 
         <!-- Role picker -->
-        <div class="grid grid-cols-3 gap-3 mb-6">
+        <div class="mb-6 grid grid-cols-3 gap-2 sm:gap-3">
             <button type="button" data-role="staff"
-                    class="role-option border border-teal-500 bg-teal-50 text-teal-700 rounded-xl py-4 text-center text-sm font-medium">
-                <span class="block text-xl mb-1">🏥</span>{% trans "Clinic Admin / Staff" %}
+                    class="role-option flex flex-col items-center gap-1.5 rounded-xl border border-teal-500 bg-teal-50 px-2 py-4 text-center text-xs font-medium text-teal-700 transition sm:text-sm">
+                {% icon "building" %}{% trans "Clinic Admin / Staff" %}
             </button>
             <button type="button" data-role="doctor"
-                    class="role-option border border-slate-200 rounded-xl py-4 text-center text-sm font-medium hover:border-slate-300">
-                <span class="block text-xl mb-1">👨‍⚕️</span>{% trans "Doctor" %}
+                    class="role-option flex flex-col items-center gap-1.5 rounded-xl border border-slate-200 px-2 py-4 text-center text-xs font-medium text-slate-600 transition hover:border-slate-300 sm:text-sm">
+                {% icon "stethoscope" %}{% trans "Doctor" %}
             </button>
             <button type="button" data-role="patient"
-                    class="role-option border border-slate-200 rounded-xl py-4 text-center text-sm font-medium hover:border-slate-300">
-                <span class="block text-xl mb-1">🧑</span>{% trans "Patient" %}
+                    class="role-option flex flex-col items-center gap-1.5 rounded-xl border border-slate-200 px-2 py-4 text-center text-xs font-medium text-slate-600 transition hover:border-slate-300 sm:text-sm">
+                {% icon "user" %}{% trans "Patient" %}
             </button>
         </div>
 
         <!-- Staff and doctor panel (same login; the role comes from the account) -->
         <div id="panel-staff">
-            <p id="doctor-note" class="hidden text-xs text-slate-500 bg-slate-50 rounded-lg px-3 py-2 mb-4">
-                {% trans "Doctor accounts are created by the clinic admin. Use the clinic URL, email and password they gave you." %}
+            <p id="doctor-note" class="mb-4 hidden items-start gap-2 rounded-lg bg-slate-50 px-3 py-2.5 text-xs text-slate-600">
+                {% icon "info" "h-4 w-4 shrink-0 text-slate-400" %}
+                <span>{% trans "Doctor accounts are created by the clinic admin. Use the clinic URL, email and password they gave you." %}</span>
             </p>
             <form method="post" action="{% url 'accounts:login' %}" class="space-y-4">
                 {% csrf_token %}
                 <div>
-                    <label class="block text-sm font-medium mb-1">{% trans "Clinic URL" %}</label>
-                    <input type="text" name="clinic_slug" required placeholder="my-clinic"
-                           value="{{ current_clinic.slug|default:'' }}"
-                           class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <label class="label" for="clinic_slug">{% trans "Clinic URL" %}</label>
+                    <input id="clinic_slug" type="text" name="clinic_slug" required placeholder="my-clinic" dir="ltr"
+                           value="{{ current_clinic.slug|default:'' }}" class="input">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium mb-1">{% trans "Email" %}</label>
-                    <input type="email" name="email" required
-                           class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <label class="label" for="email">{% trans "Email" %}</label>
+                    <input id="email" type="email" name="email" required autocomplete="email" dir="ltr" class="input">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium mb-1">{% trans "Password" %}</label>
-                    <input type="password" name="password" required
-                           class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <label class="label" for="password">{% trans "Password" %}</label>
+                    <input id="password" type="password" name="password" required autocomplete="current-password" class="input">
                 </div>
-                <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg">
-                    {% trans "Login" %}
+                <button type="submit" class="btn-primary btn-block">
+                    {% icon "log-in" "h-4 w-4" %} {% trans "Login" %}
                 </button>
             </form>
-            <p id="clinic-signup" class="text-center text-sm text-slate-500 mt-5">
+            <p id="clinic-signup" class="mt-6 text-center text-sm text-slate-500">
                 {% trans "New clinic?" %}
-                <a href="{% url 'accounts:signup' %}" class="text-teal-600 font-medium">{% trans "Register one" %}</a>
+                <a href="{% url 'accounts:signup' %}" class="font-medium text-teal-700 hover:underline">{% trans "Register one" %}</a>
             </p>
         </div>
 
         <!-- Patient panel -->
         <div id="panel-patient" class="hidden">
-            <form method="get" action="{% url 'dashboard:find_clinic' %}" class="space-y-4">
+            <form method="get" action="{% url 'dashboard:find_clinic' %}" class="space-y-4" data-no-loading>
                 <div>
-                    <label class="block text-sm font-medium mb-1">{% trans "Find Your Clinic" %}</label>
-                    <input type="text" name="q" placeholder="{% trans 'Clinic name...' %}" required
-                           class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <label class="label" for="q">{% trans "Find Your Clinic" %}</label>
+                    <div class="relative">
+                        <span class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-slate-400">{% icon "search" "h-4 w-4" %}</span>
+                        <input id="q" type="text" name="q" placeholder="{% trans 'Clinic name...' %}" required class="input ps-9">
+                    </div>
                 </div>
-                <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg">
-                    {% trans "Continue" %}
+                <button type="submit" class="btn-primary btn-block">
+                    {% trans "Continue" %} {% icon "arrow-right" "h-4 w-4 rtl:rotate-180" %}
                 </button>
             </form>
-            <p class="text-slate-400 text-xs text-center mt-4">
+            <p class="mt-4 text-center text-xs text-slate-400">
                 {% trans "You'll search for your clinic, then sign in or create your patient account there." %}
             </p>
         </div>
@@ -96,15 +94,16 @@
 
             roleOptions.forEach((b) => {
                 b.classList.remove("border-teal-500", "bg-teal-50", "text-teal-700");
-                b.classList.add("border-slate-200");
+                b.classList.add("border-slate-200", "text-slate-600");
             });
             btn.classList.add("border-teal-500", "bg-teal-50", "text-teal-700");
-            btn.classList.remove("border-slate-200");
+            btn.classList.remove("border-slate-200", "text-slate-600");
 
             panelStaff.classList.toggle("hidden", role === "patient");
             panelPatient.classList.toggle("hidden", role !== "patient");
             // Doctors don't register clinics; their admin creates the account
             doctorNote.classList.toggle("hidden", role !== "doctor");
+            doctorNote.classList.toggle("flex", role === "doctor");
             clinicSignup.classList.toggle("hidden", role === "doctor");
         });
     });

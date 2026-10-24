@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 21:42+0200\n"
+"POT-Creation-Date: 2026-10-24 22:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,19 +22,19 @@ msgstr ""
 msgid "We sent an email to"
 msgstr "أرسلنا رسالة إلى"
 
-#: .\accounts\templates\accounts\_reply_wait.html:10
+#: .\accounts\templates\accounts\_reply_wait.html:12
 msgid "Open the email in your inbox."
 msgstr "افتح الرسالة في بريدك الوارد."
 
-#: .\accounts\templates\accounts\_reply_wait.html:11
+#: .\accounts\templates\accounts\_reply_wait.html:16
 msgid "Press Reply, type YES and send it."
 msgstr "اضغط على رد، واكتب YES (أو نعم) وأرسلها."
 
-#: .\accounts\templates\accounts\_reply_wait.html:12
+#: .\accounts\templates\accounts\_reply_wait.html:20
 msgid "Come back here. You'll be signed in automatically."
 msgstr "ارجع إلى هنا، وسيتم تسجيل دخولك تلقائياً."
 
-#: .\accounts\templates\accounts\_reply_wait.html:17
+#: .\accounts\templates\accounts\_reply_wait.html:26
 msgid "Waiting for your reply…"
 msgstr "بانتظار ردك…"
 
@@ -42,71 +42,88 @@ msgstr "بانتظار ردك…"
 msgid "Add Staff"
 msgstr "إضافة موظف"
 
-#: .\accounts\templates\accounts\add_staff.html:8
-#: .\accounts\templates\accounts\add_staff.html:38
+#: .\accounts\templates\accounts\add_staff.html:10
+msgid "Back"
+msgstr "رجوع"
+
+#: .\accounts\templates\accounts\add_staff.html:14
+#: .\accounts\templates\accounts\add_staff.html:65
 msgid "Add Staff Member"
 msgstr "إضافة موظف"
 
-#: .\accounts\templates\accounts\add_staff.html:13
-#: .\patients\templates\patients\add.html:13
-#: .\patients\templates\patients\portal_register.html:13
-msgid "Full Name"
-msgstr "الاسم الكامل"
+#: .\accounts\templates\accounts\add_staff.html:15
+msgid "They can sign in right away. No email verification is needed."
+msgstr "يمكنهم تسجيل الدخول فوراً، دون الحاجة إلى تأكيد البريد الإلكتروني."
 
-#: .\accounts\templates\accounts\add_staff.html:17
-#: .\accounts\templates\accounts\login.html:28
-#: .\accounts\templates\accounts\settings.html:27
-#: .\dashboard\templates\dashboard\account_chooser.html:46
-#: .\patients\templates\patients\add.html:23
-#: .\patients\templates\patients\portal_login.html:13
-#: .\patients\templates\patients\portal_register.html:17
-msgid "Email"
-msgstr "البريد الإلكتروني"
-
-#: .\accounts\templates\accounts\add_staff.html:21
-#: .\accounts\templates\accounts\staff_list.html:22
+#: .\accounts\templates\accounts\add_staff.html:22
+#: .\accounts\templates\accounts\staff_list.html:23
 msgid "Role"
 msgstr "الدور"
 
-#: .\accounts\templates\accounts\add_staff.html:23
-#: .\appointments\templates\appointments\book.html:22
-#: .\appointments\templates\appointments\list.html:31
-#: .\dashboard\templates\dashboard\account_chooser.html:24
-#: .\patients\templates\patients\portal_book.html:11
+#: .\accounts\templates\accounts\add_staff.html:27
+#: .\appointments\templates\appointments\book.html:33
+#: .\appointments\templates\appointments\list.html:33
+#: .\dashboard\templates\dashboard\account_chooser.html:22
+#: .\patients\templates\patients\portal_book.html:20
 msgid "Doctor"
 msgstr "طبيب"
 
-#: .\accounts\templates\accounts\add_staff.html:24
+#: .\accounts\templates\accounts\add_staff.html:33
 msgid "Reception"
 msgstr "الاستقبال"
 
-#: .\accounts\templates\accounts\add_staff.html:25
+#: .\accounts\templates\accounts\add_staff.html:39
 msgid "Admin"
 msgstr "مدير"
 
-#: .\accounts\templates\accounts\add_staff.html:29
+#: .\accounts\templates\accounts\add_staff.html:46
+#: .\patients\templates\patients\add.html:21
+#: .\patients\templates\patients\portal_register.html:15
+msgid "Full Name"
+msgstr "الاسم الكامل"
+
+#: .\accounts\templates\accounts\add_staff.html:50
+#: .\accounts\templates\accounts\login.html:25
+#: .\accounts\templates\accounts\settings.html:33
+#: .\dashboard\templates\dashboard\account_chooser.html:44
+#: .\patients\templates\patients\add.html:30
+#: .\patients\templates\patients\portal_login.html:16
+#: .\patients\templates\patients\portal_register.html:20
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: .\accounts\templates\accounts\add_staff.html:55
 msgid "Specialty (doctors only)"
 msgstr "التخصص (للأطباء فقط)"
 
-#: .\accounts\templates\accounts\add_staff.html:30
+#: .\accounts\templates\accounts\add_staff.html:56
 msgid "e.g. Dentist"
 msgstr "مثال: طبيب أسنان"
 
-#: .\accounts\templates\accounts\add_staff.html:33
-#: .\accounts\templates\accounts\login.html:33
-#: .\dashboard\templates\dashboard\account_chooser.html:51
-#: .\patients\templates\patients\portal_login.html:17
-#: .\patients\templates\patients\portal_register.html:25
+#: .\accounts\templates\accounts\add_staff.html:59
+#: .\accounts\templates\accounts\login.html:29
+#: .\accounts\templates\accounts\signup.html:61
+#: .\dashboard\templates\dashboard\account_chooser.html:48
+#: .\patients\templates\patients\portal_login.html:20
+#: .\patients\templates\patients\portal_register.html:29
 msgid "Password"
 msgstr "كلمة المرور"
 
-#: .\accounts\templates\accounts\add_staff.html:35
+#: .\accounts\templates\accounts\add_staff.html:61
 msgid ""
 "Give this password to the staff member. They sign in with your clinic URL, "
 "their email and this password."
 msgstr ""
 "أعطِ كلمة المرور هذه للموظف. يسجّل الدخول برابط عيادتك وبريده الإلكتروني "
 "وكلمة المرور هذه."
+
+#: .\accounts\templates\accounts\add_staff.html:64
+#: .\appointments\templates\appointments\book.html:55
+#: .\appointments\templates\appointments\list.html:70
+#: .\patients\templates\patients\add.html:57
+#: .\patients\templates\patients\portal_dashboard.html:36
+msgid "Cancel"
+msgstr "إلغاء"
 
 #: .\accounts\templates\accounts\check_email.html:3
 #: .\patients\templates\patients\portal_check_email.html:3
@@ -133,7 +150,7 @@ msgid "send it again"
 msgstr "أعد إرسالها"
 
 #: .\accounts\templates\accounts\doctor_list.html:3
-#: .\accounts\templates\accounts\doctor_list.html:9 .\templates\base.html:46
+#: .\accounts\templates\accounts\doctor_list.html:9 .\templates\base.html:64
 msgid "Doctors"
 msgstr "الأطباء"
 
@@ -145,100 +162,110 @@ msgstr "أطباء عيادتك ومواعيدهم"
 msgid "Add doctor"
 msgstr "إضافة طبيب"
 
-#: .\accounts\templates\accounts\doctor_list.html:28
+#: .\accounts\templates\accounts\doctor_list.html:26
 msgid "General"
 msgstr "عام"
 
-#: .\accounts\templates\accounts\doctor_list.html:31
-#: .\accounts\templates\accounts\staff_list.html:53
+#: .\accounts\templates\accounts\doctor_list.html:30
+#: .\accounts\templates\accounts\staff_list.html:50
 msgid "Inactive"
 msgstr "غير نشط"
 
-#: .\accounts\templates\accounts\doctor_list.html:38
+#: .\accounts\templates\accounts\doctor_list.html:37
 msgid "Today"
 msgstr "اليوم"
 
-#: .\accounts\templates\accounts\doctor_list.html:42
+#: .\accounts\templates\accounts\doctor_list.html:41
 msgid "Upcoming"
 msgstr "القادمة"
 
-#: .\accounts\templates\accounts\doctor_list.html:51
+#: .\accounts\templates\accounts\doctor_list.html:47
 #: .\appointments\templates\appointments\list.html:3
-#: .\appointments\templates\appointments\list.html:17
-#: .\dashboard\templates\dashboard\landing.html:30
-#: .\dashboard\templates\dashboard\landing.html:45 .\dashboard\views.py:20
-#: .\templates\base.html:40
+#: .\appointments\templates\appointments\list.html:18
+#: .\dashboard\templates\dashboard\landing.html:33
+#: .\dashboard\templates\dashboard\landing.html:52 .\dashboard\views.py:24
+#: .\templates\base.html:58
 msgid "Appointments"
 msgstr "المواعيد"
 
-#: .\accounts\templates\accounts\doctor_list.html:56
+#: .\accounts\templates\accounts\doctor_list.html:51
 msgid "Book"
 msgstr "حجز"
 
-#: .\accounts\templates\accounts\doctor_list.html:63
+#: .\accounts\templates\accounts\doctor_list.html:60
 msgid "No doctors yet."
 msgstr "لا يوجد أطباء بعد."
 
-#: .\accounts\templates\accounts\doctor_list.html:66
+#: .\accounts\templates\accounts\doctor_list.html:63
 msgid "Add your first doctor"
 msgstr "أضف أول طبيب"
 
-#: .\accounts\templates\accounts\doctor_list.html:69
+#: .\accounts\templates\accounts\doctor_list.html:66
 msgid "Ask your clinic admin to add doctors."
 msgstr "اطلب من مدير العيادة إضافة الأطباء."
 
 #: .\accounts\templates\accounts\login.html:3
-#: .\accounts\templates\accounts\login.html:38
-#: .\dashboard\templates\dashboard\account_chooser.html:56
+#: .\accounts\templates\accounts\login.html:33
+#: .\dashboard\templates\dashboard\account_chooser.html:52
 #: .\patients\templates\patients\portal_login.html:3
-#: .\patients\templates\patients\portal_login.html:21
+#: .\patients\templates\patients\portal_login.html:24
 msgid "Login"
 msgstr "تسجيل الدخول"
 
-#: .\accounts\templates\accounts\login.html:9
+#: .\accounts\templates\accounts\login.html:11
 msgid "Welcome back"
 msgstr "أهلاً بعودتك"
 
-#: .\accounts\templates\accounts\login.html:11
+#: .\accounts\templates\accounts\login.html:13
 msgid "Sign in to your clinic workspace."
 msgstr "سجّل دخولك إلى مساحة عملك."
 
-#: .\accounts\templates\accounts\login.html:22
-#: .\dashboard\templates\dashboard\account_chooser.html:40
+#: .\accounts\templates\accounts\login.html:19
+#: .\accounts\templates\accounts\settings.html:19
+#: .\accounts\templates\accounts\signup.html:39
+#: .\dashboard\templates\dashboard\account_chooser.html:39
 msgid "Clinic URL"
 msgstr "رابط العيادة"
 
-#: .\accounts\templates\accounts\login.html:43
+#: .\accounts\templates\accounts\login.html:39
 msgid "Don't have a clinic yet?"
 msgstr "ليس لديك عيادة بعد؟"
 
-#: .\accounts\templates\accounts\login.html:44
-#: .\dashboard\templates\dashboard\account_chooser.html:61
+#: .\accounts\templates\accounts\login.html:40
+#: .\dashboard\templates\dashboard\account_chooser.html:57
 msgid "Register one"
 msgstr "سجّل واحدة"
+
+#: .\accounts\templates\accounts\login.html:43
+msgid "Didn't get the verification email?"
+msgstr "لم تصلك رسالة التحقق؟"
 
 #: .\accounts\templates\accounts\resend_verification.html:3
 msgid "Resend Verification"
 msgstr "إعادة إرسال التحقق"
 
-#: .\accounts\templates\accounts\resend_verification.html:8
+#: .\accounts\templates\accounts\resend_verification.html:11
 msgid "Resend Verification Email"
 msgstr "إعادة إرسال رسالة التحقق"
 
-#: .\accounts\templates\accounts\resend_verification.html:9
-msgid "Enter your email and we'll send a new link."
-msgstr "أدخل بريدك الإلكتروني وسنرسل لك رابطاً جديداً."
+#: .\accounts\templates\accounts\resend_verification.html:12
+msgid "Enter your email and we'll send a new one."
+msgstr "أدخل بريدك الإلكتروني وسنرسل لك رسالة جديدة."
 
-#: .\accounts\templates\accounts\resend_verification.html:13
+#: .\accounts\templates\accounts\resend_verification.html:17
 msgid "Your email"
 msgstr "بريدك الإلكتروني"
 
-#: .\accounts\templates\accounts\resend_verification.html:16
-msgid "Send Link"
-msgstr "إرسال الرابط"
+#: .\accounts\templates\accounts\resend_verification.html:21
+msgid "Send again"
+msgstr "إعادة الإرسال"
+
+#: .\accounts\templates\accounts\resend_verification.html:26
+msgid "Back to sign in"
+msgstr "العودة إلى تسجيل الدخول"
 
 #: .\accounts\templates\accounts\settings.html:3
-#: .\accounts\templates\accounts\settings.html:9 .\templates\base.html:67
+#: .\accounts\templates\accounts\settings.html:9 .\templates\base.html:91
 msgid "Settings"
 msgstr "الإعدادات"
 
@@ -246,33 +273,108 @@ msgstr "الإعدادات"
 msgid "Manage your clinic profile and preferences"
 msgstr "إدارة ملف عيادتك وتفضيلاتك"
 
-#: .\accounts\templates\accounts\settings.html:15
+#: .\accounts\templates\accounts\settings.html:16
 msgid "Clinic profile"
 msgstr "ملف العيادة"
 
-#: .\accounts\templates\accounts\settings.html:16
+#: .\accounts\templates\accounts\settings.html:17
 msgid "Basic information shown on your clinic profile."
 msgstr "المعلومات الأساسية المعروضة في ملف عيادتك."
 
-#: .\accounts\templates\accounts\settings.html:22
+#: .\accounts\templates\accounts\settings.html:21
+msgid "Staff use this to sign in. It can't be changed."
+msgstr "يستخدمه الموظفون لتسجيل الدخول، ولا يمكن تغييره."
+
+#: .\accounts\templates\accounts\settings.html:29
+#: .\accounts\templates\accounts\signup.html:35
 msgid "Clinic Name"
 msgstr "اسم العيادة"
 
-#: .\accounts\templates\accounts\settings.html:34
+#: .\accounts\templates\accounts\settings.html:37
 msgid "Phone"
 msgstr "الهاتف"
 
-#: .\accounts\templates\accounts\settings.html:39
+#: .\accounts\templates\accounts\settings.html:41
 msgid "Address"
 msgstr "العنوان"
 
-#: .\accounts\templates\accounts\settings.html:45
+#: .\accounts\templates\accounts\settings.html:46
 msgid "Save changes"
 msgstr "حفظ التغييرات"
 
+#: .\accounts\templates\accounts\signup.html:3
+#: .\accounts\templates\accounts\signup.html:10
+msgid "Register Your Clinic"
+msgstr "سجّل عيادتك"
+
+#: .\accounts\templates\accounts\signup.html:11
+msgid "Create your workspace in a couple of minutes."
+msgstr "أنشئ مساحة عملك خلال دقائق."
+
+#: .\accounts\templates\accounts\signup.html:15
+msgid "14-day free trial, no credit card needed"
+msgstr "تجربة مجانية لمدة 14 يوماً، دون الحاجة إلى بطاقة ائتمان"
+
+#: .\accounts\templates\accounts\signup.html:19
+msgid "Add doctors and reception staff right away"
+msgstr "أضف الأطباء وموظفي الاستقبال فوراً"
+
+#: .\accounts\templates\accounts\signup.html:23
+msgid "Your clinic's data stays private to your clinic"
+msgstr "تبقى بيانات عيادتك خاصة بعيادتك"
+
+#: .\accounts\templates\accounts\signup.html:32
+msgid "Clinic Info"
+msgstr "معلومات العيادة"
+
+#: .\accounts\templates\accounts\signup.html:42
+msgid "Letters, numbers and hyphens. Staff use it to sign in."
+msgstr "أحرف إنجليزية وأرقام وشرطات. يستخدمه الموظفون لتسجيل الدخول."
+
+#: .\accounts\templates\accounts\signup.html:46
+msgid "Owner Email"
+msgstr "البريد الإلكتروني للمالك"
+
+#: .\accounts\templates\accounts\signup.html:50
+msgid "Admin Account"
+msgstr "حساب المدير"
+
+#: .\accounts\templates\accounts\signup.html:53
+msgid "Your Full Name"
+msgstr "اسمك الكامل"
+
+#: .\accounts\templates\accounts\signup.html:57
+msgid "Your Email (for login)"
+msgstr "بريدك الإلكتروني (لتسجيل الدخول)"
+
+#: .\accounts\templates\accounts\signup.html:63
+#: .\patients\templates\patients\portal_register.html:31
+msgid "At least 8 characters."
+msgstr "8 أحرف على الأقل."
+
+#: .\accounts\templates\accounts\signup.html:66
+#: .\patients\templates\patients\portal_register.html:34
+msgid "Confirm Password"
+msgstr "تأكيد كلمة المرور"
+
+#: .\accounts\templates\accounts\signup.html:72
+msgid "Create Clinic"
+msgstr "إنشاء العيادة"
+
+#: .\accounts\templates\accounts\signup.html:77
+#: .\patients\templates\patients\portal_register.html:43
+msgid "Already have an account?"
+msgstr "لديك حساب مسبقاً؟"
+
+#: .\accounts\templates\accounts\signup.html:78
+#: .\patients\templates\patients\portal_register.html:44
+#: .\templates\public_base.html:35 .\templates\public_base.html:60
+msgid "Sign in"
+msgstr "تسجيل الدخول"
+
 #: .\accounts\templates\accounts\staff_list.html:3
-#: .\accounts\templates\accounts\staff_list.html:9 .\dashboard\views.py:26
-#: .\templates\base.html:60
+#: .\accounts\templates\accounts\staff_list.html:9 .\dashboard\views.py:30
+#: .\templates\base.html:80
 msgid "Staff"
 msgstr "الموظفون"
 
@@ -284,26 +386,30 @@ msgstr "الأدوار والتوفر وفريقك بالكامل"
 msgid "Add staff"
 msgstr "إضافة موظف"
 
-#: .\accounts\templates\accounts\staff_list.html:21
+#: .\accounts\templates\accounts\staff_list.html:22
 msgid "Name"
 msgstr "الاسم"
 
-#: .\accounts\templates\accounts\staff_list.html:23
-#: .\patients\templates\patients\list.html:29
+#: .\accounts\templates\accounts\staff_list.html:24
+#: .\patients\templates\patients\list.html:32
 msgid "Contact"
 msgstr "التواصل"
 
-#: .\accounts\templates\accounts\staff_list.html:24
-#: .\appointments\templates\appointments\list.html:33
-#: .\billing\templates\billing\home.html:68
+#: .\accounts\templates\accounts\staff_list.html:25
+#: .\appointments\templates\appointments\list.html:35
+#: .\billing\templates\billing\home.html:84
 msgid "Status"
 msgstr "الحالة"
 
-#: .\accounts\templates\accounts\staff_list.html:53
+#: .\accounts\templates\accounts\staff_list.html:35
+msgid "you"
+msgstr "أنت"
+
+#: .\accounts\templates\accounts\staff_list.html:48
 msgid "Active"
 msgstr "نشط"
 
-#: .\accounts\templates\accounts\staff_list.html:58
+#: .\accounts\templates\accounts\staff_list.html:59
 msgid "No staff members yet."
 msgstr "لا يوجد موظفون بعد."
 
@@ -324,127 +430,189 @@ msgstr ""
 "استخدام Clinic SaS."
 
 #: .\accounts\templates\accounts\trial_expired.html:15
+#: .\templates\base.html:106
 msgid "Log out"
 msgstr "تسجيل الخروج"
 
 #: .\appointments\templates\appointments\book.html:3
-#: .\appointments\templates\appointments\book.html:8
-#: .\appointments\templates\appointments\book.html:43
-#: .\patients\templates\patients\portal_base.html:24
+#: .\appointments\templates\appointments\book.html:13
+#: .\appointments\templates\appointments\book.html:56
+#: .\patients\templates\patients\portal_base.html:22
+#: .\patients\templates\patients\portal_base.html:45
 #: .\patients\templates\patients\portal_book.html:3
-#: .\patients\templates\patients\portal_book.html:6
+#: .\patients\templates\patients\portal_book.html:12
 #: .\patients\templates\patients\portal_dashboard.html:12
+#: .\patients\templates\patients\portal_dashboard.html:45
 msgid "Book Appointment"
 msgstr "حجز موعد"
 
-#: .\appointments\templates\appointments\book.html:13
-#: .\appointments\templates\appointments\list.html:30
-#: .\dashboard\templates\dashboard\account_chooser.html:28
-#: .\patients\templates\patients\list.html:28
+#: .\appointments\templates\appointments\book.html:9
+msgid "Back to appointments"
+msgstr "العودة إلى المواعيد"
+
+#: .\appointments\templates\appointments\book.html:14
+msgid "The doctor gets a notification as soon as it's booked."
+msgstr "يصل إشعار إلى الطبيب فور الحجز."
+
+#: .\appointments\templates\appointments\book.html:22
+#: .\appointments\templates\appointments\list.html:32
+#: .\dashboard\templates\dashboard\account_chooser.html:26
+#: .\patients\templates\patients\list.html:31
 msgid "Patient"
 msgstr "مريض"
 
-#: .\appointments\templates\appointments\book.html:15
+#: .\appointments\templates\appointments\book.html:23
+#: .\dashboard\templates\dashboard\landing.html:77
+msgid "New patient"
+msgstr "مريض جديد"
+
+#: .\appointments\templates\appointments\book.html:26
 msgid "Select Patient"
 msgstr "اختر المريض"
 
-#: .\appointments\templates\appointments\book.html:24
-#: .\patients\templates\patients\portal_book.html:13
+#: .\appointments\templates\appointments\book.html:35
+#: .\patients\templates\patients\portal_book.html:22
 msgid "Select Doctor"
 msgstr "اختر الطبيب"
 
-#: .\appointments\templates\appointments\book.html:26
+#: .\appointments\templates\appointments\book.html:37
 msgid "No doctors yet. An admin can add them on the Doctors page."
 msgstr "لا يوجد أطباء بعد. يمكن للمدير إضافتهم من صفحة الأطباء."
 
-#: .\appointments\templates\appointments\book.html:34
-#: .\patients\templates\patients\portal_book.html:20
+#: .\appointments\templates\appointments\book.html:46
+#: .\patients\templates\patients\portal_book.html:29
 msgid "Date & Time"
 msgstr "التاريخ والوقت"
 
-#: .\appointments\templates\appointments\book.html:39
-#: .\patients\templates\patients\portal_book.html:24
+#: .\appointments\templates\appointments\book.html:50
+#: .\patients\templates\patients\portal_book.html:33
 msgid "Reason"
 msgstr "السبب"
 
-#: .\appointments\templates\appointments\list.html:11
-#: .\patients\templates\patients\portal_base.html:23
+#: .\appointments\templates\appointments\book.html:51
+#: .\patients\templates\patients\portal_book.html:34
+msgid "e.g. Follow-up"
+msgstr "مثال: مراجعة"
+
+#: .\appointments\templates\appointments\list.html:12
+#: .\patients\templates\patients\portal_base.html:21
+#: .\patients\templates\patients\portal_base.html:42
+#: .\patients\templates\patients\portal_book.html:8
 #: .\patients\templates\patients\portal_dashboard.html:3
-#: .\templates\base.html:50
+#: .\templates\base.html:68
 msgid "My Appointments"
 msgstr "مواعيدي"
 
-#: .\appointments\templates\appointments\list.html:11
+#: .\appointments\templates\appointments\list.html:12
 #, python-format
 msgid "Appointments for Dr. %(name)s"
 msgstr "مواعيد د. %(name)s"
 
-#: .\appointments\templates\appointments\list.html:14
+#: .\appointments\templates\appointments\list.html:15
 msgid "Show all doctors"
 msgstr "عرض كل الأطباء"
 
-#: .\appointments\templates\appointments\list.html:18
+#: .\appointments\templates\appointments\list.html:19
 msgid "Schedule and manage visits across all practitioners"
 msgstr "جدولة وإدارة الزيارات لجميع الأطباء"
 
-#: .\appointments\templates\appointments\list.html:22
-#: .\dashboard\templates\dashboard\home.html:13
+#: .\appointments\templates\appointments\list.html:23
+#: .\dashboard\templates\dashboard\home.html:20 .\templates\base.html:136
 msgid "New appointment"
 msgstr "موعد جديد"
 
-#: .\appointments\templates\appointments\list.html:32
+#: .\appointments\templates\appointments\list.html:34
 msgid "Date / Time"
 msgstr "التاريخ / الوقت"
 
-#: .\appointments\templates\appointments\list.html:55
+#: .\appointments\templates\appointments\list.html:36
+#: .\patients\templates\patients\list.html:35
+msgid "Actions"
+msgstr "إجراءات"
+
+#: .\appointments\templates\appointments\list.html:62
 msgid "Check In"
 msgstr "تسجيل الوصول"
 
-#: .\appointments\templates\appointments\list.html:61
-#: .\patients\templates\patients\portal_dashboard.html:33
-msgid "Cancel"
-msgstr "إلغاء"
-
 #: .\appointments\templates\appointments\list.html:67
-#: .\patients\templates\patients\portal_dashboard.html:39
+#, python-format
+msgid "Cancel the appointment for %(name)s?"
+msgstr "هل تريد إلغاء موعد %(name)s؟"
+
+#: .\appointments\templates\appointments\list.html:68
+#: .\patients\templates\patients\portal_dashboard.html:34
+msgid "Cancel appointment"
+msgstr "إلغاء الموعد"
+
+#: .\appointments\templates\appointments\list.html:81
+#: .\patients\templates\patients\portal_dashboard.html:44
 msgid "No appointments yet."
 msgstr "لا توجد مواعيد بعد."
 
+#: .\appointments\templates\appointments\list.html:82
+#: .\dashboard\templates\dashboard\home.html:80
+msgid "Book one"
+msgstr "احجز موعداً"
+
 #: .\appointments\templates\appointments\queue.html:3
-#: .\appointments\templates\appointments\queue.html:7 .\templates\base.html:43
+#: .\appointments\templates\appointments\queue.html:9 .\templates\base.html:61
 msgid "Waiting Queue"
 msgstr "قائمة الانتظار"
 
-#: .\appointments\templates\appointments\queue.html:8
+#: .\appointments\templates\appointments\queue.html:10
 msgid "Live queue positions, tracked per doctor per day"
 msgstr "ترتيب الانتظار الحي، لكل طبيب يومياً"
 
-#: .\appointments\templates\appointments\queue.html:17
-msgid "checked in"
-msgstr "تم تسجيل وصولهم"
+#: .\appointments\templates\appointments\queue.html:13
+msgid "Check in a patient"
+msgstr "تسجيل وصول مريض"
 
-#: .\appointments\templates\appointments\queue.html:33
+#: .\appointments\templates\appointments\queue.html:24
+msgid "No doctor"
+msgstr "بدون طبيب"
+
+#: .\appointments\templates\appointments\queue.html:25
+#, python-format
+msgid "%(total)s waiting"
+msgid_plural "%(total)s waiting"
+msgstr[0] "في الانتظار: %(total)s"
+msgstr[1] "في الانتظار: %(total)s"
+msgstr[2] "في الانتظار: %(total)s"
+msgstr[3] "في الانتظار: %(total)s"
+msgstr[4] "في الانتظار: %(total)s"
+msgstr[5] "في الانتظار: %(total)s"
+
+#: .\appointments\templates\appointments\queue.html:36
+msgid "Next in line"
+msgstr "التالي في الدور"
+
+#: .\appointments\templates\appointments\queue.html:41
 msgid "Done"
 msgstr "تم"
 
-#: .\appointments\templates\appointments\queue.html:41
+#: .\appointments\templates\appointments\queue.html:52
 msgid "Queue is empty."
 msgstr "قائمة الانتظار فارغة."
 
-#: .\billing\templates\billing\home.html:3 .\dashboard\views.py:24
-#: .\templates\base.html:56
+#: .\appointments\templates\appointments\queue.html:53
+msgid ""
+"Patients appear here when you check them in from the appointments list."
+msgstr "يظهر المرضى هنا عند تسجيل وصولهم من قائمة المواعيد."
+
+#: .\billing\templates\billing\home.html:3 .\dashboard\views.py:28
+#: .\templates\base.html:76
 msgid "Billing"
 msgstr "الفواتير"
 
-#: .\billing\templates\billing\home.html:7
+#: .\billing\templates\billing\home.html:9
 msgid "Billing & Subscription"
 msgstr "الفواتير والاشتراك"
 
-#: .\billing\templates\billing\home.html:8
+#: .\billing\templates\billing\home.html:10
 msgid "Manage your plan, invoices, and payment method"
 msgstr "إدارة خطتك وفواتيرك وطريقة الدفع"
 
-#: .\billing\templates\billing\home.html:12
+#: .\billing\templates\billing\home.html:16
 msgid ""
 "Your last payment failed. Stripe will retry automatically — update your card"
 " to avoid losing access."
@@ -452,123 +620,138 @@ msgstr ""
 "فشلت آخر عملية دفع. سيعيد Stripe المحاولة تلقائياً — حدّث بطاقتك لتجنب فقدان"
 " الوصول."
 
-#: .\billing\templates\billing\home.html:14
+#: .\billing\templates\billing\home.html:18
 msgid "Update payment method"
 msgstr "تحديث طريقة الدفع"
 
-#: .\billing\templates\billing\home.html:22
+#: .\billing\templates\billing\home.html:26
+#, python-format
+msgid "You're on the free trial. %(days)s day left."
+msgid_plural "You're on the free trial. %(days)s days left."
+msgstr[0] "أنت في الفترة التجريبية المجانية. الأيام المتبقية: %(days)s."
+msgstr[1] "أنت في الفترة التجريبية المجانية. الأيام المتبقية: %(days)s."
+msgstr[2] "أنت في الفترة التجريبية المجانية. الأيام المتبقية: %(days)s."
+msgstr[3] "أنت في الفترة التجريبية المجانية. الأيام المتبقية: %(days)s."
+msgstr[4] "أنت في الفترة التجريبية المجانية. الأيام المتبقية: %(days)s."
+msgstr[5] "أنت في الفترة التجريبية المجانية. الأيام المتبقية: %(days)s."
+
+#: .\billing\templates\billing\home.html:26
+msgid "Your free trial has ended. Upgrade to keep using Clinic SaS."
+msgstr ""
+"انتهت الفترة التجريبية المجانية. قم بالترقية لمتابعة استخدام Clinic SaS."
+
 #: .\billing\templates\billing\home.html:35
-#: .\dashboard\templates\dashboard\home.html:32
+#: .\billing\templates\billing\home.html:48
 msgid "Current plan"
 msgstr "الخطة الحالية"
 
-#: .\billing\templates\billing\home.html:22
+#: .\billing\templates\billing\home.html:35
 msgid "Recommended"
 msgstr "موصى بها"
 
-#: .\billing\templates\billing\home.html:24
+#: .\billing\templates\billing\home.html:37
 msgid "Professional"
 msgstr "الاحترافية"
 
-#: .\billing\templates\billing\home.html:25
+#: .\billing\templates\billing\home.html:38
 msgid "For growing clinics with multiple practitioners"
 msgstr "للعيادات النامية متعددة الأطباء"
 
-#: .\billing\templates\billing\home.html:26
-#: .\billing\templates\billing\home.html:49
+#: .\billing\templates\billing\home.html:39
+#: .\billing\templates\billing\home.html:62
 msgid "month"
 msgstr "شهر"
 
-#: .\billing\templates\billing\home.html:28
+#: .\billing\templates\billing\home.html:41
 msgid "Up to 5 staff members"
 msgstr "حتى 5 موظفين"
 
-#: .\billing\templates\billing\home.html:29
+#: .\billing\templates\billing\home.html:42
 msgid "Unlimited patients & records"
 msgstr "مرضى وسجلات غير محدودة"
 
-#: .\billing\templates\billing\home.html:30
+#: .\billing\templates\billing\home.html:43
 msgid "Waiting queue management"
 msgstr "إدارة قائمة الانتظار"
 
-#: .\billing\templates\billing\home.html:31
+#: .\billing\templates\billing\home.html:44
 msgid "Email notifications"
 msgstr "إشعارات البريد الإلكتروني"
 
-#: .\billing\templates\billing\home.html:32
+#: .\billing\templates\billing\home.html:45
 msgid "Priority support"
 msgstr "دعم ذو أولوية"
 
-#: .\billing\templates\billing\home.html:37
+#: .\billing\templates\billing\home.html:50
 msgid "Manage payment method"
 msgstr "إدارة طريقة الدفع"
 
-#: .\billing\templates\billing\home.html:41
+#: .\billing\templates\billing\home.html:54
 msgid "Upgrade"
 msgstr "ترقية"
 
-#: .\billing\templates\billing\home.html:47
+#: .\billing\templates\billing\home.html:60
 msgid "Enterprise"
 msgstr "المؤسسات"
 
-#: .\billing\templates\billing\home.html:48
+#: .\billing\templates\billing\home.html:61
 msgid "For multi-branch clinics and networks"
 msgstr "للعيادات متعددة الفروع والشبكات"
 
-#: .\billing\templates\billing\home.html:51
+#: .\billing\templates\billing\home.html:64
 msgid "Unlimited staff members"
 msgstr "عدد غير محدود من الموظفين"
 
-#: .\billing\templates\billing\home.html:52
+#: .\billing\templates\billing\home.html:65
 msgid "Multi-location support"
 msgstr "دعم عدة مواقع"
 
-#: .\billing\templates\billing\home.html:53
+#: .\billing\templates\billing\home.html:66
 msgid "Advanced analytics"
 msgstr "تحليلات متقدمة"
 
-#: .\billing\templates\billing\home.html:54
+#: .\billing\templates\billing\home.html:67
 msgid "API access"
 msgstr "الوصول لواجهة البرمجة"
 
-#: .\billing\templates\billing\home.html:55
+#: .\billing\templates\billing\home.html:68
 msgid "Dedicated account manager"
 msgstr "مدير حساب مخصص"
 
-#: .\billing\templates\billing\home.html:57
+#: .\billing\templates\billing\home.html:70
 msgid "Contact sales"
 msgstr "تواصل مع المبيعات"
 
-#: .\billing\templates\billing\home.html:62
+#: .\billing\templates\billing\home.html:76
 msgid "Billing History"
 msgstr "سجل الفواتير"
 
-#: .\billing\templates\billing\home.html:66
+#: .\billing\templates\billing\home.html:82
 msgid "Date"
 msgstr "التاريخ"
 
-#: .\billing\templates\billing\home.html:67
+#: .\billing\templates\billing\home.html:83
 msgid "Amount"
 msgstr "المبلغ"
 
-#: .\billing\templates\billing\home.html:84
+#: .\billing\templates\billing\home.html:99
 msgid "No billing history yet."
 msgstr "لا يوجد سجل فواتير بعد."
 
 #: .\dashboard\templates\dashboard\account_chooser.html:3
-#: .\dashboard\templates\dashboard\account_chooser.html:12
+#: .\dashboard\templates\dashboard\account_chooser.html:10
 msgid "Sign In"
 msgstr "تسجيل الدخول"
 
-#: .\dashboard\templates\dashboard\account_chooser.html:13
+#: .\dashboard\templates\dashboard\account_chooser.html:11
 msgid "I am a..."
 msgstr "أنا..."
 
-#: .\dashboard\templates\dashboard\account_chooser.html:20
+#: .\dashboard\templates\dashboard\account_chooser.html:18
 msgid "Clinic Admin / Staff"
 msgstr "مدير / موظف العيادة"
 
-#: .\dashboard\templates\dashboard\account_chooser.html:35
+#: .\dashboard\templates\dashboard\account_chooser.html:34
 msgid ""
 "Doctor accounts are created by the clinic admin. Use the clinic URL, email "
 "and password they gave you."
@@ -576,27 +759,27 @@ msgstr ""
 "ينشئ مدير العيادة حسابات الأطباء. استخدم رابط العيادة والبريد الإلكتروني "
 "وكلمة المرور التي أعطاك إياها."
 
-#: .\dashboard\templates\dashboard\account_chooser.html:60
+#: .\dashboard\templates\dashboard\account_chooser.html:56
 msgid "New clinic?"
 msgstr "عيادة جديدة؟"
 
-#: .\dashboard\templates\dashboard\account_chooser.html:69
+#: .\dashboard\templates\dashboard\account_chooser.html:65
 #: .\dashboard\templates\dashboard\find_clinic.html:3
 #: .\dashboard\templates\dashboard\find_clinic.html:12
 msgid "Find Your Clinic"
 msgstr "ابحث عن عيادتك"
 
-#: .\dashboard\templates\dashboard\account_chooser.html:70
+#: .\dashboard\templates\dashboard\account_chooser.html:68
 #: .\dashboard\templates\dashboard\find_clinic.html:19
 msgid "Clinic name..."
 msgstr "اسم العيادة..."
 
-#: .\dashboard\templates\dashboard\account_chooser.html:74
-#: .\dashboard\templates\dashboard\find_clinic.html:40
+#: .\dashboard\templates\dashboard\account_chooser.html:72
+#: .\dashboard\templates\dashboard\find_clinic.html:37
 msgid "Continue"
 msgstr "متابعة"
 
-#: .\dashboard\templates\dashboard\account_chooser.html:78
+#: .\dashboard\templates\dashboard\account_chooser.html:76
 msgid ""
 "You'll search for your clinic, then sign in or create your patient account "
 "there."
@@ -606,75 +789,123 @@ msgstr "ستبحث عن عيادتك، ثم تسجّل الدخول أو تنش�
 msgid "Search for your clinic to sign in or create a patient account."
 msgstr "ابحث عن عيادتك لتسجيل الدخول أو إنشاء حساب مريض."
 
-#: .\dashboard\templates\dashboard\find_clinic.html:44
+#: .\dashboard\templates\dashboard\find_clinic.html:43
 msgid "No clinics found. Check the spelling and try again."
 msgstr "لم يتم العثور على عيادات. تحقق من الإملاء وحاول مرة أخرى."
 
-#: .\dashboard\templates\dashboard\find_clinic.html:49
+#: .\dashboard\templates\dashboard\find_clinic.html:48
 msgid "Start typing to search for your clinic."
 msgstr "ابدأ الكتابة للبحث عن عيادتك."
 
-#: .\dashboard\templates\dashboard\home.html:3 .\templates\base.html:34
+#: .\dashboard\templates\dashboard\home.html:3 .\templates\base.html:52
 msgid "Dashboard"
 msgstr "لوحة التحكم"
 
-#: .\dashboard\templates\dashboard\home.html:9
+#: .\dashboard\templates\dashboard\home.html:10
 #, python-format
 msgid "Good morning, %(name)s"
 msgstr "صباح الخير، %(name)s"
 
-#: .\dashboard\templates\dashboard\home.html:10
+#: .\dashboard\templates\dashboard\home.html:11
+#, python-format
+msgid "Good afternoon, %(name)s"
+msgstr "طاب يومك، %(name)s"
+
+#: .\dashboard\templates\dashboard\home.html:12
+#, python-format
+msgid "Good evening, %(name)s"
+msgstr "مساء الخير، %(name)s"
+
+#: .\dashboard\templates\dashboard\home.html:16
 #, python-format
 msgid "Here's what's happening at %(clinic_name)s today"
 msgstr "إليك ما يحدث في %(clinic_name)s اليوم"
 
-#: .\dashboard\templates\dashboard\home.html:20
-#: .\patients\templates\patients\list.html:20
-msgid "Total patients"
-msgstr "إجمالي المرضى"
+#: .\dashboard\templates\dashboard\home.html:30
+msgid "Your appointments today"
+msgstr "مواعيدك اليوم"
 
-#: .\dashboard\templates\dashboard\home.html:24
+#: .\dashboard\templates\dashboard\home.html:30
 msgid "Appointments today"
 msgstr "مواعيد اليوم"
 
-#: .\dashboard\templates\dashboard\home.html:28
+#: .\dashboard\templates\dashboard\home.html:37
 msgid "In waiting queue"
 msgstr "في قائمة الانتظار"
 
-#: .\dashboard\templates\dashboard\home.html:38
+#: .\dashboard\templates\dashboard\home.html:44
+msgid "Completed today"
+msgstr "المكتملة اليوم"
+
+#: .\dashboard\templates\dashboard\home.html:51
+msgid "Total patients"
+msgstr "إجمالي المرضى"
+
+#: .\dashboard\templates\dashboard\home.html:60
 msgid "Your schedule today"
 msgstr "جدولك اليوم"
 
-#: .\dashboard\templates\dashboard\home.html:38
+#: .\dashboard\templates\dashboard\home.html:60
 msgid "Today's schedule"
 msgstr "جدول اليوم"
 
-#: .\dashboard\templates\dashboard\home.html:39
+#: .\dashboard\templates\dashboard\home.html:62
 msgid "View all"
 msgstr "عرض الكل"
 
-#: .\dashboard\templates\dashboard\home.html:50
-#: .\patients\templates\patients\portal_dashboard.html:20
+#: .\dashboard\templates\dashboard\home.html:72
+#: .\patients\templates\patients\portal_dashboard.html:25
 msgid "Visit"
 msgstr "زيارة"
 
-#: .\dashboard\templates\dashboard\home.html:56
+#: .\dashboard\templates\dashboard\home.html:79
 msgid "No appointments scheduled for today."
 msgstr "لا توجد مواعيد مجدولة اليوم."
+
+#: .\dashboard\templates\dashboard\home.html:90
+msgid "Next in queue"
+msgstr "التالي في قائمة الانتظار"
+
+#: .\dashboard\templates\dashboard\home.html:91
+msgid "Open queue"
+msgstr "فتح قائمة الانتظار"
+
+#: .\dashboard\templates\dashboard\home.html:103
+msgid "Next"
+msgstr "التالي"
+
+#: .\dashboard\templates\dashboard\home.html:106
+msgid "Nobody is waiting right now."
+msgstr "لا يوجد أحد في الانتظار الآن."
+
+#: .\dashboard\templates\dashboard\home.html:114
+msgid "Next 7 days"
+msgstr "الأيام السبعة القادمة"
+
+#: .\dashboard\templates\dashboard\home.html:115
+#, python-format
+msgid "%(total)s appointment"
+msgid_plural "%(total)s appointments"
+msgstr[0] "عدد المواعيد: %(total)s"
+msgstr[1] "عدد المواعيد: %(total)s"
+msgstr[2] "عدد المواعيد: %(total)s"
+msgstr[3] "عدد المواعيد: %(total)s"
+msgstr[4] "عدد المواعيد: %(total)s"
+msgstr[5] "عدد المواعيد: %(total)s"
 
 #: .\dashboard\templates\dashboard\landing.html:3
 msgid "Clinic SaS — Everything your clinic needs"
 msgstr "Clinic SaS — كل ما تحتاجه عيادتك"
 
-#: .\dashboard\templates\dashboard\landing.html:11
+#: .\dashboard\templates\dashboard\landing.html:13
 msgid "Practice management, reimagined"
 msgstr "إدارة العيادات، بأسلوب جديد"
 
-#: .\dashboard\templates\dashboard\landing.html:14
+#: .\dashboard\templates\dashboard\landing.html:16
 msgid "Everything your clinic needs. One simple platform."
 msgstr "كل ما تحتاجه عيادتك. منصة واحدة بسيطة."
 
-#: .\dashboard\templates\dashboard\landing.html:17
+#: .\dashboard\templates\dashboard\landing.html:19
 msgid ""
 "Clinic SaS brings patient records, appointments, waiting queues, billing, "
 "and your whole team together — so you spend less time on paperwork and more "
@@ -683,130 +914,128 @@ msgstr ""
 "يجمع Clinic SaS سجلات المرضى والمواعيد وقوائم الانتظار والفواتير وفريقك "
 "بالكامل في مكان واحد — لتقضي وقتاً أقل بالأوراق ووقتاً أكثر مع مرضاك."
 
-#: .\dashboard\templates\dashboard\landing.html:21
-#: .\templates\public_base.html:42
+#: .\dashboard\templates\dashboard\landing.html:23
+#: .\dashboard\templates\dashboard\landing.html:235
+#: .\templates\public_base.html:28 .\templates\public_base.html:58
 msgid "Go to dashboard"
 msgstr "الذهاب إلى لوحة التحكم"
 
-#: .\dashboard\templates\dashboard\landing.html:21
-#: .\templates\public_base.html:51
+#: .\dashboard\templates\dashboard\landing.html:23
+#: .\dashboard\templates\dashboard\landing.html:235
+#: .\templates\public_base.html:37
 msgid "Open the app"
 msgstr "افتح التطبيق"
 
-#: .\dashboard\templates\dashboard\landing.html:24
+#: .\dashboard\templates\dashboard\landing.html:27
 msgid "Explore features"
 msgstr "استكشف المميزات"
 
-#: .\dashboard\templates\dashboard\landing.html:28
+#: .\dashboard\templates\dashboard\landing.html:31
 msgid "Clinics"
 msgstr "عيادة"
 
-#: .\dashboard\templates\dashboard\landing.html:29
+#: .\dashboard\templates\dashboard\landing.html:32
 #: .\patients\templates\patients\list.html:3
-#: .\patients\templates\patients\list.html:9 .\templates\base.html:37
+#: .\patients\templates\patients\list.html:9 .\templates\base.html:55
 msgid "Patients"
 msgstr "المرضى"
 
-#: .\dashboard\templates\dashboard\landing.html:31
+#: .\dashboard\templates\dashboard\landing.html:34
 msgid "Uptime"
 msgstr "نسبة التشغيل"
 
-#: .\dashboard\templates\dashboard\landing.html:38
+#: .\dashboard\templates\dashboard\landing.html:44
 msgid "Good morning, Dr. Chen"
 msgstr "صباح الخير، دكتورة تشين"
 
-#: .\dashboard\templates\dashboard\landing.html:39
+#: .\dashboard\templates\dashboard\landing.html:45
 msgid "Saturday, Sep 20 · 14 patients today"
 msgstr "السبت، 20 سبتمبر · 14 مريضاً اليوم"
 
-#: .\dashboard\templates\dashboard\landing.html:48
+#: .\dashboard\templates\dashboard\landing.html:56
 msgid "Waiting"
 msgstr "بالانتظار"
 
-#: .\dashboard\templates\dashboard\landing.html:51
+#: .\dashboard\templates\dashboard\landing.html:60
 msgid "New patients"
 msgstr "مرضى جدد"
 
-#: .\dashboard\templates\dashboard\landing.html:54
+#: .\dashboard\templates\dashboard\landing.html:63
 msgid "TODAY'S SCHEDULE"
 msgstr "جدول اليوم"
 
-#: .\dashboard\templates\dashboard\landing.html:56
+#: .\dashboard\templates\dashboard\landing.html:67
 msgid "Asthma follow-up"
 msgstr "متابعة الربو"
 
-#: .\dashboard\templates\dashboard\landing.html:57
+#: .\dashboard\templates\dashboard\landing.html:72
 msgid "BP check"
 msgstr "فحص ضغط الدم"
 
-#: .\dashboard\templates\dashboard\landing.html:58
-msgid "New patient"
-msgstr "مريض جديد"
-
-#: .\dashboard\templates\dashboard\landing.html:66
+#: .\dashboard\templates\dashboard\landing.html:89
 msgid "FEATURES"
 msgstr "المميزات"
 
-#: .\dashboard\templates\dashboard\landing.html:67
+#: .\dashboard\templates\dashboard\landing.html:90
 msgid "Everything your team needs, in one workspace"
 msgstr "كل ما يحتاجه فريقك، في مساحة عمل واحدة"
 
-#: .\dashboard\templates\dashboard\landing.html:69
+#: .\dashboard\templates\dashboard\landing.html:92
 msgid ""
 "Six connected modules that replace the pile of tools and paper your clinic "
 "juggles today."
 msgstr ""
 "ستة أقسام مترابطة تحل محل كومة الأدوات والأوراق التي تديرها عيادتك اليوم."
 
-#: .\dashboard\templates\dashboard\landing.html:89
+#: .\dashboard\templates\dashboard\landing.html:114
 msgid "HOW IT WORKS"
 msgstr "كيف يعمل"
 
-#: .\dashboard\templates\dashboard\landing.html:90
+#: .\dashboard\templates\dashboard\landing.html:115
 msgid "Up and running in an afternoon"
 msgstr "جاهز للعمل خلال ساعات"
 
-#: .\dashboard\templates\dashboard\landing.html:92
+#: .\dashboard\templates\dashboard\landing.html:117
 msgid ""
 "No IT department needed. Three simple steps to a calmer, more organized "
 "clinic."
 msgstr "لا حاجة لقسم تقني. ثلاث خطوات بسيطة لعيادة أكثر هدوءاً وتنظيماً."
 
-#: .\dashboard\templates\dashboard\landing.html:97
+#: .\dashboard\templates\dashboard\landing.html:124
 msgid "Set up your clinic"
 msgstr "أعدّ عيادتك"
 
-#: .\dashboard\templates\dashboard\landing.html:98
+#: .\dashboard\templates\dashboard\landing.html:125
 msgid ""
 "Add your staff, rooms, and services in minutes. No training manual required."
 msgstr "أضف موظفيك وغرفك وخدماتك خلال دقائق. لا حاجة لدليل تدريب."
 
-#: .\dashboard\templates\dashboard\landing.html:102
+#: .\dashboard\templates\dashboard\landing.html:130
 msgid "Start seeing patients"
 msgstr "ابدأ باستقبال المرضى"
 
-#: .\dashboard\templates\dashboard\landing.html:103
+#: .\dashboard\templates\dashboard\landing.html:131
 msgid ""
 "Schedule, check in, and document every visit — from vitals to prescriptions."
 msgstr "جدول واستقبل ووثّق كل زيارة — من العلامات الحيوية إلى الوصفات الطبية."
 
-#: .\dashboard\templates\dashboard\landing.html:107
+#: .\dashboard\templates\dashboard\landing.html:136
 msgid "Grow with clarity"
 msgstr "انمُ بوضوح"
 
-#: .\dashboard\templates\dashboard\landing.html:108
+#: .\dashboard\templates\dashboard\landing.html:137
 msgid "Track billing, queue times, and practice insights in real time."
 msgstr "تابع الفواتير وأوقات الانتظار وإحصائيات عيادتك لحظياً."
 
-#: .\dashboard\templates\dashboard\landing.html:116
+#: .\dashboard\templates\dashboard\landing.html:146
 msgid "TESTIMONIALS"
 msgstr "آراء العملاء"
 
-#: .\dashboard\templates\dashboard\landing.html:117
+#: .\dashboard\templates\dashboard\landing.html:147
 msgid "Loved by the people on the front line"
 msgstr "محبوب من العاملين في الصفوف الأمامية"
 
-#: .\dashboard\templates\dashboard\landing.html:121
+#: .\dashboard\templates\dashboard\landing.html:152
 msgid ""
 "We cut our front-desk wait times in half. The waiting queue alone changed "
 "how our whole morning runs."
@@ -814,11 +1043,11 @@ msgstr ""
 "خفّضنا وقت الانتظار عند الاستقبال إلى النصف. قائمة الانتظار وحدها غيّرت "
 "طريقة سير صباحنا بالكامل."
 
-#: .\dashboard\templates\dashboard\landing.html:126
+#: .\dashboard\templates\dashboard\landing.html:157
 msgid "General Physician, Lakeview Family Clinic"
 msgstr "طبيب عام، عيادة ليكفيو العائلية"
 
-#: .\dashboard\templates\dashboard\landing.html:132
+#: .\dashboard\templates\dashboard\landing.html:163
 msgid ""
 "Having every patient's full history on one timeline is a lifesaver. I can "
 "review a chart in seconds."
@@ -826,11 +1055,11 @@ msgstr ""
 "وجود السجل الكامل لكل مريض على جدول زمني واحد كان منقذاً حقيقياً. أستطيع "
 "مراجعة الملف خلال ثوانٍ."
 
-#: .\dashboard\templates\dashboard\landing.html:137
+#: .\dashboard\templates\dashboard\landing.html:168
 msgid "Cardiologist"
 msgstr "طبيب قلب"
 
-#: .\dashboard\templates\dashboard\landing.html:143
+#: .\dashboard\templates\dashboard\landing.html:174
 msgid ""
 "Setup took an afternoon. By the next day our whole team was documenting "
 "visits without paper."
@@ -838,24 +1067,24 @@ msgstr ""
 "استغرق الإعداد بضع ساعات فقط. وفي اليوم التالي كان فريقنا بالكامل يوثّق "
 "الزيارات بدون أوراق."
 
-#: .\dashboard\templates\dashboard\landing.html:148
+#: .\dashboard\templates\dashboard\landing.html:179
 msgid "Pediatrician"
 msgstr "طبيب أطفال"
 
-#: .\dashboard\templates\dashboard\landing.html:158
-#: .\templates\public_base.html:21
+#: .\dashboard\templates\dashboard\landing.html:190
+#: .\templates\public_base.html:20 .\templates\public_base.html:56
 msgid "FAQ"
 msgstr "الأسئلة الشائعة"
 
-#: .\dashboard\templates\dashboard\landing.html:159
+#: .\dashboard\templates\dashboard\landing.html:191
 msgid "Common questions, answered"
 msgstr "أسئلة شائعة، وإجاباتها"
 
-#: .\dashboard\templates\dashboard\landing.html:164
+#: .\dashboard\templates\dashboard\landing.html:197
 msgid "Is this a full practice management system?"
 msgstr "هل هذا نظام إدارة عيادات متكامل؟"
 
-#: .\dashboard\templates\dashboard\landing.html:168
+#: .\dashboard\templates\dashboard\landing.html:201
 msgid ""
 "Yes. Clinic SaS covers patient records, appointments, waiting queues, "
 "billing, staff, and notifications in a single connected workspace."
@@ -863,35 +1092,43 @@ msgstr ""
 "نعم. يغطي Clinic SaS سجلات المرضى والمواعيد وقوائم الانتظار والفواتير "
 "والموظفين والإشعارات في مساحة عمل واحدة مترابطة."
 
-#: .\dashboard\templates\dashboard\landing.html:173
+#: .\dashboard\templates\dashboard\landing.html:206
 msgid "Do I need to install anything?"
 msgstr "هل أحتاج لتثبيت أي شيء؟"
 
-#: .\dashboard\templates\dashboard\landing.html:176
+#: .\dashboard\templates\dashboard\landing.html:209
 msgid "No — Clinic SaS runs entirely in your browser."
 msgstr "لا — يعمل Clinic SaS بالكامل من خلال المتصفح."
 
-#: .\dashboard\templates\dashboard\landing.html:180
+#: .\dashboard\templates\dashboard\landing.html:213
 msgid "Can multiple staff members use it at once?"
 msgstr "هل يمكن لعدة موظفين استخدامه في نفس الوقت؟"
 
-#: .\dashboard\templates\dashboard\landing.html:183
+#: .\dashboard\templates\dashboard\landing.html:216
 msgid "Yes, with role-based access for admins, doctors, and reception."
 msgstr "نعم، مع صلاحيات وصول حسب الدور للمدراء والأطباء والاستقبال."
 
-#: .\dashboard\templates\dashboard\landing.html:187
+#: .\dashboard\templates\dashboard\landing.html:220
 msgid "What happens to my patient data?"
 msgstr "ماذا يحدث لبيانات مرضاي؟"
 
-#: .\dashboard\templates\dashboard\landing.html:190
+#: .\dashboard\templates\dashboard\landing.html:223
 msgid "Each clinic's data is fully isolated and never shared across tenants."
 msgstr "بيانات كل عيادة معزولة بالكامل ولا تُشارك أبداً بين العيادات الأخرى."
 
-#: .\dashboard\views.py:18
+#: .\dashboard\templates\dashboard\landing.html:232
+msgid "Ready to run a calmer clinic?"
+msgstr "مستعد لإدارة عيادة أكثر هدوءاً؟"
+
+#: .\dashboard\templates\dashboard\landing.html:233
+msgid "Start your 14-day free trial. No credit card needed."
+msgstr "ابدأ تجربتك المجانية لمدة 14 يوماً. لا حاجة لبطاقة ائتمان."
+
+#: .\dashboard\views.py:22
 msgid "Patient records"
 msgstr "سجلات المرضى"
 
-#: .\dashboard\views.py:19
+#: .\dashboard\views.py:23
 msgid ""
 "A complete medical history for every patient — conditions, allergies, "
 "vitals, and every visit laid out on a clean timeline."
@@ -899,7 +1136,7 @@ msgstr ""
 "سجل طبي كامل لكل مريض — الحالات والحساسية والعلامات الحيوية وكل زيارة، "
 "معروضة على جدول زمني واضح."
 
-#: .\dashboard\views.py:21
+#: .\dashboard\views.py:25
 msgid ""
 "A clickable month calendar with doctor filters and one-click scheduling, so "
 "the front desk never double-books."
@@ -907,11 +1144,11 @@ msgstr ""
 "تقويم شهري تفاعلي مع فلاتر للأطباء وجدولة بضغطة واحدة، حتى لا تتعارض "
 "المواعيد أبداً."
 
-#: .\dashboard\views.py:22
+#: .\dashboard\views.py:26
 msgid "Waiting queue"
 msgstr "قائمة الانتظار"
 
-#: .\dashboard\views.py:23
+#: .\dashboard\views.py:27
 msgid ""
 "See who is next in every room and call patients in with a single tap — no "
 "more shouting down the hallway."
@@ -919,7 +1156,7 @@ msgstr ""
 "اعرف من التالي في كل غرفة واستدعِ المرضى بضغطة واحدة — لا داعي للنداء بصوت "
 "عالٍ."
 
-#: .\dashboard\views.py:25
+#: .\dashboard\views.py:29
 msgid ""
 "Plans, invoices, and payment methods in one place, so your practice stays "
 "financially clear without a spreadsheet."
@@ -927,7 +1164,7 @@ msgstr ""
 "الخطط والفواتير وطرق الدفع في مكان واحد، لتبقى أمورك المالية واضحة بدون "
 "جداول بيانات."
 
-#: .\dashboard\views.py:27
+#: .\dashboard\views.py:31
 msgid ""
 "Roles, availability, and your whole team at a glance — from physicians to "
 "front-desk and nursing."
@@ -935,13 +1172,13 @@ msgstr ""
 "الأدوار والتوفر وفريقك بالكامل بنظرة واحدة — من الأطباء إلى الاستقبال "
 "والتمريض."
 
-#: .\dashboard\views.py:28 .\notifications\templates\notifications\list.html:3
+#: .\dashboard\views.py:32 .\notifications\templates\notifications\list.html:3
 #: .\notifications\templates\notifications\list.html:9
-#: .\templates\base.html:64
+#: .\templates\base.html:85 .\templates\base.html:127
 msgid "Notifications"
 msgstr "الإشعارات"
 
-#: .\dashboard\views.py:29
+#: .\dashboard\views.py:33
 msgid ""
 "Never miss a follow-up, a referral, or an update. Every important moment "
 "surfaces right where you work."
@@ -952,14 +1189,23 @@ msgid "Stay on top of appointments and updates"
 msgstr "تابع كل المواعيد والتحديثات أولاً بأول"
 
 #: .\notifications\templates\notifications\list.html:29
-msgid "ago"
-msgstr "مضت"
+msgid "Unread"
+msgstr "غير مقروء"
 
-#: .\notifications\templates\notifications\list.html:36
+#: .\notifications\templates\notifications\list.html:32
+#, python-format
+msgid "%(time)s ago"
+msgstr "منذ %(time)s"
+
+#: .\notifications\templates\notifications\list.html:37
 msgid "Mark read"
 msgstr "تمييز كمقروء"
 
-#: .\notifications\templates\notifications\list.html:42
+#: .\notifications\templates\notifications\list.html:44
+msgid "You're all caught up"
+msgstr "لا جديد لديك"
+
+#: .\notifications\templates\notifications\list.html:45
 msgid "No notifications yet."
 msgstr "لا توجد إشعارات بعد."
 
@@ -967,119 +1213,158 @@ msgstr "لا توجد إشعارات بعد."
 msgid "Add Patient"
 msgstr "إضافة مريض"
 
-#: .\patients\templates\patients\add.html:8
-msgid "Add New Patient"
-msgstr "إضافة مريض جديد"
-
-#: .\patients\templates\patients\add.html:18
-#: .\patients\templates\patients\portal_register.html:21
-msgid "Phone Number"
-msgstr "رقم الهاتف"
-
-#: .\patients\templates\patients\add.html:29
-msgid "Date of Birth"
-msgstr "تاريخ الميلاد"
-
-#: .\patients\templates\patients\add.html:34
-msgid "Gender"
-msgstr "الجنس"
-
-#: .\patients\templates\patients\add.html:37
-msgid "Male"
-msgstr "ذكر"
-
-#: .\patients\templates\patients\add.html:38
-msgid "Female"
-msgstr "أنثى"
-
-#: .\patients\templates\patients\add.html:43
-#: .\patients\templates\patients\list.html:30
-msgid "Blood Type"
-msgstr "فصيلة الدم"
-
-#: .\patients\templates\patients\add.html:44
-msgid "e.g. O+"
-msgstr "مثال: O+"
-
-#: .\patients\templates\patients\add.html:48
-#: .\patients\templates\patients\detail.html:18
-msgid "Allergies"
-msgstr "الحساسية"
-
-#: .\patients\templates\patients\add.html:53
-msgid "Save Patient"
-msgstr "حفظ المريض"
-
-#: .\patients\templates\patients\detail.html:7
+#: .\patients\templates\patients\add.html:9
+#: .\patients\templates\patients\detail.html:8
 msgid "Back to patients"
 msgstr "العودة للمرضى"
 
-#: .\patients\templates\patients\detail.html:17
+#: .\patients\templates\patients\add.html:13
+msgid "Add New Patient"
+msgstr "إضافة مريض جديد"
+
+#: .\patients\templates\patients\add.html:14
+msgid "Create a record for a walk-in or phone booking."
+msgstr "أنشئ سجلاً لمريض حضر مباشرة أو حجز عبر الهاتف."
+
+#: .\patients\templates\patients\add.html:26
+#: .\patients\templates\patients\portal_register.html:24
+msgid "Phone Number"
+msgstr "رقم الهاتف"
+
+#: .\patients\templates\patients\add.html:36
+msgid "Date of Birth"
+msgstr "تاريخ الميلاد"
+
+#: .\patients\templates\patients\add.html:40
+msgid "Gender"
+msgstr "الجنس"
+
+#: .\patients\templates\patients\add.html:43
+msgid "Male"
+msgstr "ذكر"
+
+#: .\patients\templates\patients\add.html:44
+msgid "Female"
+msgstr "أنثى"
+
+#: .\patients\templates\patients\add.html:48
+#: .\patients\templates\patients\list.html:33
+msgid "Blood Type"
+msgstr "فصيلة الدم"
+
+#: .\patients\templates\patients\add.html:49
+msgid "e.g. O+"
+msgstr "مثال: O+"
+
+#: .\patients\templates\patients\add.html:53
+#: .\patients\templates\patients\detail.html:24
+msgid "Allergies"
+msgstr "الحساسية"
+
+#: .\patients\templates\patients\add.html:58
+msgid "Save Patient"
+msgstr "حفظ المريض"
+
+#: .\patients\templates\patients\detail.html:22
 msgid "Blood"
 msgstr "فصيلة الدم"
 
-#: .\patients\templates\patients\detail.html:18
+#: .\patients\templates\patients\detail.html:24
 msgid "None"
 msgstr "لا يوجد"
 
-#: .\patients\templates\patients\detail.html:27
+#: .\patients\templates\patients\detail.html:33
 msgid "Add Medical Record"
 msgstr "إضافة سجل طبي"
 
-#: .\patients\templates\patients\detail.html:31
+#: .\patients\templates\patients\detail.html:37
 msgid "Diagnosis"
 msgstr "التشخيص"
 
-#: .\patients\templates\patients\detail.html:36
+#: .\patients\templates\patients\detail.html:41
 msgid "Prescription"
 msgstr "الوصفة الطبية"
 
-#: .\patients\templates\patients\detail.html:41
+#: .\patients\templates\patients\detail.html:45
 msgid "Notes"
 msgstr "ملاحظات"
 
-#: .\patients\templates\patients\detail.html:46
+#: .\patients\templates\patients\detail.html:49
 msgid "Add Record"
 msgstr "إضافة سجل"
 
-#: .\patients\templates\patients\detail.html:53
+#: .\patients\templates\patients\detail.html:56
 msgid "Medical History"
 msgstr "التاريخ الطبي"
 
-#: .\patients\templates\patients\detail.html:62
+#: .\patients\templates\patients\detail.html:76
 msgid "No records yet."
 msgstr "لا توجد سجلات بعد."
 
-#: .\patients\templates\patients\list.html:10
-msgid "Manage records and medical history across all your patients"
-msgstr "إدارة السجلات والتاريخ الطبي لجميع مرضاك"
+#: .\patients\templates\patients\list.html:11
+#, python-format
+msgid "%(total)s patient in your clinic"
+msgid_plural "%(total)s patients in your clinic"
+msgstr[0] "عدد المرضى في عيادتك: %(total)s"
+msgstr[1] "عدد المرضى في عيادتك: %(total)s"
+msgstr[2] "عدد المرضى في عيادتك: %(total)s"
+msgstr[3] "عدد المرضى في عيادتك: %(total)s"
+msgstr[4] "عدد المرضى في عيادتك: %(total)s"
+msgstr[5] "عدد المرضى في عيادتك: %(total)s"
 
-#: .\patients\templates\patients\list.html:13
+#: .\patients\templates\patients\list.html:15
 msgid "Add patient"
 msgstr "إضافة مريض"
 
-#: .\patients\templates\patients\list.html:31
+#: .\patients\templates\patients\list.html:21
+#, python-format
+msgid "%(total)s result for “%(query)s”"
+msgid_plural "%(total)s results for “%(query)s”"
+msgstr[0] "نتائج البحث عن «%(query)s»: %(total)s"
+msgstr[1] "نتائج البحث عن «%(query)s»: %(total)s"
+msgstr[2] "نتائج البحث عن «%(query)s»: %(total)s"
+msgstr[3] "نتائج البحث عن «%(query)s»: %(total)s"
+msgstr[4] "نتائج البحث عن «%(query)s»: %(total)s"
+msgstr[5] "نتائج البحث عن «%(query)s»: %(total)s"
+
+#: .\patients\templates\patients\list.html:22
+msgid "Clear search"
+msgstr "مسح البحث"
+
+#: .\patients\templates\patients\list.html:34
 msgid "Last Visit"
 msgstr "آخر زيارة"
 
-#: .\patients\templates\patients\list.html:52
+#: .\patients\templates\patients\list.html:57
 msgid "View"
 msgstr "عرض"
 
-#: .\patients\templates\patients\list.html:56
+#: .\patients\templates\patients\list.html:67
+msgid "No patients match your search."
+msgstr "لا يوجد مرضى يطابقون بحثك."
+
+#: .\patients\templates\patients\list.html:69
 msgid "No patients yet."
 msgstr "لا يوجد مرضى بعد."
 
-#: .\patients\templates\patients\portal_base.html:7
-#: .\patients\templates\patients\portal_base.html:17
+#: .\patients\templates\patients\list.html:70
+msgid "Add your first patient"
+msgstr "أضف أول مريض"
+
+#: .\patients\templates\patients\portal_base.html:6
+#: .\patients\templates\patients\portal_base.html:15
 msgid "Patient Portal"
 msgstr "بوابة المرضى"
 
-#: .\patients\templates\patients\portal_base.html:25
+#: .\patients\templates\patients\portal_base.html:26
 msgid "Logout"
 msgstr "تسجيل الخروج"
 
-#: .\patients\templates\patients\portal_book.html:28
+#: .\patients\templates\patients\portal_book.html:13
+msgid "The clinic will confirm your request."
+msgstr "ستؤكد العيادة طلبك."
+
+#: .\patients\templates\patients\portal_book.html:37
 msgid "Request Appointment"
 msgstr "طلب موعد"
 
@@ -1097,92 +1382,150 @@ msgstr "اضغط على الرابط لإكمال إنشاء حسابك. لم ي
 msgid "Welcome, %(name)s"
 msgstr "أهلاً، %(name)s"
 
-#: .\patients\templates\patients\portal_login.html:8
+#: .\patients\templates\patients\portal_dashboard.html:34
+msgid "Cancel this appointment?"
+msgstr "هل تريد إلغاء هذا الموعد؟"
+
+#: .\patients\templates\patients\portal_login.html:10
 msgid "Sign in to manage your appointments"
 msgstr "سجّل الدخول لإدارة مواعيدك"
 
-#: .\patients\templates\patients\portal_login.html:26
+#: .\patients\templates\patients\portal_login.html:29
 msgid "Don't have an account yet?"
 msgstr "ليس لديك حساب بعد؟"
 
-#: .\patients\templates\patients\portal_login.html:27
+#: .\patients\templates\patients\portal_login.html:30
 msgid "Create one"
 msgstr "أنشئ حساباً"
 
 #: .\patients\templates\patients\portal_register.html:3
-#: .\patients\templates\patients\portal_register.html:7
+#: .\patients\templates\patients\portal_register.html:8
 msgid "Create Your Account"
 msgstr "أنشئ حسابك"
 
-#: .\patients\templates\patients\portal_register.html:8
+#: .\patients\templates\patients\portal_register.html:9
 #, python-format
 msgid "Book and manage your appointments at %(clinic_name)s"
 msgstr "احجز وأدر مواعيدك في %(clinic_name)s"
 
-#: .\patients\templates\patients\portal_register.html:29
-msgid "Confirm Password"
-msgstr "تأكيد كلمة المرور"
-
-#: .\patients\templates\patients\portal_register.html:33
+#: .\patients\templates\patients\portal_register.html:38
 msgid "Create Account"
 msgstr "إنشاء حساب"
 
-#: .\patients\templates\patients\portal_register.html:38
-msgid "Already have an account?"
-msgstr "لديك حساب مسبقاً؟"
-
-#: .\patients\templates\patients\portal_register.html:39
-#: .\templates\public_base.html:49
-msgid "Sign in"
-msgstr "تسجيل الدخول"
-
-#: .\templates\base.html:7
+#: .\templates\base.html:6
 msgid "Clinic SaS"
 msgstr "Clinic SaS"
 
-#: .\templates\base.html:20
+#: .\templates\base.html:19
 msgid "Practice platform"
 msgstr "منصة إدارة العيادات"
 
-#: .\templates\base.html:28
-msgid "Downtown branch"
-msgstr "الفرع الرئيسي"
+#: .\templates\base.html:22
+msgid "Close menu"
+msgstr "إغلاق القائمة"
 
-#: .\templates\base.html:32
-msgid "CLINIC"
+#: .\templates\base.html:38
+#, python-format
+msgid "Free trial · %(days)s day left"
+msgid_plural "Free trial · %(days)s days left"
+msgstr[0] "تجربة مجانية · الأيام المتبقية: %(days)s"
+msgstr[1] "تجربة مجانية · الأيام المتبقية: %(days)s"
+msgstr[2] "تجربة مجانية · الأيام المتبقية: %(days)s"
+msgstr[3] "تجربة مجانية · الأيام المتبقية: %(days)s"
+msgstr[4] "تجربة مجانية · الأيام المتبقية: %(days)s"
+msgstr[5] "تجربة مجانية · الأيام المتبقية: %(days)s"
+
+#: .\templates\base.html:38
+msgid "Trial ended"
+msgstr "انتهت التجربة"
+
+#: .\templates\base.html:41
+#, python-format
+msgid "%(plan)s plan"
+msgstr "خطة %(plan)s"
+
+#: .\templates\base.html:49
+msgid "Clinic"
 msgstr "العيادة"
 
-#: .\templates\base.html:54
-msgid "ADMINISTRATION"
+#: .\templates\base.html:73
+msgid "Administration"
 msgstr "الإدارة"
 
-#: .\templates\base.html:98
-msgid "Exit"
-msgstr "خروج"
+#: .\templates\base.html:114
+msgid "Open menu"
+msgstr "فتح القائمة"
 
-#: .\templates\base.html:104
-msgid "Search patients, appointments..."
-msgstr "ابحث عن المرضى، المواعيد..."
+#: .\templates\base.html:122
+msgid "Search patients by name, phone or email…"
+msgstr "ابحث عن المرضى بالاسم أو الهاتف أو البريد…"
 
-#: .\templates\public_base.html:7
+#: .\templates\includes\confirm_modal.html:9
+msgid "Are you sure?"
+msgstr "هل أنت متأكد؟"
+
+#: .\templates\includes\confirm_modal.html:10
+msgid "This can't be undone."
+msgstr "لا يمكن التراجع عن هذا الإجراء."
+
+#: .\templates\includes\confirm_modal.html:12
+msgid "Go back"
+msgstr "رجوع"
+
+#: .\templates\includes\confirm_modal.html:13
+msgid "Yes, continue"
+msgstr "نعم، متابعة"
+
+#: .\templates\includes\toasts.html:10
+msgid "Close"
+msgstr "إغلاق"
+
+#: .\templates\public_base.html:6
 msgid "Clinic SaS — Practice Management Platform"
 msgstr "Clinic SaS — منصة إدارة العيادات"
 
-#: .\templates\public_base.html:18
+#: .\templates\public_base.html:17 .\templates\public_base.html:55
 msgid "Features"
 msgstr "المميزات"
 
-#: .\templates\public_base.html:19
+#: .\templates\public_base.html:18
 msgid "How it works"
 msgstr "كيف يعمل"
 
-#: .\templates\public_base.html:20
+#: .\templates\public_base.html:19
 msgid "Testimonials"
 msgstr "آراء العملاء"
 
-#: .\templates\public_base.html:46
+#: .\templates\public_base.html:32
 msgid "My appointments"
 msgstr "مواعيدي"
+
+#~ msgid "Send Link"
+#~ msgstr "إرسال الرابط"
+
+#~ msgid "checked in"
+#~ msgstr "تم تسجيل وصولهم"
+
+#~ msgid "ago"
+#~ msgstr "مضت"
+
+#~ msgid "Manage records and medical history across all your patients"
+#~ msgstr "إدارة السجلات والتاريخ الطبي لجميع مرضاك"
+
+#~ msgid "Downtown branch"
+#~ msgstr "الفرع الرئيسي"
+
+#~ msgid "CLINIC"
+#~ msgstr "العيادة"
+
+#~ msgid "ADMINISTRATION"
+#~ msgstr "الإدارة"
+
+#~ msgid "Exit"
+#~ msgstr "خروج"
+
+#~ msgid "Search patients, appointments..."
+#~ msgstr "ابحث عن المرضى، المواعيد..."
 
 #~ msgid "Didn't get it?"
 #~ msgstr "لم يصلك؟"

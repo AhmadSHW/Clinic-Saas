@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db import transaction
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
@@ -23,9 +24,19 @@ from .utils import send_portal_verification_email, decode_signup_token, complete
 @login_required_session
 def patient_list(request):
     patients = Patient.objects.filter(clinic=request.clinic)
+    total_patients = patients.count()
+
+    # ?q= comes from the search box in the top bar
+    query = request.GET.get("q", "").strip()
+    if query:
+        patients = patients.filter(
+            Q(full_name__icontains=query) | Q(phone_number__icontains=query) | Q(email__icontains=query)
+        )
+
     context = {
         "patients": patients,
-        "total_patients": patients.count(),
+        "total_patients": total_patients,
+        "query": query,
     }
     return render(request, "patients/list.html", context)
 
