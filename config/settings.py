@@ -3,9 +3,10 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Explicit path, so .env is found no matter which directory the server starts in
+load_dotenv(BASE_DIR / ".env")
 
 # ============ الأمان ============
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -17,6 +18,23 @@ ALLOWED_HOSTS = [
 CSRF_TRUSTED_ORIGINS = [
     o.strip() for o in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if o.strip()
 ]
+
+if not DEBUG:
+    if not SECRET_KEY:
+        from django.core.exceptions import ImproperlyConfigured
+        raise ImproperlyConfigured("SECRET_KEY must be set in .env when DEBUG is off.")
+
+    # The host (e.g. PythonAnywhere) terminates HTTPS in front of Django and says so
+    # in X-Forwarded-Proto, so request.is_secure() and absolute links use https
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    # On PythonAnywhere, turn on "Force HTTPS" in the Web tab instead of this
+    SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "False") == "True"
+    SESSION_COOKIE_SECURE = os.getenv("SECURE_COOKIES", "True") == "True"
+    CSRF_COOKIE_SECURE = SESSION_COOKIE_SECURE
+    # Raise (e.g. to 31536000) once HTTPS is confirmed working; browsers remember it
+    SECURE_HSTS_SECONDS = int(os.getenv("SECURE_HSTS_SECONDS", "0"))
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_REFERRER_POLICY = "same-origin"
 
 # ============ التطبيقات ============
 INSTALLED_APPS = [
@@ -100,6 +118,9 @@ DATABASES = {
         "PORT": os.getenv("DB_PORT", "3306"),
         "OPTIONS": {
             "charset": "utf8mb4",
+            # Strict mode makes MySQL reject bad data instead of silently truncating it
+            # (PythonAnywhere's MySQL doesn't enable it by default; Django warns without it)
+            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
         },
     }
 }
@@ -139,7 +160,19 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True") == "True"
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 EMAIL_TIMEOUT = 15
-# Verification emails ask for a "YES" reply, read back from this inbox over IMAP
+# Verification emails ask for a "YES" reply, read back from this inbox over IMAP.
+# Set EMAIL_VERIFY_BY_REPLY=False where IMAP is blocked (PythonAnywhere free accounts):
+# verification emails then carry a link instead.
 EMAIL_IMAP_HOST = os.getenv("EMAIL_IMAP_HOST", "imap.gmail.com")
+EMAIL_VERIFY_BY_REPLY = os.getenv("EMAIL_VERIFY_BY_REPLY", "True") == "True"
 # Gmail sends as the account address anyway, so default the sender to it
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL") or EMAIL_HOST_USER or "noreply@clinicsaas.local"
+
+# ============ Logging ============
+# Errors and warnings go to stderr; under systemd that's `journalctl -u clinic-saas`
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    "root": {"handlers": ["console"], "level": os.getenv("LOG_LEVEL", "WARNING")},
+}

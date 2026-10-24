@@ -234,3 +234,11 @@ class ReplyVerificationTests(ClinicTestCase):
         self.assertEqual(data["redirect"], "/en/patients/portal/dashboard/")
         self.assertTrue(Patient.objects.filter(email="pat@gmail.com").exclude(password_hash="").exists())
         self.assertFalse(PortalSignup.objects.exists())
+
+    @override_settings(EMAIL_VERIFY_BY_REPLY=False)
+    def test_switch_off_sends_a_link_instead(self):
+        # For hosts where IMAP is blocked (PythonAnywhere free): Gmail still sends, with a link
+        page = self.signup()
+        self.assertFalse(page.context["by_reply"])
+        self.assertIn("/en/accounts/verify/", self.sent[-1].body)
+        self.assertNotIn("reply YES", self.sent[-1].subject)

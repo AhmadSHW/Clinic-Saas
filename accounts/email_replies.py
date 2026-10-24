@@ -45,7 +45,8 @@ REF_RE = re.compile(rf"Ref:\s*({_TOKEN_RE})")
 
 def reply_verification_enabled():
     return (
-        settings.EMAIL_BACKEND == "django.core.mail.backends.smtp.EmailBackend"
+        settings.EMAIL_VERIFY_BY_REPLY
+        and settings.EMAIL_BACKEND == "django.core.mail.backends.smtp.EmailBackend"
         and bool(settings.EMAIL_HOST_USER and settings.EMAIL_HOST_PASSWORD)
     )
 

@@ -80,6 +80,10 @@ For local testing:
 stripe listen --forward-to localhost:8000/billing/webhook/
 ```
 
+## Deployment
+
+See **[PYTHONANYWHERE.md](PYTHONANYWHERE.md)** for step-by-step instructions to run it on PythonAnywhere's free tier with its MySQL database.
+
 ## Tests
 
 ```bash
