@@ -304,6 +304,9 @@ translations = {
     "Waiting for your reply…": "بانتظار ردك…",
     "Didn't get it? Check your Spam folder, or": "لم تصلك الرسالة؟ تحقق من مجلد الرسائل غير المرغوب فيها، أو",
     "send it again": "أعد إرسالها",
+
+    "Go to dashboard": "الذهاب إلى لوحة التحكم",
+    "My appointments": "مواعيدي",
 }
 
 count = 0

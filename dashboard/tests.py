@@ -29,3 +29,19 @@ class DashboardTests(ClinicTestCase):
         r = self.c.get("/en/dashboard/")
         self.assertTrue(r.context["is_doctor_view"])
         self.assertEqual(r.context["appointments_today"], 1)
+
+    def test_sidebar_brand_links_home(self):
+        self.login_as()
+        r = self.c.get("/en/patients/")
+        self.assertContains(r, 'href="/en/" class="flex items-center gap-2 cursor-pointer')
+        r = self.c.get("/ar/patients/")
+        self.assertContains(r, 'href="/ar/" class="flex items-center gap-2 cursor-pointer')
+
+    def test_landing_page_keeps_staff_signed_in(self):
+        self.assertContains(self.c.get("/en/"), "Sign in")
+        self.login_as()
+        r = self.c.get("/en/")
+        self.assertEqual(r.context["staff_user"], self.admin)
+        self.assertContains(r, "Go to dashboard")
+        self.assertNotContains(r, ">Sign in<")
+        self.assertEqual(self.c.get("/en/dashboard/").status_code, 200)

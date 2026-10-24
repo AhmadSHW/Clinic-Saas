@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 21:29+0200\n"
+"POT-Creation-Date: 2026-10-24 21:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -684,7 +684,12 @@ msgstr ""
 "بالكامل في مكان واحد — لتقضي وقتاً أقل بالأوراق ووقتاً أكثر مع مرضاك."
 
 #: .\dashboard\templates\dashboard\landing.html:21
-#: .\templates\public_base.html:41
+#: .\templates\public_base.html:42
+msgid "Go to dashboard"
+msgstr "الذهاب إلى لوحة التحكم"
+
+#: .\dashboard\templates\dashboard\landing.html:21
+#: .\templates\public_base.html:51
 msgid "Open the app"
 msgstr "افتح التطبيق"
 
@@ -1127,7 +1132,7 @@ msgid "Already have an account?"
 msgstr "لديك حساب مسبقاً؟"
 
 #: .\patients\templates\patients\portal_register.html:39
-#: .\templates\public_base.html:39
+#: .\templates\public_base.html:49
 msgid "Sign in"
 msgstr "تسجيل الدخول"
 
@@ -1174,6 +1179,10 @@ msgstr "كيف يعمل"
 #: .\templates\public_base.html:20
 msgid "Testimonials"
 msgstr "آراء العملاء"
+
+#: .\templates\public_base.html:46
+msgid "My appointments"
+msgstr "مواعيدي"
 
 #~ msgid "Didn't get it?"
 #~ msgstr "لم يصلك؟"

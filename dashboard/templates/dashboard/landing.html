@@ -17,8 +17,8 @@
             {% trans "Clinic SaS brings patient records, appointments, waiting queues, billing, and your whole team together — so you spend less time on paperwork and more time with patients." %}
         </p>
         <div class="flex gap-3">
-            <a href="{% url 'accounts:signup' %}" class="bg-teal-500 hover:bg-teal-600 text-white font-medium px-6 py-3 rounded-lg transition">
-                {% trans "Open the app" %} →
+            <a href="{% if staff_user %}{% url 'dashboard:home' %}{% else %}{% url 'accounts:signup' %}{% endif %}" class="bg-teal-500 hover:bg-teal-600 text-white font-medium px-6 py-3 rounded-lg transition">
+                {% if staff_user %}{% trans "Go to dashboard" %}{% else %}{% trans "Open the app" %}{% endif %} →
             </a>
             <a href="#features" class="bg-white border border-slate-200 font-medium px-6 py-3 rounded-lg hover:bg-slate-50 transition">
                 {% trans "Explore features" %}
