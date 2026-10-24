@@ -1,0 +1,12 @@
+{% load i18n %}
+{# Change vs a named period. Expects `d` from dashboard.charts.delta and `since` (the comparison text). Up is good on every tile that uses this. #}
+<p class="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs">
+    {% if d.direction == "up" %}
+        <span class="inline-flex items-center gap-0.5 font-semibold text-emerald-700">{% icon "arrow-up" "h-3.5 w-3.5" %}{{ d.diff }}{% if d.percent is not None %} ({{ d.percent }}%){% endif %}</span>
+    {% elif d.direction == "down" %}
+        <span class="inline-flex items-center gap-0.5 font-semibold text-red-600">{% icon "arrow-down" "h-3.5 w-3.5" %}{{ d.diff }}{% if d.percent is not None %} ({{ d.percent }}%){% endif %}</span>
+    {% else %}
+        <span class="font-semibold text-slate-500">{% trans "No change" %}</span>
+    {% endif %}
+    <span class="text-slate-400">{{ since }}</span>
+</p>

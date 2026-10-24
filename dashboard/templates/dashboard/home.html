@@ -1,91 +1,198 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n static tz %}
 {% block title %}{% trans "Dashboard" %}{% endblock %}
 {% block nav_dashboard %}nav-link-active{% endblock %}
 
 {% block content %}
-<div class="page-header">
-    <div>
-        <h1 class="page-title">
-            {% if greeting == "morning" %}{% blocktrans with name=staff_user.full_name %}Good morning, {{ name }}{% endblocktrans %}
-            {% elif greeting == "afternoon" %}{% blocktrans with name=staff_user.full_name %}Good afternoon, {{ name }}{% endblocktrans %}
-            {% else %}{% blocktrans with name=staff_user.full_name %}Good evening, {{ name }}{% endblocktrans %}{% endif %}
-        </h1>
-        <p class="page-subtitle">
-            {% now "l, j F" as today_label %}
-            {% blocktrans with clinic_name=current_clinic.name %}Here's what's happening at {{ clinic_name }} today{% endblocktrans %} · {{ today_label }}
-        </p>
-    </div>
-    <a href="{% url 'appointments:book' %}" class="btn-primary sm:hidden">
-        {% icon "plus" "h-4 w-4" %} {% trans "New appointment" %}
-    </a>
-</div>
+{% blocktrans with day=comparison_day|date:"l" asvar since_last_week %}vs last {{ day }}{% endblocktrans %}
 
-<!-- Stat cards -->
-<div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-    <div class="stat-card">
-        <span class="stat-icon bg-brand-50 text-brand-600">{% icon "calendar" %}</span>
-        <div>
-            <p class="stat-value">{{ appointments_today }}</p>
-            <p class="stat-label">{% if is_doctor_view %}{% trans "Your appointments today" %}{% else %}{% trans "Appointments today" %}{% endif %}</p>
-        </div>
-    </div>
-    <div class="stat-card">
-        <span class="stat-icon bg-sky-50 text-sky-600">{% icon "clock" %}</span>
-        <div>
-            <p class="stat-value">{{ in_queue_count }}</p>
-            <p class="stat-label">{% trans "In waiting queue" %}</p>
-        </div>
-    </div>
-    <div class="stat-card">
-        <span class="stat-icon bg-emerald-50 text-emerald-600">{% icon "check-circle" %}</span>
-        <div>
-            <p class="stat-value">{{ completed_today }}</p>
-            <p class="stat-label">{% trans "Completed today" %}</p>
-        </div>
-    </div>
-    <div class="stat-card">
-        <span class="stat-icon bg-orange-50 text-orange-600">{% icon "users" %}</span>
-        <div>
-            <p class="stat-value">{{ total_patients }}</p>
-            <p class="stat-label">{% trans "Total patients" %}</p>
-        </div>
-    </div>
-</div>
+<!-- Welcome banner -->
+<section class="relative mb-6 overflow-hidden rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 px-5 py-6 text-white shadow-lift sm:px-8 sm:py-7">
+    <div class="pointer-events-none absolute -top-20 end-[-4rem] h-64 w-64 rounded-full bg-white/10 blur-2xl"></div>
+    <div class="pointer-events-none absolute -bottom-24 start-1/3 h-56 w-56 rounded-full bg-brand-300/20 blur-2xl"></div>
 
-<div class="grid gap-6 lg:grid-cols-3">
-    <!-- Today's schedule -->
-    <div class="card lg:col-span-2">
-        <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-6">
-            <h2 class="card-title">{% if is_doctor_view %}{% trans "Your schedule today" %}{% else %}{% trans "Today's schedule" %}{% endif %}</h2>
-            <a href="{% url 'appointments:list' %}{% if is_doctor_view %}?doctor={{ staff_user.id }}{% endif %}" class="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-800">
-                {% trans "View all" %} {% icon "chevron-right" "h-4 w-4 rtl:rotate-180" %}
+    <div class="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <div class="min-w-0">
+            <p class="flex items-center gap-2 text-sm font-medium text-brand-100">
+                {% icon "calendar" "h-4 w-4" %}
+                {% get_current_timezone as clinic_timezone %}
+                <span data-live-clock data-timezone="{{ clinic_timezone }}">{% now "l, j F · H:i" %}</span>
+            </p>
+            <h1 class="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
+                {% if greeting == "morning" %}{% blocktrans with name=staff_user.full_name %}Good morning, {{ name }}{% endblocktrans %}
+                {% elif greeting == "afternoon" %}{% blocktrans with name=staff_user.full_name %}Good afternoon, {{ name }}{% endblocktrans %}
+                {% else %}{% blocktrans with name=staff_user.full_name %}Good evening, {{ name }}{% endblocktrans %}{% endif %}
+            </h1>
+            <p class="mt-2 max-w-xl text-sm text-brand-100 sm:text-base">
+                {% if next_up %}
+                    {% blocktrans with name=next_up.patient.full_name time=next_up.scheduled_at|time:"H:i" %}Next up: {{ name }} at {{ time }}.{% endblocktrans %}
+                {% elif appointments_today %}
+                    {% trans "No more appointments waiting to start today." %}
+                {% else %}
+                    {% blocktrans with clinic_name=current_clinic.name %}Here's what's happening at {{ clinic_name }} today{% endblocktrans %}
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+            {% if is_doctor_view %}
+            <a href="{% url 'appointments:list' %}?doctor={{ staff_user.id }}" class="btn bg-white text-brand-700 shadow-sm hover:bg-brand-50">
+                {% icon "calendar-check" "h-4 w-4" %} {% trans "My Appointments" %}
+            </a>
+            {% else %}
+            <a href="{% url 'appointments:book' %}" class="btn bg-white text-brand-700 shadow-sm hover:bg-brand-50">
+                {% icon "calendar-plus" "h-4 w-4" %} {% trans "New appointment" %}
+            </a>
+            <a href="{% url 'patients:add' %}" class="btn bg-white/10 text-white ring-1 ring-inset ring-white/25 hover:bg-white/20">
+                {% icon "user-plus" "h-4 w-4" %} {% trans "Add patient" %}
+            </a>
+            {% endif %}
+            <a href="{% url 'appointments:queue' %}" class="btn bg-white/10 text-white ring-1 ring-inset ring-white/25 hover:bg-white/20">
+                {% icon "clock" "h-4 w-4" %} {% trans "Open queue" %}
             </a>
         </div>
-        <ul class="divide-y divide-slate-100">
-            {% for appt in todays_appointments %}
-            <li class="flex items-center gap-4 px-5 py-3.5 sm:px-6">
-                <span class="w-12 shrink-0 text-sm font-semibold tabular-nums text-slate-900">{{ appt.scheduled_at|date:"H:i" }}</span>
-                <span class="avatar-md">{{ appt.patient.full_name|initials }}</span>
-                <div class="min-w-0 flex-1">
-                    <p class="truncate text-sm font-medium text-slate-900">{{ appt.patient.full_name }}</p>
-                    <p class="truncate text-xs text-slate-500">{% if appt.reason %}{{ appt.reason }}{% else %}{% trans "Visit" %}{% endif %}{% if appt.doctor %} · Dr. {{ appt.doctor.full_name }}{% endif %}</p>
-                </div>
-                <span class="{{ appt.status|status_badge }}">{{ appt.get_status_display }}</span>
-            </li>
-            {% empty %}
-            <li class="empty-state">
-                <span class="empty-icon">{% icon "calendar" %}</span>
-                <p class="text-sm text-slate-500">{% trans "No appointments scheduled for today." %}</p>
-                <a href="{% url 'appointments:book' %}" class="btn-secondary btn-sm">{% icon "plus" "h-4 w-4" %} {% trans "Book one" %}</a>
-            </li>
-            {% endfor %}
-        </ul>
     </div>
+</section>
+
+<!-- Stat tiles -->
+<div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="card flex flex-col p-5">
+        <div class="flex items-start justify-between gap-3">
+            <p class="text-sm font-medium text-slate-500">{% if is_doctor_view %}{% trans "Your appointments today" %}{% else %}{% trans "Appointments today" %}{% endif %}</p>
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-600">{% icon "calendar" "h-[18px] w-[18px]" %}</span>
+        </div>
+        <p class="mt-2 text-3xl font-bold tracking-tight text-slate-900" data-count-up>{{ appointments_today }}</p>
+        <div class="mt-auto flex items-end justify-between gap-3 pt-3">
+            {% include "dashboard/_delta.html" with d=appointments_delta since=since_last_week %}
+            {% include "dashboard/_sparkline.html" with spark=appointments_trend %}
+        </div>
+    </div>
+
+    <div class="card flex flex-col p-5">
+        <div class="flex items-start justify-between gap-3">
+            <p class="text-sm font-medium text-slate-500">{% trans "In waiting queue" %}</p>
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-50 text-sky-600">{% icon "clock" "h-[18px] w-[18px]" %}</span>
+        </div>
+        <p class="mt-2 text-3xl font-bold tracking-tight text-slate-900" data-count-up>{{ in_queue_count }}</p>
+        <p class="mt-auto pt-3 text-xs text-slate-500">
+            {% if longest_wait_minutes is not None %}
+                {% blocktrans with minutes=longest_wait_minutes %}Longest wait: {{ minutes }} min{% endblocktrans %}
+            {% else %}
+                {% trans "Nobody is waiting right now." %}
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="card flex flex-col p-5">
+        <div class="flex items-start justify-between gap-3">
+            <p class="text-sm font-medium text-slate-500">{% trans "Completed today" %}</p>
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">{% icon "check-circle" "h-[18px] w-[18px]" %}</span>
+        </div>
+        <p class="mt-2 text-3xl font-bold tracking-tight text-slate-900" data-count-up>{{ completed_today }}</p>
+        <div class="mt-auto flex items-end justify-between gap-3 pt-3">
+            {% include "dashboard/_delta.html" with d=completed_delta since=since_last_week %}
+            {% include "dashboard/_sparkline.html" with spark=completed_trend %}
+        </div>
+    </div>
+
+    <div class="card flex flex-col p-5">
+        <div class="flex items-start justify-between gap-3">
+            <p class="text-sm font-medium text-slate-500">{% trans "Total patients" %}</p>
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-orange-50 text-orange-600">{% icon "users" "h-[18px] w-[18px]" %}</span>
+        </div>
+        <p class="mt-2 text-3xl font-bold tracking-tight text-slate-900" data-count-up>{{ total_patients }}</p>
+        <div class="mt-auto flex items-end justify-between gap-3 pt-3">
+            <p class="text-xs">
+                {% if new_patients_week %}
+                <span class="inline-flex items-center gap-0.5 font-semibold text-emerald-700">{% icon "arrow-up" "h-3.5 w-3.5" %}{{ new_patients_week }}</span>
+                <span class="text-slate-400">{% trans "new in the last 7 days" %}</span>
+                {% else %}
+                <span class="text-slate-400">{% trans "No new patients in the last 7 days" %}</span>
+                {% endif %}
+            </p>
+            {% include "dashboard/_sparkline.html" with spark=patients_trend %}
+        </div>
+    </div>
+</div>
+
+<div class="mb-6 grid gap-6 lg:grid-cols-3">
+    <!-- Today's schedule -->
+    <section class="card lg:col-span-2">
+        <div class="flex flex-col gap-4 border-b border-slate-100 px-5 py-4 sm:px-6">
+            <div class="flex items-center justify-between">
+                <h2 class="card-title">{% if is_doctor_view %}{% trans "Your schedule today" %}{% else %}{% trans "Today's schedule" %}{% endif %}</h2>
+                <a href="{% url 'appointments:list' %}{% if is_doctor_view %}?doctor={{ staff_user.id }}{% endif %}" class="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-800">
+                    {% trans "View all" %} {% icon "chevron-right" "h-4 w-4 rtl:rotate-180" %}
+                </a>
+            </div>
+
+            {% if status_breakdown %}
+            <!-- Today by status: one stacked bar + a legend with the counts -->
+            <div>
+                <div class="flex h-2.5 w-full gap-[2px] overflow-hidden rounded-full" role="img"
+                     aria-label="{% trans 'Today by status' %}: {% for s in status_breakdown %}{{ s.label }} {{ s.count }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+                    {% for s in status_breakdown %}
+                    <div class="h-full {% if s.status == 'pending' %}bg-amber-400{% elif s.status == 'confirmed' %}bg-brand-500{% elif s.status == 'in_queue' %}bg-sky-500{% elif s.status == 'completed' %}bg-slate-400{% else %}bg-red-400{% endif %}"
+                         style="width: {{ s.percent }}%" title="{{ s.label }}: {{ s.count }}"></div>
+                    {% endfor %}
+                </div>
+                <ul class="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-slate-600">
+                    {% for s in status_breakdown %}
+                    <li class="inline-flex items-center gap-1.5">
+                        <span class="h-2 w-2 rounded-full {% if s.status == 'pending' %}bg-amber-400{% elif s.status == 'confirmed' %}bg-brand-500{% elif s.status == 'in_queue' %}bg-sky-500{% elif s.status == 'completed' %}bg-slate-400{% else %}bg-red-400{% endif %}"></span>
+                        {{ s.label }} <span class="font-semibold text-slate-900">{{ s.count }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+
+        <ol class="relative px-2 py-2 sm:px-3">
+            {% for appt in todays_appointments %}
+                {% if forloop.counter0 == now_index %}
+                <li class="flex items-center gap-3 px-3 py-1.5" aria-label="{% trans 'Now' %}">
+                    <span class="w-12 text-[11px] font-bold uppercase tracking-wider text-red-500">{% trans "Now" %}</span>
+                    <span class="h-2 w-2 shrink-0 rounded-full bg-red-500 ring-4 ring-red-100"></span>
+                    <span class="h-px flex-1 bg-red-300"></span>
+                </li>
+                {% endif %}
+                <li class="flex items-center gap-3 rounded-xl px-3 py-3 transition-colors {% if appt == next_up %}bg-brand-50/70 ring-1 ring-inset ring-brand-200{% elif appt.is_past %}opacity-60{% else %}hover:bg-slate-50{% endif %}">
+                    <span class="w-12 shrink-0 text-sm font-semibold tabular-nums text-slate-900">{{ appt.scheduled_at|time:"H:i" }}</span>
+                    <span class="avatar-md">{{ appt.patient.full_name|initials }}</span>
+                    <div class="min-w-0 flex-1">
+                        <p class="truncate text-sm font-medium text-slate-900">{{ appt.patient.full_name }}</p>
+                        <p class="truncate text-xs text-slate-500">{% if appt.reason %}{{ appt.reason }}{% else %}{% trans "Visit" %}{% endif %}{% if appt.doctor and not is_doctor_view %} · Dr. {{ appt.doctor.full_name }}{% endif %}</p>
+                    </div>
+                    {% if appt == next_up %}
+                    <span class="badge-brand hidden sm:inline-flex">{% icon "clock" "h-3 w-3" %}
+                        {% if appt.minutes_until < 60 %}{% blocktrans with minutes=appt.minutes_until %}in {{ minutes }} min{% endblocktrans %}{% else %}{% trans "Next" %}{% endif %}
+                    </span>
+                    {% endif %}
+                    <span class="{{ appt.status|status_badge }}">{{ appt.get_status_display }}</span>
+                </li>
+                {% if forloop.last and now_index == todays_appointments|length %}
+                <li class="flex items-center gap-3 px-3 py-1.5" aria-label="{% trans 'Now' %}">
+                    <span class="w-12 text-[11px] font-bold uppercase tracking-wider text-red-500">{% trans "Now" %}</span>
+                    <span class="h-2 w-2 shrink-0 rounded-full bg-red-500 ring-4 ring-red-100"></span>
+                    <span class="h-px flex-1 bg-red-300"></span>
+                </li>
+                {% endif %}
+            {% empty %}
+                <li class="empty-state">
+                    <span class="empty-icon">{% icon "calendar" %}</span>
+                    <p class="text-sm text-slate-500">{% trans "No appointments scheduled for today." %}</p>
+                    {% if not is_doctor_view %}
+                    <a href="{% url 'appointments:book' %}" class="btn-secondary btn-sm">{% icon "plus" "h-4 w-4" %} {% trans "Book one" %}</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+    </section>
 
     <div class="space-y-6">
         <!-- Next in queue -->
-        <div class="card">
+        <section class="card">
             <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
                 <h2 class="card-title">{% trans "Next in queue" %}</h2>
                 <a href="{% url 'appointments:queue' %}" class="text-sm font-medium text-brand-700 hover:text-brand-800">{% trans "Open queue" %}</a>
@@ -93,37 +200,146 @@
             <ul class="divide-y divide-slate-100">
                 {% for appt in next_in_queue %}
                 <li class="flex items-center gap-3 px-5 py-3">
-                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg {% if forloop.first %}bg-brand-600 text-white{% else %}bg-slate-100 text-slate-600{% endif %} text-sm font-bold tabular-nums">
+                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-bold tabular-nums {% if forloop.first %}bg-brand-600 text-white{% else %}bg-slate-100 text-slate-600{% endif %}">
                         {{ appt.queue_position }}
                     </span>
-                    <div class="min-w-0">
+                    <div class="min-w-0 flex-1">
                         <p class="truncate text-sm font-medium text-slate-900">{{ appt.patient.full_name }}</p>
-                        {% if appt.doctor %}<p class="truncate text-xs text-slate-500">Dr. {{ appt.doctor.full_name }}</p>{% endif %}
+                        <p class="truncate text-xs text-slate-500">
+                            {% if appt.doctor and not is_doctor_view %}Dr. {{ appt.doctor.full_name }}{% endif %}
+                            {% if appt.checked_in_at %}{% if appt.doctor and not is_doctor_view %} · {% endif %}{% blocktrans with time=appt.checked_in_at|timesince %}waiting {{ time }}{% endblocktrans %}{% endif %}
+                        </p>
                     </div>
-                    {% if forloop.first %}<span class="badge-brand ms-auto">{% trans "Next" %}</span>{% endif %}
+                    {% if forloop.first %}<span class="badge-brand">{% trans "Next" %}</span>{% endif %}
                 </li>
                 {% empty %}
-                <li class="px-5 py-8 text-center text-sm text-slate-500">{% trans "Nobody is waiting right now." %}</li>
+                <li class="flex flex-col items-center gap-2 px-5 py-8 text-center">
+                    <span class="text-slate-300">{% icon "check-circle" "h-8 w-8" %}</span>
+                    <p class="text-sm text-slate-500">{% trans "Nobody is waiting right now." %}</p>
+                </li>
                 {% endfor %}
             </ul>
-        </div>
+        </section>
 
-        <!-- Next 7 days -->
-        <div class="card card-body">
-            <div class="mb-4 flex items-baseline justify-between">
+        <!-- Next 7 days: single series, today emphasized, the rest in grey -->
+        <section class="card card-body">
+            <div class="mb-5 flex items-baseline justify-between gap-3">
                 <h2 class="card-title">{% trans "Next 7 days" %}</h2>
                 <p class="text-sm text-slate-500">{% blocktrans count total=week_total %}{{ total }} appointment{% plural %}{{ total }} appointments{% endblocktrans %}</p>
             </div>
-            <div class="flex h-32 items-end gap-2">
-                {% for d in week %}
-                <div class="flex h-full flex-1 flex-col items-center justify-end gap-1.5" title="{{ d.day|date:'l j F' }}: {{ d.count }}">
-                    <span class="text-[11px] font-medium tabular-nums text-slate-500">{{ d.count }}</span>
-                    <div class="w-full rounded-md {% if forloop.first %}bg-brand-500{% else %}bg-brand-200{% endif %}" style="height: max({{ d.percent }}%, 4px)"></div>
-                    <span class="text-[11px] {% if forloop.first %}font-semibold text-slate-900{% else %}text-slate-400{% endif %}">{{ d.day|date:"D" }}</span>
+            <div class="relative">
+                <!-- Hairline gridlines: top and middle; the baseline is the plot's bottom border -->
+                <div class="pointer-events-none absolute inset-x-0 top-6 h-px bg-slate-100"></div>
+                <div class="pointer-events-none absolute inset-x-0 top-[calc(1.5rem+3.5rem)] h-px bg-slate-100"></div>
+                <div class="relative flex h-[8.5rem] items-end gap-2 border-b border-slate-200 pt-6">
+                    {% for d in week %}
+                    <div class="group relative flex h-full flex-1 flex-col items-center justify-end" tabindex="0"
+                         aria-label="{{ d.day|date:'l j F' }}: {{ d.count }}">
+                        {% if forloop.first or d.is_peak %}
+                        <span class="mb-1 text-[11px] font-semibold text-slate-700">{{ d.count }}</span>
+                        {% endif %}
+                        <div class="w-full max-w-[24px] rounded-t transition-colors {% if forloop.first %}bg-brand-500 group-hover:bg-brand-600{% else %}bg-slate-200 group-hover:bg-slate-300{% endif %}"
+                             style="height: {% if d.count %}{{ d.percent }}%{% else %}2px{% endif %}"></div>
+                        <!-- Tooltip (hover and keyboard focus) -->
+                        <div class="pointer-events-none absolute bottom-full z-10 mb-1 whitespace-nowrap rounded-lg bg-slate-900 px-2.5 py-1.5 text-xs opacity-0 shadow-lift transition-opacity group-hover:opacity-100 group-focus:opacity-100">
+                            <span class="font-semibold text-white">{{ d.count }}</span>
+                            <span class="text-slate-300">· {{ d.day|date:"D j M" }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                <div class="mt-2 flex gap-2">
+                    {% for d in week %}
+                    <span class="flex-1 text-center text-[11px] {% if forloop.first %}font-semibold text-slate-900{% else %}text-slate-400{% endif %}">
+                        {% if forloop.first %}{% trans "Today" %}{% else %}{{ d.day|date:"D" }}{% endif %}
+                    </span>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
+            <!-- Same numbers as a table for screen readers -->
+            <table class="sr-only">
+                <caption>{% trans "Next 7 days" %}</caption>
+                <tbody>
+                    {% for d in week %}<tr><th scope="row">{{ d.day|date:"l j F" }}</th><td>{{ d.count }}</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </section>
     </div>
 </div>
+
+<div class="grid gap-6 {% if not is_doctor_view %}lg:grid-cols-2{% endif %}">
+    {% if not is_doctor_view %}
+    <!-- Doctors today: each doctor's load as a meter -->
+    <section class="card">
+        <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-6">
+            <h2 class="card-title">{% trans "Doctors today" %}</h2>
+            <a href="{% url 'accounts:doctors' %}" class="text-sm font-medium text-brand-700 hover:text-brand-800">{% trans "All doctors" %}</a>
+        </div>
+        <ul class="divide-y divide-slate-100">
+            {% for doctor in doctors_today %}
+            <li class="flex items-center gap-3 px-5 py-3.5 sm:px-6">
+                <span class="avatar-md bg-orange-100 text-orange-700">{{ doctor.full_name|initials }}</span>
+                <div class="min-w-0 flex-1">
+                    <div class="mb-1.5 flex items-baseline justify-between gap-3">
+                        <p class="truncate text-sm font-medium text-slate-900">Dr. {{ doctor.full_name }}</p>
+                        <p class="shrink-0 text-xs text-slate-500">
+                            <span class="font-semibold text-slate-900">{{ doctor.today_count }}</span> {% trans "today" %}
+                            {% if doctor.waiting %}· <span class="font-semibold text-sky-700">{{ doctor.waiting }}</span> {% trans "waiting" %}{% endif %}
+                        </p>
+                    </div>
+                    <div class="h-1.5 w-full overflow-hidden rounded-full bg-brand-100">
+                        <div class="h-full rounded-full bg-brand-500" style="width: {{ doctor.load_percent }}%"></div>
+                    </div>
+                </div>
+            </li>
+            {% empty %}
+            <li class="empty-state py-10">
+                <span class="empty-icon">{% icon "stethoscope" %}</span>
+                <p class="text-sm text-slate-500">{% trans "No doctors yet." %}</p>
+                {% if staff_user.is_admin %}<a href="{% url 'accounts:add_staff' %}?role=doctor" class="btn-secondary btn-sm">{% icon "user-plus" "h-4 w-4" %} {% trans "Add doctor" %}</a>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    <!-- Recent activity -->
+    <section class="card">
+        <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-6">
+            <h2 class="card-title">{% trans "Recent activity" %}</h2>
+            <a href="{% url 'notifications:list' %}" class="text-sm font-medium text-brand-700 hover:text-brand-800">{% trans "View all" %}</a>
+        </div>
+        <ul class="divide-y divide-slate-100">
+            {% for notification in recent_notifications %}
+            <li class="flex items-start gap-3 px-5 py-3.5 sm:px-6">
+                <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg
+                    {% if notification.notification_type == 'new_appointment' %}bg-brand-50 text-brand-600
+                    {% elif notification.notification_type == 'appointment_cancelled' %}bg-red-50 text-red-600
+                    {% else %}bg-orange-50 text-orange-600{% endif %}">
+                    {% if notification.notification_type == "new_appointment" %}{% icon "calendar-plus" "h-4 w-4" %}
+                    {% elif notification.notification_type == "appointment_cancelled" %}{% icon "x-circle" "h-4 w-4" %}
+                    {% else %}{% icon "bell" "h-4 w-4" %}{% endif %}
+                </span>
+                <div class="min-w-0 flex-1">
+                    <p class="flex items-center gap-2 text-sm font-medium text-slate-900">
+                        <span class="truncate">{{ notification.title }}</span>
+                        {% if not notification.is_read %}<span class="h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500"></span>{% endif %}
+                    </p>
+                    <p class="truncate text-xs text-slate-500">{{ notification.message }}</p>
+                </div>
+                <span class="shrink-0 text-xs text-slate-400">{% blocktrans with time=notification.created_at|timesince %}{{ time }} ago{% endblocktrans %}</span>
+            </li>
+            {% empty %}
+            <li class="flex flex-col items-center gap-2 px-5 py-10 text-center">
+                <span class="text-slate-300">{% icon "inbox" "h-8 w-8" %}</span>
+                <p class="text-sm text-slate-500">{% trans "You're all caught up" %}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard.js' %}" defer></script>
 {% endblock %}

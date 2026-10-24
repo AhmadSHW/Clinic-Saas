@@ -369,6 +369,28 @@ translations = {
     "No credit card needed": "لا حاجة لبطاقة ائتمان",
     "English & Arabic": "بالعربية والإنجليزية",
 
+    "No change": "بدون تغيير",
+    "vs last %(day)s": "مقارنة بيوم %(day)s الماضي",
+    "Next up: %(name)s at %(time)s.": "التالي: %(name)s الساعة %(time)s.",
+    "No more appointments waiting to start today.": "لا توجد مواعيد أخرى بانتظار البدء اليوم.",
+    "Longest wait: %(minutes)s min": "أطول انتظار: %(minutes)s دقيقة",
+    "new in the last 7 days": "جدد خلال آخر 7 أيام",
+    "No new patients in the last 7 days": "لا مرضى جدد خلال آخر 7 أيام",
+    "Today by status": "مواعيد اليوم حسب الحالة",
+    "Now": "الآن",
+    "in %(minutes)s min": "بعد %(minutes)s دقيقة",
+    "waiting %(time)s": "ينتظر منذ %(time)s",
+    "Doctors today": "الأطباء اليوم",
+    "All doctors": "كل الأطباء",
+    "today": "اليوم",
+    "waiting": "في الانتظار",
+    "Recent activity": "آخر النشاطات",
+    "Pending": "قيد الانتظار",
+    "Confirmed": "مؤكد",
+    "In queue": "في الطابور",
+    "Completed": "مكتمل",
+    "Cancelled": "ملغى",
+
     # Plural entries: Arabic has 6 plural forms, so these use a number-neutral
     # phrasing ("Label: 5") that reads correctly for every count
     "%(total)s waiting": "في الانتظار: %(total)s",

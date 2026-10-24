@@ -1,0 +1,7 @@
+{# 7-day trend: line in the de-emphasis grey, today's point as the accent dot. Expects `spark` from dashboard.charts.sparkline. #}
+{% if spark %}
+<svg viewBox="0 0 100 32" width="100" height="32" class="shrink-0 overflow-visible" aria-hidden="true">
+    <polyline points="{{ spark.points }}" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="{{ spark.end_x }}" cy="{{ spark.end_y }}" r="4" class="fill-brand-600" stroke="#fff" stroke-width="2"/>
+</svg>
+{% endif %}
