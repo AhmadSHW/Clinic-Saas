@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Notifications" %}{% endblock %}
+{% block nav_notifications %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-start mb-8">
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900">{% trans "Notifications" %}</h1>
+        <p class="text-slate-500">{% trans "Stay on top of appointments and updates" %}</p>
+    </div>
+</div>
+
+<div class="bg-white rounded-xl border border-slate-100 divide-y divide-slate-50">
+    {% for notification in notifications %}
+    <div class="flex items-start justify-between px-5 py-4 {% if not notification.is_read %}bg-teal-50/30{% endif %}">
+        <div class="flex items-start gap-3">
+            <span class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
+                {% if notification.notification_type == "new_appointment" %}📅
+                {% elif notification.notification_type == "appointment_cancelled" %}❌
+                {% else %}🔔{% endif %}
+            </span>
+            <div>
+                <p class="text-sm font-medium flex items-center gap-2">
+                    {{ notification.title }}
+                    {% if not notification.is_read %}<span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>{% endif %}
+                </p>
+                <p class="text-sm text-slate-500">{{ notification.message }}</p>
+                <p class="text-xs text-slate-400 mt-1">{{ notification.created_at|timesince }} {% trans "ago" %}</p>
+            </div>
+        </div>
+        {% if not notification.is_read %}
+        <form method="post" action="{% url 'notifications:mark_read' notification.id %}" class="shrink-0">
+            {% csrf_token %}
+            <button type="submit" class="text-xs text-teal-600 hover:text-teal-700">
+                {% trans "Mark read" %}
+            </button>
+        </form>
+        {% endif %}
+    </div>
+    {% empty %}
+    <p class="text-center text-slate-400 py-10">{% trans "No notifications yet." %}</p>
+    {% endfor %}
+</div>
+{% endblock %}

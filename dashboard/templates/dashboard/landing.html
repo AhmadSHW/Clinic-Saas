@@ -1,0 +1,196 @@
+{% extends "public_base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Clinic SaS — Everything your clinic needs" %}{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="px-6 md:px-12 py-16 grid md:grid-cols-2 gap-10 items-center bg-gradient-to-br from-teal-50 to-white">
+    <div>
+        <span class="inline-block bg-white border border-slate-200 text-slate-600 text-xs px-3 py-1 rounded-full mb-4">
+            ✦ {% trans "Practice management, reimagined" %}
+        </span>
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-6">
+            {% trans "Everything your clinic needs. One simple platform." %}
+        </h1>
+        <p class="text-slate-600 text-lg mb-8 max-w-xl">
+            {% trans "Clinic SaS brings patient records, appointments, waiting queues, billing, and your whole team together — so you spend less time on paperwork and more time with patients." %}
+        </p>
+        <div class="flex gap-3">
+            <a href="{% url 'accounts:signup' %}" class="bg-teal-500 hover:bg-teal-600 text-white font-medium px-6 py-3 rounded-lg transition">
+                {% trans "Open the app" %} →
+            </a>
+            <a href="#features" class="bg-white border border-slate-200 font-medium px-6 py-3 rounded-lg hover:bg-slate-50 transition">
+                {% trans "Explore features" %}
+            </a>
+        </div>
+        <div class="flex gap-10 mt-12 text-slate-900">
+            <div><p class="text-2xl font-bold">2,400+</p><p class="text-sm text-slate-500">{% trans "Clinics" %}</p></div>
+            <div><p class="text-2xl font-bold">180K+</p><p class="text-sm text-slate-500">{% trans "Patients" %}</p></div>
+            <div><p class="text-2xl font-bold">1.2M</p><p class="text-sm text-slate-500">{% trans "Appointments" %}</p></div>
+            <div><p class="text-2xl font-bold">99.9%</p><p class="text-sm text-slate-500">{% trans "Uptime" %}</p></div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6">
+        <div class="flex justify-between items-start mb-4">
+            <div>
+                <p class="font-semibold text-slate-900">{% trans "Good morning, Dr. Chen" %}</p>
+                <p class="text-sm text-slate-500">{% trans "Saturday, Sep 20 · 14 patients today" %}</p>
+            </div>
+            <div class="w-9 h-9 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-sm font-medium">SC</div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-6">
+            <div class="bg-slate-50 rounded-xl p-3">
+                <p class="text-xl font-bold">14</p><p class="text-xs text-slate-500">{% trans "Appointments" %}</p>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-3">
+                <p class="text-xl font-bold">5</p><p class="text-xs text-slate-500">{% trans "Waiting" %}</p>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-3">
+                <p class="text-xl font-bold">3</p><p class="text-xs text-slate-500">{% trans "New patients" %}</p>
+            </div>
+        </div>
+        <p class="text-xs font-semibold text-slate-400 mb-2">{% trans "TODAY'S SCHEDULE" %}</p>
+        <div class="space-y-3 text-sm">
+            <div class="flex justify-between"><span>Amelia Hart — {% trans "Asthma follow-up" %}</span><span class="text-slate-400">9:00</span></div>
+            <div class="flex justify-between"><span>Marcus Webb — {% trans "BP check" %}</span><span class="text-slate-400">9:30</span></div>
+            <div class="flex justify-between"><span>Priya Nair — {% trans "New patient" %}</span><span class="text-slate-400">10:00</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="px-6 md:px-12 py-20 max-w-6xl mx-auto">
+    <div class="reveal-on-scroll">
+        <p class="text-teal-600 text-sm font-semibold mb-2">{% trans "FEATURES" %}</p>
+        <h2 class="text-3xl font-bold text-slate-900 mb-3">{% trans "Everything your team needs, in one workspace" %}</h2>
+        <p class="text-slate-600 mb-12 max-w-2xl">
+            {% trans "Six connected modules that replace the pile of tools and paper your clinic juggles today." %}
+        </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+        {% for feature in features %}
+        <div class="feature-card reveal-on-scroll border border-slate-100 rounded-2xl p-6 bg-white"
+             style="transition-delay: {{ forloop.counter0 }}00ms;">
+            <div class="feature-icon {{ feature.icon_class }} mb-4">
+                <span>{{ feature.icon }}</span>
+            </div>
+            <h3 class="font-semibold text-lg mb-2">{{ feature.title }}</h3>
+            <p class="text-slate-600 text-sm">{{ feature.description }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+<!-- How it works -->
+<section id="how-it-works" class="px-6 md:px-12 py-20 bg-slate-50">
+    <div class="max-w-6xl mx-auto">
+        <p class="text-orange-500 text-sm font-semibold mb-2">{% trans "HOW IT WORKS" %}</p>
+        <h2 class="text-3xl font-bold text-slate-900 mb-3">{% trans "Up and running in an afternoon" %}</h2>
+        <p class="text-slate-600 mb-12 max-w-2xl">
+            {% trans "No IT department needed. Three simple steps to a calmer, more organized clinic." %}
+        </p>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-xl p-6">
+                <p class="text-orange-500 text-3xl font-bold mb-3">01</p>
+                <h3 class="font-semibold text-lg mb-2">{% trans "Set up your clinic" %}</h3>
+                <p class="text-slate-600 text-sm">{% trans "Add your staff, rooms, and services in minutes. No training manual required." %}</p>
+            </div>
+            <div class="bg-white rounded-xl p-6">
+                <p class="text-orange-500 text-3xl font-bold mb-3">02</p>
+                <h3 class="font-semibold text-lg mb-2">{% trans "Start seeing patients" %}</h3>
+                <p class="text-slate-600 text-sm">{% trans "Schedule, check in, and document every visit — from vitals to prescriptions." %}</p>
+            </div>
+            <div class="bg-white rounded-xl p-6">
+                <p class="text-orange-500 text-3xl font-bold mb-3">03</p>
+                <h3 class="font-semibold text-lg mb-2">{% trans "Grow with clarity" %}</h3>
+                <p class="text-slate-600 text-sm">{% trans "Track billing, queue times, and practice insights in real time." %}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials" class="px-6 md:px-12 py-20 max-w-6xl mx-auto">
+    <p class="text-teal-600 text-sm font-semibold mb-2">{% trans "TESTIMONIALS" %}</p>
+    <h2 class="text-3xl font-bold text-slate-900 mb-12">{% trans "Loved by the people on the front line" %}</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+        <div class="border border-slate-100 rounded-xl p-6">
+            <p class="text-teal-500 text-2xl mb-3">"</p>
+            <p class="text-slate-700 mb-4">{% trans "We cut our front-desk wait times in half. The waiting queue alone changed how our whole morning runs." %}</p>
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-sm">SC</div>
+                <div>
+                    <p class="font-medium text-sm">Dr. Sarah Chen</p>
+                    <p class="text-xs text-slate-500">{% trans "General Physician, Lakeview Family Clinic" %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="border border-slate-100 rounded-xl p-6">
+            <p class="text-teal-500 text-2xl mb-3">"</p>
+            <p class="text-slate-700 mb-4">{% trans "Having every patient's full history on one timeline is a lifesaver. I can review a chart in seconds." %}</p>
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-sm">JO</div>
+                <div>
+                    <p class="font-medium text-sm">Dr. James Okafor</p>
+                    <p class="text-xs text-slate-500">{% trans "Cardiologist" %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="border border-slate-100 rounded-xl p-6">
+            <p class="text-teal-500 text-2xl mb-3">"</p>
+            <p class="text-slate-700 mb-4">{% trans "Setup took an afternoon. By the next day our whole team was documenting visits without paper." %}</p>
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-sm">ET</div>
+                <div>
+                    <p class="font-medium text-sm">Dr. Emily Tran</p>
+                    <p class="text-xs text-slate-500">{% trans "Pediatrician" %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="px-6 md:px-12 py-20 bg-slate-50">
+    <div class="max-w-3xl mx-auto">
+        <p class="text-orange-500 text-sm font-semibold mb-2 text-center">{% trans "FAQ" %}</p>
+        <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center">{% trans "Common questions, answered" %}</h2>
+
+        <div class="space-y-3">
+            <details class="bg-white rounded-xl p-5 group" open>
+                <summary class="font-medium cursor-pointer flex justify-between items-center">
+                    {% trans "Is this a full practice management system?" %}
+                    <span class="text-slate-400 group-open:rotate-45 transition">+</span>
+                </summary>
+                <p class="text-slate-600 text-sm mt-3">
+                    {% trans "Yes. Clinic SaS covers patient records, appointments, waiting queues, billing, staff, and notifications in a single connected workspace." %}
+                </p>
+            </details>
+            <details class="bg-white rounded-xl p-5 group">
+                <summary class="font-medium cursor-pointer flex justify-between items-center">
+                    {% trans "Do I need to install anything?" %}
+                    <span class="text-slate-400 group-open:rotate-45 transition">+</span>
+                </summary>
+                <p class="text-slate-600 text-sm mt-3">{% trans "No — Clinic SaS runs entirely in your browser." %}</p>
+            </details>
+            <details class="bg-white rounded-xl p-5 group">
+                <summary class="font-medium cursor-pointer flex justify-between items-center">
+                    {% trans "Can multiple staff members use it at once?" %}
+                    <span class="text-slate-400 group-open:rotate-45 transition">+</span>
+                </summary>
+                <p class="text-slate-600 text-sm mt-3">{% trans "Yes, with role-based access for admins, doctors, and reception." %}</p>
+            </details>
+            <details class="bg-white rounded-xl p-5 group">
+                <summary class="font-medium cursor-pointer flex justify-between items-center">
+                    {% trans "What happens to my patient data?" %}
+                    <span class="text-slate-400 group-open:rotate-45 transition">+</span>
+                </summary>
+                <p class="text-slate-600 text-sm mt-3">{% trans "Each clinic's data is fully isolated and never shared across tenants." %}</p>
+            </details>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

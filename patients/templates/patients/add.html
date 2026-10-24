@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Add Patient" %}{% endblock %}
+{% block nav_patients %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+
+{% block content %}
+<div class="max-w-xl">
+    <h1 class="text-2xl font-bold text-slate-900 mb-6">{% trans "Add New Patient" %}</h1>
+
+    <form method="post" class="bg-white rounded-xl border border-slate-100 p-6 space-y-4">
+        {% csrf_token %}
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Full Name" %}</label>
+            <input type="text" name="full_name" required
+                   class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Phone Number" %}</label>
+            <input type="text" name="phone_number" required
+                   class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Email" %}</label>
+            <input type="email" name="email"
+                   class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">{% trans "Date of Birth" %}</label>
+                <input type="date" name="date_of_birth"
+                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">{% trans "Gender" %}</label>
+                <select name="gender" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+                    <option value="">-</option>
+                    <option value="male">{% trans "Male" %}</option>
+                    <option value="female">{% trans "Female" %}</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Blood Type" %}</label>
+            <input type="text" name="blood_type" placeholder="{% trans 'e.g. O+' %}"
+                   class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Allergies" %}</label>
+            <textarea name="allergies" rows="2"
+                      class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg">
+            {% trans "Save Patient" %}
+        </button>
+    </form>
+</div>
+{% endblock %}

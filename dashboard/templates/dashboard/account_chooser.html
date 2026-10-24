@@ -1,0 +1,125 @@
+{% extends "public_base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<section class="min-h-[80vh] flex items-center justify-center px-6 py-16 bg-slate-50">
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 w-full max-w-md">
+        <div class="text-center mb-6">
+            <div class="w-14 h-14 mx-auto rounded-full bg-teal-500 text-white flex items-center justify-center text-2xl mb-4">
+                ♡
+            </div>
+            <h1 class="text-2xl font-bold text-slate-900">{% trans "Sign In" %}</h1>
+            <p class="text-slate-500 text-sm mt-1">
+                {% trans "I am a..." %}:
+                <span id="role-label" class="font-medium text-slate-700">{% trans "Clinic Staff" %}</span>
+                —
+                <button type="button" id="change-role" class="text-teal-600 hover:underline">{% trans "Change?" %}</button>
+            </p>
+        </div>
+
+        <!-- Role picker (shown only when "Change?" is clicked) -->
+        <div id="role-picker" class="hidden grid grid-cols-2 gap-3 mb-6">
+            <button type="button" data-role="staff"
+                    class="role-option border border-teal-500 bg-teal-50 text-teal-700 rounded-xl py-4 text-center text-sm font-medium">
+                🏥 {% trans "Clinic Staff" %}
+            </button>
+            <button type="button" data-role="patient"
+                    class="role-option border border-slate-200 rounded-xl py-4 text-center text-sm font-medium hover:border-slate-300">
+                🧑 {% trans "Patient" %}
+            </button>
+        </div>
+
+        <!-- Staff panel -->
+        <div id="panel-staff">
+            <form method="post" action="{% url 'accounts:login' %}" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    <label class="block text-sm font-medium mb-1">{% trans "Clinic URL" %}</label>
+                    <input type="text" name="clinic_slug" required placeholder="my-clinic"
+                           value="{{ current_clinic.slug|default:'' }}"
+                           class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">{% trans "Email" %}</label>
+                    <input type="email" name="email" required
+                           class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">{% trans "Password" %}</label>
+                    <input type="password" name="password" required
+                           class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                </div>
+                <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg">
+                    {% trans "Login" %}
+                </button>
+            </form>
+            <p class="text-center text-sm text-slate-500 mt-5">
+                {% trans "New clinic?" %}
+                <a href="{% url 'accounts:signup' %}" class="text-teal-600 font-medium">{% trans "Register one" %}</a>
+            </p>
+        </div>
+
+        <!-- Patient panel -->
+        <div id="panel-patient" class="hidden">
+            <form method="get" action="{% url 'dashboard:find_clinic' %}" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">{% trans "Find Your Clinic" %}</label>
+                    <input type="text" name="q" placeholder="{% trans 'Clinic name...' %}" required
+                           class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                </div>
+                <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg">
+                    {% trans "Continue" %}
+                </button>
+            </form>
+            <p class="text-slate-400 text-xs text-center mt-4">
+                {% trans "You'll search for your clinic, then sign in or create your patient account there." %}
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const changeRoleBtn = document.getElementById("change-role");
+    const rolePicker = document.getElementById("role-picker");
+    const roleLabel = document.getElementById("role-label");
+    const roleOptions = document.querySelectorAll(".role-option");
+    const panelStaff = document.getElementById("panel-staff");
+    const panelPatient = document.getElementById("panel-patient");
+
+    const labels = {
+        staff: "{% trans 'Clinic Staff' %}",
+        patient: "{% trans 'Patient' %}",
+    };
+
+    changeRoleBtn.addEventListener("click", () => {
+        rolePicker.classList.toggle("hidden");
+    });
+
+    roleOptions.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const role = btn.dataset.role;
+
+            roleOptions.forEach((b) => {
+                b.classList.remove("border-teal-500", "bg-teal-50", "text-teal-700");
+                b.classList.add("border-slate-200");
+            });
+            btn.classList.add("border-teal-500", "bg-teal-50", "text-teal-700");
+            btn.classList.remove("border-slate-200");
+
+            roleLabel.textContent = labels[role];
+            rolePicker.classList.add("hidden");
+
+            if (role === "staff") {
+                panelStaff.classList.remove("hidden");
+                panelPatient.classList.add("hidden");
+            } else {
+                panelPatient.classList.remove("hidden");
+                panelStaff.classList.add("hidden");
+            }
+        });
+    });
+</script>
+{% endblock %}

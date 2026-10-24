@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Patients" %}{% endblock %}
+{% block nav_patients %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-start mb-8">
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900">{% trans "Patients" %}</h1>
+        <p class="text-slate-500">{% trans "Manage records and medical history across all your patients" %}</p>
+    </div>
+    <a href="{% url 'patients:add' %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
+        + {% trans "Add patient" %}
+    </a>
+</div>
+
+<div class="grid grid-cols-4 gap-4 mb-6">
+    <div class="bg-white rounded-xl border border-slate-100 p-5">
+        <p class="text-2xl font-bold">{{ total_patients }}</p>
+        <p class="text-sm text-slate-500">{% trans "Total patients" %}</p>
+    </div>
+</div>
+
+<div class="bg-white rounded-xl border border-slate-100 overflow-hidden">
+    <table class="w-full text-sm">
+        <thead class="bg-slate-50 text-slate-500 text-xs uppercase">
+            <tr>
+                <th class="text-left px-5 py-3">{% trans "Patient" %}</th>
+                <th class="text-left px-5 py-3">{% trans "Contact" %}</th>
+                <th class="text-left px-5 py-3">{% trans "Blood Type" %}</th>
+                <th class="text-left px-5 py-3">{% trans "Last Visit" %}</th>
+                <th class="text-left px-5 py-3"></th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-50">
+            {% for patient in patients %}
+            <tr class="hover:bg-slate-50">
+                <td class="px-5 py-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-medium">
+                            {{ patient.full_name|slice:":2"|upper }}
+                        </div>
+                        <span class="font-medium">{{ patient.full_name }}</span>
+                    </div>
+                </td>
+                <td class="px-5 py-4 text-slate-500">{{ patient.phone_number }}</td>
+                <td class="px-5 py-4">
+                    <span class="bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded-full">{{ patient.blood_type|default:"-" }}</span>
+                </td>
+                <td class="px-5 py-4 text-slate-500">{{ patient.updated_at|date:"M d, Y" }}</td>
+                <td class="px-5 py-4 text-right">
+                    <a href="{% url 'patients:detail' patient.id %}" class="text-teal-600 hover:text-teal-700">{% trans "View" %} →</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="text-center text-slate-400 py-10">{% trans "No patients yet." %}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

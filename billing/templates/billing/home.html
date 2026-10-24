@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Billing" %}{% endblock %}
+{% block nav_billing %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold text-slate-900 mb-1">{% trans "Billing & Subscription" %}</h1>
+<p class="text-slate-500 mb-8">{% trans "Manage your plan, invoices, and payment method" %}</p>
+
+{% if has_past_due and current_clinic.plan == "pro" %}
+<div class="mb-6 px-5 py-4 rounded-xl bg-orange-50 border border-orange-200 text-orange-800 text-sm flex items-center justify-between gap-4">
+    <span>{% trans "Your last payment failed. Stripe will retry automatically — update your card to avoid losing access." %}</span>
+    <a href="{% url 'billing:portal' %}" class="shrink-0 bg-orange-500 hover:bg-orange-600 text-white rounded-lg px-3 py-1.5 font-medium">
+        {% trans "Update payment method" %}
+    </a>
+</div>
+{% endif %}
+
+<div class="grid md:grid-cols-2 gap-6 mb-8">
+    <div class="bg-white rounded-xl border-2 border-teal-500 p-6 flex flex-col relative">
+        <span class="absolute -top-3 left-6 bg-teal-500 text-white text-xs px-3 py-1 rounded-full">
+            {% if current_clinic.plan == "pro" %}{% trans "Current plan" %}{% else %}{% trans "Recommended" %}{% endif %}
+        </span>
+        <p class="font-semibold text-lg mb-1 mt-2">{% trans "Professional" %}</p>
+        <p class="text-sm text-slate-500 mb-4">{% trans "For growing clinics with multiple practitioners" %}</p>
+        <p class="text-3xl font-bold mb-4">${{ pro_price }}<span class="text-sm font-normal text-slate-400">/{% trans "month" %}</span></p>
+        <ul class="text-sm text-slate-600 space-y-2 mb-6 flex-1">
+            <li>✓ {% trans "Up to 5 staff members" %}</li>
+            <li>✓ {% trans "Unlimited patients & records" %}</li>
+            <li>✓ {% trans "Waiting queue management" %}</li>
+            <li>✓ {% trans "Email notifications" %}</li>
+            <li>✓ {% trans "Priority support" %}</li>
+        </ul>
+        {% if current_clinic.plan == "pro" %}
+            <span class="text-center bg-teal-500 text-white rounded-lg py-2 text-sm font-medium">{% trans "Current plan" %}</span>
+            <a href="{% url 'billing:portal' %}" class="text-center text-teal-600 hover:text-teal-700 text-sm font-medium mt-3">
+                {% trans "Manage payment method" %}
+            </a>
+        {% else %}
+            <a href="{% url 'billing:subscribe' %}" class="text-center bg-teal-500 hover:bg-teal-600 text-white rounded-lg py-2 text-sm font-medium">
+                {% trans "Upgrade" %}
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="bg-white rounded-xl border border-slate-100 p-6 flex flex-col">
+        <p class="font-semibold text-lg mb-1">{% trans "Enterprise" %}</p>
+        <p class="text-sm text-slate-500 mb-4">{% trans "For multi-branch clinics and networks" %}</p>
+        <p class="text-3xl font-bold mb-4">$299<span class="text-sm font-normal text-slate-400">/{% trans "month" %}</span></p>
+        <ul class="text-sm text-slate-600 space-y-2 mb-6 flex-1">
+            <li>✓ {% trans "Unlimited staff members" %}</li>
+            <li>✓ {% trans "Multi-location support" %}</li>
+            <li>✓ {% trans "Advanced analytics" %}</li>
+            <li>✓ {% trans "API access" %}</li>
+            <li>✓ {% trans "Dedicated account manager" %}</li>
+        </ul>
+        <span class="text-center border border-slate-200 rounded-lg py-2 text-sm text-slate-400">{% trans "Contact sales" %}</span>
+    </div>
+</div>
+
+<div class="bg-white rounded-xl border border-slate-100 p-6">
+    <h2 class="font-semibold mb-4">{% trans "Billing History" %}</h2>
+    <table class="w-full text-sm">
+        <thead class="text-slate-400 text-xs uppercase">
+            <tr>
+                <th class="text-left py-2">{% trans "Date" %}</th>
+                <th class="text-left py-2">{% trans "Amount" %}</th>
+                <th class="text-left py-2">{% trans "Status" %}</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-50">
+            {% for sub in subscriptions %}
+            <tr>
+                <td class="py-3">{{ sub.created_at|date:"M d, Y" }}</td>
+                <td class="py-3">${{ sub.amount }}</td>
+                <td class="py-3">
+                    <span class="text-xs px-2 py-1 rounded-full
+                        {% if sub.status == 'active' %}bg-teal-100 text-teal-700
+                        {% elif sub.status == 'past_due' %}bg-orange-100 text-orange-700
+                        {% else %}bg-slate-100 text-slate-600{% endif %}">{{ sub.get_status_display }}</span>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3" class="text-center text-slate-400 py-8">{% trans "No billing history yet." %}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

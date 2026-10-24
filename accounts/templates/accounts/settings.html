@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Settings" %}{% endblock %}
+{% block nav_settings %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-start mb-8">
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900">{% trans "Settings" %}</h1>
+        <p class="text-slate-500">{% trans "Manage your clinic profile and preferences" %}</p>
+    </div>
+</div>
+
+<div class="bg-white rounded-xl border border-slate-100 p-6 max-w-2xl">
+    <h2 class="font-semibold mb-1">{% trans "Clinic profile" %}</h2>
+    <p class="text-sm text-slate-500 mb-5">{% trans "Basic information shown on your clinic profile." %}</p>
+
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div class="grid md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">{% trans "Clinic Name" %}</label>
+                <input type="text" name="clinic_name" value="{{ current_clinic.name }}"
+                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">{% trans "Email" %}</label>
+                <input type="email" name="owner_email" value="{{ current_clinic.owner_email }}"
+                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+            </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">{% trans "Phone" %}</label>
+                <input type="text" name="phone_number" value="{{ current_clinic.phone_number }}"
+                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">{% trans "Address" %}</label>
+                <input type="text" name="address" value="{{ current_clinic.address }}"
+                       class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+            </div>
+        </div>
+        <button type="submit" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-5 py-2 rounded-lg">
+            {% trans "Save changes" %}
+        </button>
+    </form>
+</div>
+{% endblock %}

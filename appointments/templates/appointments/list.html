@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Appointments" %}{% endblock %}
+{% block nav_appointments %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-start mb-8">
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900">{% trans "Appointments" %}</h1>
+        <p class="text-slate-500">{% trans "Schedule and manage visits across all practitioners" %}</p>
+    </div>
+    <a href="{% url 'appointments:book' %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
+        + {% trans "New appointment" %}
+    </a>
+</div>
+
+<div class="bg-white rounded-xl border border-slate-100 overflow-hidden">
+    <table class="w-full text-sm">
+        <thead class="bg-slate-50 text-slate-500 text-xs uppercase">
+            <tr>
+                <th class="text-left px-5 py-3">{% trans "Patient" %}</th>
+                <th class="text-left px-5 py-3">{% trans "Doctor" %}</th>
+                <th class="text-left px-5 py-3">{% trans "Date / Time" %}</th>
+                <th class="text-left px-5 py-3">{% trans "Status" %}</th>
+                <th class="text-left px-5 py-3"></th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-50">
+            {% for appt in appointments %}
+            <tr class="hover:bg-slate-50">
+                <td class="px-5 py-4 font-medium">{{ appt.patient.full_name }}</td>
+                <td class="px-5 py-4 text-slate-500">Dr. {{ appt.doctor.full_name|default:"N/A" }}</td>
+                <td class="px-5 py-4 text-slate-500">{{ appt.scheduled_at|date:"M d, Y H:i" }}</td>
+                <td class="px-5 py-4">
+                    <span class="text-xs px-2 py-1 rounded-full
+                        {% if appt.status == 'confirmed' %}bg-teal-100 text-teal-700
+                        {% elif appt.status == 'in_queue' %}bg-orange-100 text-orange-700
+                        {% else %}bg-slate-100 text-slate-600{% endif %}">
+                        {{ appt.get_status_display }}
+                    </span>
+                </td>
+                <td class="px-5 py-4 text-right space-x-3">
+                    {% if appt.status == "pending" or appt.status == "confirmed" %}
+                    <form method="post" action="{% url 'appointments:check_in' appt.id %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="text-teal-600 hover:text-teal-700">{% trans "Check In" %}</button>
+                    </form>
+                    {% endif %}
+                    {% if appt.status != "cancelled" %}
+                    <form method="post" action="{% url 'appointments:cancel' appt.id %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="text-red-500 hover:text-red-600">{% trans "Cancel" %}</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" class="text-center text-slate-400 py-10">{% trans "No appointments yet." %}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

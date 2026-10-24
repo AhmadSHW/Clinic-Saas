@@ -1,0 +1,21 @@
+{% extends "public_base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Resend Verification" %}{% endblock %}
+
+{% block content %}
+<section class="min-h-[70vh] flex items-center justify-center px-6 py-16 bg-slate-50">
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 max-w-sm w-full">
+        <h1 class="text-xl font-bold text-slate-900 mb-1">{% trans "Resend Verification Email" %}</h1>
+        <p class="text-slate-500 text-sm mb-6">{% trans "Enter your email and we'll send a new link." %}</p>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <input type="email" name="email" required placeholder="{% trans 'Your email' %}"
+                   class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg">
+                {% trans "Send Link" %}
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

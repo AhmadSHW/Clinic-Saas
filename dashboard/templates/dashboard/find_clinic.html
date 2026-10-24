@@ -1,0 +1,53 @@
+{% extends "public_base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Find Your Clinic" %}{% endblock %}
+
+{% block content %}
+<section class="min-h-[75vh] flex items-start justify-center px-6 py-16 bg-gradient-to-br from-teal-50 to-white">
+    <div class="max-w-md w-full">
+        <div class="text-center mb-8">
+            <div class="w-14 h-14 mx-auto rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl mb-4">
+                🔍
+            </div>
+            <h1 class="text-2xl font-bold text-slate-900 mb-1">{% trans "Find Your Clinic" %}</h1>
+            <p class="text-slate-500 text-sm">{% trans "Search for your clinic to sign in or create a patient account." %}</p>
+        </div>
+
+        <form method="get" class="mb-6">
+            <div class="relative">
+                <span class="absolute inset-y-0 start-0 flex items-center ps-4 text-slate-400">🔍</span>
+                <input type="text" name="q" value="{{ query }}" placeholder="{% trans 'Clinic name...' %}" autofocus
+                       class="w-full bg-white border border-slate-200 rounded-xl ps-11 pe-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+        </form>
+
+        {% if query %}
+            <div class="space-y-3">
+                {% for clinic in clinics %}
+                <a href="{% url 'patients:portal_login' clinic.slug %}"
+                   class="flex items-center justify-between bg-white border border-slate-100 rounded-xl p-4 hover:border-teal-500 hover:shadow-md transition-all">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center text-sm font-medium shrink-0">
+                            {{ clinic.name|slice:":2"|upper }}
+                        </div>
+                        <div>
+                            <p class="font-medium text-sm text-slate-900">{{ clinic.name }}</p>
+                            {% if clinic.address %}
+                            <p class="text-xs text-slate-400">{{ clinic.address }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <span class="text-teal-600 text-sm font-medium shrink-0">{% trans "Continue" %} →</span>
+                </a>
+                {% empty %}
+                <div class="bg-white border border-slate-100 rounded-xl p-8 text-center">
+                    <p class="text-slate-400 text-sm">{% trans "No clinics found. Check the spelling and try again." %}</p>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center text-slate-400 text-sm">{% trans "Start typing to search for your clinic." %}</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

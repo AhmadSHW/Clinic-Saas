@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Dashboard" %}{% endblock %}
+{% block nav_dashboard %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-start mb-8">
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900">{% blocktrans %}Good morning, {{ staff_user.full_name }}{% endblocktrans %}</h1>
+        <p class="text-slate-500">{% blocktrans with clinic_name=current_clinic.name %}Here's what's happening at {{ clinic_name }} today{% endblocktrans %}</p>
+    </div>
+    <a href="{% url 'appointments:book' %}" class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
+        + {% trans "New appointment" %}
+    </a>
+</div>
+
+<div class="grid grid-cols-4 gap-4 mb-8">
+    <div class="bg-white rounded-xl border border-slate-100 p-5">
+        <p class="text-2xl font-bold">{{ total_patients }}</p>
+        <p class="text-sm text-slate-500">{% trans "Total patients" %}</p>
+    </div>
+    <div class="bg-white rounded-xl border border-slate-100 p-5">
+        <p class="text-2xl font-bold">{{ appointments_today }}</p>
+        <p class="text-sm text-slate-500">{% trans "Appointments today" %}</p>
+    </div>
+    <div class="bg-white rounded-xl border border-slate-100 p-5">
+        <p class="text-2xl font-bold">{{ in_queue_count }}</p>
+        <p class="text-sm text-slate-500">{% trans "In waiting queue" %}</p>
+    </div>
+    <div class="bg-white rounded-xl border border-slate-100 p-5">
+        <p class="text-2xl font-bold">{{ current_clinic.get_plan_display }}</p>
+        <p class="text-sm text-slate-500">{% trans "Current plan" %}</p>
+    </div>
+</div>
+
+<div class="bg-white rounded-xl border border-slate-100 p-6">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="font-semibold">{% trans "Today's schedule" %}</h2>
+        <a href="{% url 'appointments:list' %}" class="text-teal-600 text-sm">{% trans "View all" %}</a>
+    </div>
+    <div class="space-y-3">
+        {% for appt in todays_appointments %}
+        <div class="flex items-center justify-between border-b border-slate-50 pb-3 last:border-0">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-medium">
+                    {{ appt.patient.full_name|slice:":2"|upper }}
+                </div>
+                <div>
+                    <p class="text-sm font-medium">{{ appt.patient.full_name }}</p>
+                    <p class="text-xs text-slate-500">{{ appt.reason|default:_("Visit") }} · Dr. {{ appt.doctor.full_name }}</p>
+                </div>
+            </div>
+            <span class="text-sm text-slate-400">{{ appt.scheduled_at|date:"H:i" }}</span>
+        </div>
+        {% empty %}
+        <p class="text-slate-400 text-sm">{% trans "No appointments scheduled for today." %}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

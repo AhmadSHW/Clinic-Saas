@@ -1,0 +1,42 @@
+{% extends "patients/portal_base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Create Your Account" %}{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 max-w-md mx-auto">
+    <h1 class="text-2xl font-bold text-slate-900 mb-1">{% trans "Create Your Account" %}</h1>
+    <p class="text-slate-500 text-sm mb-6">{% blocktrans with clinic_name=clinic.name %}Book and manage your appointments at {{ clinic_name }}{% endblocktrans %}</p>
+
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Full Name" %}</label>
+            <input type="text" name="full_name" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Email" %}</label>
+            <input type="email" name="email" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Phone Number" %}</label>
+            <input type="text" name="phone_number" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Password" %}</label>
+            <input type="password" name="password" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Confirm Password" %}</label>
+            <input type="password" name="confirm_password" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+        </div>
+        <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg mt-2">
+            {% trans "Create Account" %}
+        </button>
+    </form>
+
+    <p class="text-center text-sm text-slate-500 mt-5">
+        {% trans "Already have an account?" %}
+        <a href="{% url 'patients:portal_login' clinic.slug %}" class="text-teal-600 font-medium">{% trans "Sign in" %}</a>
+    </p>
+</div>
+{% endblock %}

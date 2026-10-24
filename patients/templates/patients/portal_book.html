@@ -1,0 +1,31 @@
+{% extends "patients/portal_base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Book Appointment" %}{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold text-slate-900 mb-6">{% trans "Book Appointment" %}</h1>
+
+<form method="post" class="bg-white rounded-xl border border-slate-100 p-6 space-y-4 max-w-lg">
+    {% csrf_token %}
+    <div>
+        <label class="block text-sm font-medium mb-1">{% trans "Doctor" %}</label>
+        <select name="doctor_id" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+            <option value="">-- {% trans "Select Doctor" %} --</option>
+            {% for doctor in doctors %}
+                <option value="{{ doctor.id }}">Dr. {{ doctor.full_name }} ({{ doctor.specialty }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">{% trans "Date & Time" %}</label>
+        <input type="datetime-local" name="scheduled_at" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">{% trans "Reason" %}</label>
+        <input type="text" name="reason" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+    </div>
+    <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg">
+        {% trans "Request Appointment" %}
+    </button>
+</form>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Add Staff" %}{% endblock %}
+{% block nav_staff %}bg-teal-50 text-teal-700 font-medium{% endblock %}
+
+{% block content %}
+<div class="max-w-xl">
+    <h1 class="text-2xl font-bold text-slate-900 mb-6">{% trans "Add Staff Member" %}</h1>
+
+    <form method="post" class="bg-white rounded-xl border border-slate-100 p-6 space-y-4">
+        {% csrf_token %}
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Full Name" %}</label>
+            <input type="text" name="full_name" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Email" %}</label>
+            <input type="email" name="email" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Role" %}</label>
+            <select name="role" id="role-select" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+                <option value="doctor">{% trans "Doctor" %}</option>
+                <option value="reception">{% trans "Reception" %}</option>
+                <option value="admin">{% trans "Admin" %}</option>
+            </select>
+        </div>
+        <div id="specialty-field">
+            <label class="block text-sm font-medium mb-1">{% trans "Specialty (doctors only)" %}</label>
+            <input type="text" name="specialty" placeholder="{% trans 'e.g. Dentist' %}" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">{% trans "Password" %}</label>
+            <input type="password" name="password" required class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+        </div>
+        <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2.5 rounded-lg">
+            {% trans "Add Staff Member" %}
+        </button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const roleSelect = document.getElementById("role-select");
+    const specialtyField = document.getElementById("specialty-field");
+    function toggleSpecialtyField() {
+        specialtyField.style.display = roleSelect.value === "doctor" ? "block" : "none";
+    }
+    roleSelect.addEventListener("change", toggleSpecialtyField);
+    toggleSpecialtyField();
+</script>
+{% endblock %}

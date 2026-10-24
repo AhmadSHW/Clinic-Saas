@@ -1,0 +1,18 @@
+{% extends "public_base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Plan Inactive" %}{% endblock %}
+
+{% block content %}
+<section class="min-h-[70vh] flex items-center justify-center px-6 py-16 bg-slate-50">
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 max-w-md w-full text-center">
+        <div class="w-14 h-14 mx-auto rounded-full bg-orange-100 text-orange-700 flex items-center justify-center text-2xl mb-5">
+            ⏳
+        </div>
+        <h1 class="text-xl font-bold text-slate-900 mb-2">{% trans "Your clinic's plan is inactive" %}</h1>
+        <p class="text-slate-500 text-sm mb-6">
+            {% trans "The free trial or subscription has ended. Ask your clinic administrator to subscribe to continue using Clinic SaS." %}
+        </p>
+        <a href="{% url 'accounts:logout' %}" class="text-teal-600 text-sm font-medium">{% trans "Log out" %}</a>
+    </div>
+</section>
+{% endblock %}
