@@ -27,12 +27,11 @@
                     {% trans "Explore features" %}
                 </a>
             </div>
-            <dl class="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-4">
-                <div><dt class="sr-only">{% trans "Clinics" %}</dt><dd class="text-2xl font-bold text-slate-900">2,400+</dd><dd class="text-sm text-slate-500">{% trans "Clinics" %}</dd></div>
-                <div><dt class="sr-only">{% trans "Patients" %}</dt><dd class="text-2xl font-bold text-slate-900">180K+</dd><dd class="text-sm text-slate-500">{% trans "Patients" %}</dd></div>
-                <div><dt class="sr-only">{% trans "Appointments" %}</dt><dd class="text-2xl font-bold text-slate-900">1.2M</dd><dd class="text-sm text-slate-500">{% trans "Appointments" %}</dd></div>
-                <div><dt class="sr-only">{% trans "Uptime" %}</dt><dd class="text-2xl font-bold text-slate-900">99.9%</dd><dd class="text-sm text-slate-500">{% trans "Uptime" %}</dd></div>
-            </dl>
+            <ul class="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-600">
+                <li class="flex items-center gap-2">{% icon "check-circle" "h-4 w-4 text-brand-600" %} {% trans "14-day free trial" %}</li>
+                <li class="flex items-center gap-2">{% icon "check-circle" "h-4 w-4 text-brand-600" %} {% trans "No credit card needed" %}</li>
+                <li class="flex items-center gap-2">{% icon "check-circle" "h-4 w-4 text-brand-600" %} {% trans "English & Arabic" %}</li>
+            </ul>
         </div>
 
         <!-- Product preview -->
@@ -140,51 +139,8 @@
     </div>
 </section>
 
-<!-- Testimonials -->
-<section id="testimonials" class="mx-auto max-w-7xl scroll-mt-20 px-4 py-20 sm:px-6 lg:px-8">
-    <div class="mx-auto mb-14 max-w-2xl text-center">
-        <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-600">{% trans "TESTIMONIALS" %}</p>
-        <h2 class="text-3xl font-bold tracking-tight text-slate-900">{% trans "Loved by the people on the front line" %}</h2>
-    </div>
-    <div class="grid gap-6 md:grid-cols-3">
-        <figure class="card flex flex-col p-6">
-            <span class="mb-4 font-serif text-4xl leading-none text-brand-500">“</span>
-            <blockquote class="mb-6 flex-1 text-slate-700">{% trans "We cut our front-desk wait times in half. The waiting queue alone changed how our whole morning runs." %}</blockquote>
-            <figcaption class="flex items-center gap-3">
-                <span class="avatar-md">SC</span>
-                <div>
-                    <p class="text-sm font-semibold text-slate-900">Dr. Sarah Chen</p>
-                    <p class="text-xs text-slate-500">{% trans "General Physician, Lakeview Family Clinic" %}</p>
-                </div>
-            </figcaption>
-        </figure>
-        <figure class="card flex flex-col p-6">
-            <span class="mb-4 font-serif text-4xl leading-none text-brand-500">“</span>
-            <blockquote class="mb-6 flex-1 text-slate-700">{% trans "Having every patient's full history on one timeline is a lifesaver. I can review a chart in seconds." %}</blockquote>
-            <figcaption class="flex items-center gap-3">
-                <span class="avatar-md bg-orange-100 text-orange-700">JO</span>
-                <div>
-                    <p class="text-sm font-semibold text-slate-900">Dr. James Okafor</p>
-                    <p class="text-xs text-slate-500">{% trans "Cardiologist" %}</p>
-                </div>
-            </figcaption>
-        </figure>
-        <figure class="card flex flex-col p-6">
-            <span class="mb-4 font-serif text-4xl leading-none text-brand-500">“</span>
-            <blockquote class="mb-6 flex-1 text-slate-700">{% trans "Setup took an afternoon. By the next day our whole team was documenting visits without paper." %}</blockquote>
-            <figcaption class="flex items-center gap-3">
-                <span class="avatar-md bg-sky-100 text-sky-700">ET</span>
-                <div>
-                    <p class="text-sm font-semibold text-slate-900">Dr. Emily Tran</p>
-                    <p class="text-xs text-slate-500">{% trans "Pediatrician" %}</p>
-                </div>
-            </figcaption>
-        </figure>
-    </div>
-</section>
-
 <!-- FAQ -->
-<section id="faq" class="scroll-mt-20 bg-slate-50 py-20">
+<section id="faq" class="scroll-mt-20 bg-white py-20">
     <div class="mx-auto max-w-3xl px-4 sm:px-6">
         <div class="mb-12 text-center">
             <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-orange-500">{% trans "FAQ" %}</p>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 22:10+0200\n"
+"POT-Creation-Date: 2026-10-24 22:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -182,8 +182,7 @@ msgstr "القادمة"
 #: .\accounts\templates\accounts\doctor_list.html:47
 #: .\appointments\templates\appointments\list.html:3
 #: .\appointments\templates\appointments\list.html:18
-#: .\dashboard\templates\dashboard\landing.html:33
-#: .\dashboard\templates\dashboard\landing.html:52 .\dashboard\views.py:24
+#: .\dashboard\templates\dashboard\landing.html:51 .\dashboard\views.py:24
 #: .\templates\base.html:58
 msgid "Appointments"
 msgstr "المواعيد"
@@ -368,7 +367,7 @@ msgstr "لديك حساب مسبقاً؟"
 
 #: .\accounts\templates\accounts\signup.html:78
 #: .\patients\templates\patients\portal_register.html:44
-#: .\templates\public_base.html:35 .\templates\public_base.html:60
+#: .\templates\public_base.html:34 .\templates\public_base.html:59
 msgid "Sign in"
 msgstr "تسجيل الدخول"
 
@@ -462,7 +461,7 @@ msgid "Patient"
 msgstr "مريض"
 
 #: .\appointments\templates\appointments\book.html:23
-#: .\dashboard\templates\dashboard\landing.html:77
+#: .\dashboard\templates\dashboard\landing.html:76
 msgid "New patient"
 msgstr "مريض جديد"
 
@@ -915,14 +914,14 @@ msgstr ""
 "بالكامل في مكان واحد — لتقضي وقتاً أقل بالأوراق ووقتاً أكثر مع مرضاك."
 
 #: .\dashboard\templates\dashboard\landing.html:23
-#: .\dashboard\templates\dashboard\landing.html:235
-#: .\templates\public_base.html:28 .\templates\public_base.html:58
+#: .\dashboard\templates\dashboard\landing.html:191
+#: .\templates\public_base.html:27 .\templates\public_base.html:57
 msgid "Go to dashboard"
 msgstr "الذهاب إلى لوحة التحكم"
 
 #: .\dashboard\templates\dashboard\landing.html:23
-#: .\dashboard\templates\dashboard\landing.html:235
-#: .\templates\public_base.html:37
+#: .\dashboard\templates\dashboard\landing.html:191
+#: .\templates\public_base.html:36
 msgid "Open the app"
 msgstr "افتح التطبيق"
 
@@ -931,160 +930,114 @@ msgid "Explore features"
 msgstr "استكشف المميزات"
 
 #: .\dashboard\templates\dashboard\landing.html:31
-msgid "Clinics"
-msgstr "عيادة"
+msgid "14-day free trial"
+msgstr "تجربة مجانية لمدة 14 يوماً"
 
 #: .\dashboard\templates\dashboard\landing.html:32
-#: .\patients\templates\patients\list.html:3
-#: .\patients\templates\patients\list.html:9 .\templates\base.html:55
-msgid "Patients"
-msgstr "المرضى"
+msgid "No credit card needed"
+msgstr "لا حاجة لبطاقة ائتمان"
 
-#: .\dashboard\templates\dashboard\landing.html:34
-msgid "Uptime"
-msgstr "نسبة التشغيل"
+#: .\dashboard\templates\dashboard\landing.html:33
+msgid "English & Arabic"
+msgstr "بالعربية والإنجليزية"
 
-#: .\dashboard\templates\dashboard\landing.html:44
+#: .\dashboard\templates\dashboard\landing.html:43
 msgid "Good morning, Dr. Chen"
 msgstr "صباح الخير، دكتورة تشين"
 
-#: .\dashboard\templates\dashboard\landing.html:45
+#: .\dashboard\templates\dashboard\landing.html:44
 msgid "Saturday, Sep 20 · 14 patients today"
 msgstr "السبت، 20 سبتمبر · 14 مريضاً اليوم"
 
-#: .\dashboard\templates\dashboard\landing.html:56
+#: .\dashboard\templates\dashboard\landing.html:55
 msgid "Waiting"
 msgstr "بالانتظار"
 
-#: .\dashboard\templates\dashboard\landing.html:60
+#: .\dashboard\templates\dashboard\landing.html:59
 msgid "New patients"
 msgstr "مرضى جدد"
 
-#: .\dashboard\templates\dashboard\landing.html:63
+#: .\dashboard\templates\dashboard\landing.html:62
 msgid "TODAY'S SCHEDULE"
 msgstr "جدول اليوم"
 
-#: .\dashboard\templates\dashboard\landing.html:67
+#: .\dashboard\templates\dashboard\landing.html:66
 msgid "Asthma follow-up"
 msgstr "متابعة الربو"
 
-#: .\dashboard\templates\dashboard\landing.html:72
+#: .\dashboard\templates\dashboard\landing.html:71
 msgid "BP check"
 msgstr "فحص ضغط الدم"
 
-#: .\dashboard\templates\dashboard\landing.html:89
+#: .\dashboard\templates\dashboard\landing.html:88
 msgid "FEATURES"
 msgstr "المميزات"
 
-#: .\dashboard\templates\dashboard\landing.html:90
+#: .\dashboard\templates\dashboard\landing.html:89
 msgid "Everything your team needs, in one workspace"
 msgstr "كل ما يحتاجه فريقك، في مساحة عمل واحدة"
 
-#: .\dashboard\templates\dashboard\landing.html:92
+#: .\dashboard\templates\dashboard\landing.html:91
 msgid ""
 "Six connected modules that replace the pile of tools and paper your clinic "
 "juggles today."
 msgstr ""
 "ستة أقسام مترابطة تحل محل كومة الأدوات والأوراق التي تديرها عيادتك اليوم."
 
-#: .\dashboard\templates\dashboard\landing.html:114
+#: .\dashboard\templates\dashboard\landing.html:113
 msgid "HOW IT WORKS"
 msgstr "كيف يعمل"
 
-#: .\dashboard\templates\dashboard\landing.html:115
+#: .\dashboard\templates\dashboard\landing.html:114
 msgid "Up and running in an afternoon"
 msgstr "جاهز للعمل خلال ساعات"
 
-#: .\dashboard\templates\dashboard\landing.html:117
+#: .\dashboard\templates\dashboard\landing.html:116
 msgid ""
 "No IT department needed. Three simple steps to a calmer, more organized "
 "clinic."
 msgstr "لا حاجة لقسم تقني. ثلاث خطوات بسيطة لعيادة أكثر هدوءاً وتنظيماً."
 
-#: .\dashboard\templates\dashboard\landing.html:124
+#: .\dashboard\templates\dashboard\landing.html:123
 msgid "Set up your clinic"
 msgstr "أعدّ عيادتك"
 
-#: .\dashboard\templates\dashboard\landing.html:125
+#: .\dashboard\templates\dashboard\landing.html:124
 msgid ""
 "Add your staff, rooms, and services in minutes. No training manual required."
 msgstr "أضف موظفيك وغرفك وخدماتك خلال دقائق. لا حاجة لدليل تدريب."
 
-#: .\dashboard\templates\dashboard\landing.html:130
+#: .\dashboard\templates\dashboard\landing.html:129
 msgid "Start seeing patients"
 msgstr "ابدأ باستقبال المرضى"
 
-#: .\dashboard\templates\dashboard\landing.html:131
+#: .\dashboard\templates\dashboard\landing.html:130
 msgid ""
 "Schedule, check in, and document every visit — from vitals to prescriptions."
 msgstr "جدول واستقبل ووثّق كل زيارة — من العلامات الحيوية إلى الوصفات الطبية."
 
-#: .\dashboard\templates\dashboard\landing.html:136
+#: .\dashboard\templates\dashboard\landing.html:135
 msgid "Grow with clarity"
 msgstr "انمُ بوضوح"
 
-#: .\dashboard\templates\dashboard\landing.html:137
+#: .\dashboard\templates\dashboard\landing.html:136
 msgid "Track billing, queue times, and practice insights in real time."
 msgstr "تابع الفواتير وأوقات الانتظار وإحصائيات عيادتك لحظياً."
 
 #: .\dashboard\templates\dashboard\landing.html:146
-msgid "TESTIMONIALS"
-msgstr "آراء العملاء"
-
-#: .\dashboard\templates\dashboard\landing.html:147
-msgid "Loved by the people on the front line"
-msgstr "محبوب من العاملين في الصفوف الأمامية"
-
-#: .\dashboard\templates\dashboard\landing.html:152
-msgid ""
-"We cut our front-desk wait times in half. The waiting queue alone changed "
-"how our whole morning runs."
-msgstr ""
-"خفّضنا وقت الانتظار عند الاستقبال إلى النصف. قائمة الانتظار وحدها غيّرت "
-"طريقة سير صباحنا بالكامل."
-
-#: .\dashboard\templates\dashboard\landing.html:157
-msgid "General Physician, Lakeview Family Clinic"
-msgstr "طبيب عام، عيادة ليكفيو العائلية"
-
-#: .\dashboard\templates\dashboard\landing.html:163
-msgid ""
-"Having every patient's full history on one timeline is a lifesaver. I can "
-"review a chart in seconds."
-msgstr ""
-"وجود السجل الكامل لكل مريض على جدول زمني واحد كان منقذاً حقيقياً. أستطيع "
-"مراجعة الملف خلال ثوانٍ."
-
-#: .\dashboard\templates\dashboard\landing.html:168
-msgid "Cardiologist"
-msgstr "طبيب قلب"
-
-#: .\dashboard\templates\dashboard\landing.html:174
-msgid ""
-"Setup took an afternoon. By the next day our whole team was documenting "
-"visits without paper."
-msgstr ""
-"استغرق الإعداد بضع ساعات فقط. وفي اليوم التالي كان فريقنا بالكامل يوثّق "
-"الزيارات بدون أوراق."
-
-#: .\dashboard\templates\dashboard\landing.html:179
-msgid "Pediatrician"
-msgstr "طبيب أطفال"
-
-#: .\dashboard\templates\dashboard\landing.html:190
-#: .\templates\public_base.html:20 .\templates\public_base.html:56
+#: .\templates\public_base.html:19 .\templates\public_base.html:55
 msgid "FAQ"
 msgstr "الأسئلة الشائعة"
 
-#: .\dashboard\templates\dashboard\landing.html:191
+#: .\dashboard\templates\dashboard\landing.html:147
 msgid "Common questions, answered"
 msgstr "أسئلة شائعة، وإجاباتها"
 
-#: .\dashboard\templates\dashboard\landing.html:197
+#: .\dashboard\templates\dashboard\landing.html:153
 msgid "Is this a full practice management system?"
 msgstr "هل هذا نظام إدارة عيادات متكامل؟"
 
-#: .\dashboard\templates\dashboard\landing.html:201
+#: .\dashboard\templates\dashboard\landing.html:157
 msgid ""
 "Yes. Clinic SaS covers patient records, appointments, waiting queues, "
 "billing, staff, and notifications in a single connected workspace."
@@ -1092,35 +1045,35 @@ msgstr ""
 "نعم. يغطي Clinic SaS سجلات المرضى والمواعيد وقوائم الانتظار والفواتير "
 "والموظفين والإشعارات في مساحة عمل واحدة مترابطة."
 
-#: .\dashboard\templates\dashboard\landing.html:206
+#: .\dashboard\templates\dashboard\landing.html:162
 msgid "Do I need to install anything?"
 msgstr "هل أحتاج لتثبيت أي شيء؟"
 
-#: .\dashboard\templates\dashboard\landing.html:209
+#: .\dashboard\templates\dashboard\landing.html:165
 msgid "No — Clinic SaS runs entirely in your browser."
 msgstr "لا — يعمل Clinic SaS بالكامل من خلال المتصفح."
 
-#: .\dashboard\templates\dashboard\landing.html:213
+#: .\dashboard\templates\dashboard\landing.html:169
 msgid "Can multiple staff members use it at once?"
 msgstr "هل يمكن لعدة موظفين استخدامه في نفس الوقت؟"
 
-#: .\dashboard\templates\dashboard\landing.html:216
+#: .\dashboard\templates\dashboard\landing.html:172
 msgid "Yes, with role-based access for admins, doctors, and reception."
 msgstr "نعم، مع صلاحيات وصول حسب الدور للمدراء والأطباء والاستقبال."
 
-#: .\dashboard\templates\dashboard\landing.html:220
+#: .\dashboard\templates\dashboard\landing.html:176
 msgid "What happens to my patient data?"
 msgstr "ماذا يحدث لبيانات مرضاي؟"
 
-#: .\dashboard\templates\dashboard\landing.html:223
+#: .\dashboard\templates\dashboard\landing.html:179
 msgid "Each clinic's data is fully isolated and never shared across tenants."
 msgstr "بيانات كل عيادة معزولة بالكامل ولا تُشارك أبداً بين العيادات الأخرى."
 
-#: .\dashboard\templates\dashboard\landing.html:232
+#: .\dashboard\templates\dashboard\landing.html:188
 msgid "Ready to run a calmer clinic?"
 msgstr "مستعد لإدارة عيادة أكثر هدوءاً؟"
 
-#: .\dashboard\templates\dashboard\landing.html:233
+#: .\dashboard\templates\dashboard\landing.html:189
 msgid "Start your 14-day free trial. No credit card needed."
 msgstr "ابدأ تجربتك المجانية لمدة 14 يوماً. لا حاجة لبطاقة ائتمان."
 
@@ -1300,6 +1253,11 @@ msgstr "التاريخ الطبي"
 #: .\patients\templates\patients\detail.html:76
 msgid "No records yet."
 msgstr "لا توجد سجلات بعد."
+
+#: .\patients\templates\patients\list.html:3
+#: .\patients\templates\patients\list.html:9 .\templates\base.html:55
+msgid "Patients"
+msgstr "المرضى"
 
 #: .\patients\templates\patients\list.html:11
 #, python-format
@@ -1484,7 +1442,7 @@ msgstr "إغلاق"
 msgid "Clinic SaS — Practice Management Platform"
 msgstr "Clinic SaS — منصة إدارة العيادات"
 
-#: .\templates\public_base.html:17 .\templates\public_base.html:55
+#: .\templates\public_base.html:17 .\templates\public_base.html:54
 msgid "Features"
 msgstr "المميزات"
 
@@ -1492,13 +1450,54 @@ msgstr "المميزات"
 msgid "How it works"
 msgstr "كيف يعمل"
 
-#: .\templates\public_base.html:19
-msgid "Testimonials"
-msgstr "آراء العملاء"
-
-#: .\templates\public_base.html:32
+#: .\templates\public_base.html:31
 msgid "My appointments"
 msgstr "مواعيدي"
+
+#~ msgid "TESTIMONIALS"
+#~ msgstr "آراء العملاء"
+
+#~ msgid "Loved by the people on the front line"
+#~ msgstr "محبوب من العاملين في الصفوف الأمامية"
+
+#~ msgid ""
+#~ "We cut our front-desk wait times in half. The waiting queue alone changed "
+#~ "how our whole morning runs."
+#~ msgstr ""
+#~ "خفّضنا وقت الانتظار عند الاستقبال إلى النصف. قائمة الانتظار وحدها غيّرت "
+#~ "طريقة سير صباحنا بالكامل."
+
+#~ msgid "General Physician, Lakeview Family Clinic"
+#~ msgstr "طبيب عام، عيادة ليكفيو العائلية"
+
+#~ msgid ""
+#~ "Having every patient's full history on one timeline is a lifesaver. I can "
+#~ "review a chart in seconds."
+#~ msgstr ""
+#~ "وجود السجل الكامل لكل مريض على جدول زمني واحد كان منقذاً حقيقياً. أستطيع "
+#~ "مراجعة الملف خلال ثوانٍ."
+
+#~ msgid "Cardiologist"
+#~ msgstr "طبيب قلب"
+
+#~ msgid ""
+#~ "Setup took an afternoon. By the next day our whole team was documenting "
+#~ "visits without paper."
+#~ msgstr ""
+#~ "استغرق الإعداد بضع ساعات فقط. وفي اليوم التالي كان فريقنا بالكامل يوثّق "
+#~ "الزيارات بدون أوراق."
+
+#~ msgid "Pediatrician"
+#~ msgstr "طبيب أطفال"
+
+#~ msgid "Testimonials"
+#~ msgstr "آراء العملاء"
+
+#~ msgid "Clinics"
+#~ msgstr "عيادة"
+
+#~ msgid "Uptime"
+#~ msgstr "نسبة التشغيل"
 
 #~ msgid "Send Link"
 #~ msgstr "إرسال الرابط"
