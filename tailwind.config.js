@@ -12,7 +12,8 @@ module.exports = {
       // The app's main colour. Templates use brand-* (never a named palette),
       // so changing these values and rebuilding re-colours the whole site.
       // Also update the hex values in static/favicon.svg, templates/includes/head.html
-      // (theme-color) and .feature-icon--brand in static/src/input.css.
+      // (theme-color), and .feature-icon--brand and the .feature-card::before glow
+      // in static/src/input.css.
       colors: {
         brand: {
           // Emerald

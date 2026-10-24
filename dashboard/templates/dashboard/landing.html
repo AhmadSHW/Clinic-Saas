@@ -4,11 +4,17 @@
 
 {% block content %}
 
+<!-- Reading progress (filled by landing.js) -->
+<div class="pointer-events-none fixed inset-x-0 top-0 z-50 h-[3px]">
+    <div class="h-full origin-left scale-x-0 bg-gradient-to-r from-brand-400 to-brand-600 rtl:origin-right rtl:bg-gradient-to-l" data-scroll-progress></div>
+</div>
+
 <!-- Hero -->
-<section class="relative overflow-hidden bg-gradient-to-b from-brand-50/80 via-white to-white">
-    <div class="pointer-events-none absolute -top-40 end-0 h-[480px] w-[480px] rounded-full bg-brand-200/30 blur-3xl"></div>
+<section class="relative overflow-hidden bg-gradient-to-b from-brand-50/80 via-white to-white" data-hero>
+    <div class="pointer-events-none absolute -top-40 end-0 h-[480px] w-[480px] rounded-full bg-brand-200/30 blur-3xl" data-parallax="-0.25"></div>
+    <div class="pointer-events-none absolute -bottom-40 start-0 h-[360px] w-[360px] rounded-full bg-orange-100/40 blur-3xl" data-parallax="0.15"></div>
     <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-2 lg:px-8">
-        <div>
+        <div class="hero-enter">
             <span class="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white px-3 py-1 text-xs font-medium text-brand-700 shadow-sm">
                 {% icon "sparkles" "h-3.5 w-3.5" %} {% trans "Practice management, reimagined" %}
             </span>
@@ -34,10 +40,10 @@
             </ul>
         </div>
 
-        <!-- Product preview -->
-        <div class="relative">
+        <!-- Product preview: drifts on scroll and tilts toward the cursor (landing.js) -->
+        <div class="hero-enter-late relative [perspective:1200px]" data-parallax="0.08">
             <div class="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-brand-100 to-orange-50 opacity-70 blur-2xl"></div>
-            <div class="relative rounded-2xl border border-slate-200/70 bg-white p-6 shadow-lift">
+            <div class="relative rounded-2xl border border-slate-200/70 bg-white p-6 shadow-lift transition-transform duration-300 ease-out will-change-transform" data-tilt>
                 <div class="mb-5 flex items-start justify-between">
                     <div>
                         <p class="font-semibold text-slate-900">{% trans "Good morning, Dr. Chen" %}</p>
@@ -116,21 +122,32 @@
                 {% trans "No IT department needed. Three simple steps to a calmer, more organized clinic." %}
             </p>
         </div>
+        <!-- Timeline that draws itself as you scroll (landing.js); wide screens only -->
+        <div class="relative mb-8 hidden md:block" data-timeline>
+            <div class="absolute inset-x-[16.66%] top-1/2 h-1 -translate-y-1/2 overflow-hidden rounded-full bg-slate-200">
+                <div class="h-full origin-left scale-x-0 rounded-full bg-gradient-to-r from-orange-400 to-brand-500 rtl:origin-right rtl:bg-gradient-to-l" data-timeline-fill></div>
+            </div>
+            <div class="relative grid grid-cols-3">
+                <div class="flex justify-center"><span class="timeline-dot" data-step="0">01</span></div>
+                <div class="flex justify-center"><span class="timeline-dot" data-step="1">02</span></div>
+                <div class="flex justify-center"><span class="timeline-dot" data-step="2">03</span></div>
+            </div>
+        </div>
         <div class="grid gap-6 md:grid-cols-3">
-            <div class="card p-6">
-                <span class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-600">{% icon "building" %}</span>
+            <div class="step-card card p-6" data-step-card="0">
+                <span class="step-icon mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-600">{% icon "building" %}</span>
                 <p class="mb-1 text-xs font-bold text-orange-500">01</p>
                 <h3 class="mb-2 text-lg font-semibold text-slate-900">{% trans "Set up your clinic" %}</h3>
                 <p class="text-sm text-slate-600">{% trans "Add your staff, rooms, and services in minutes. No training manual required." %}</p>
             </div>
-            <div class="card p-6">
-                <span class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-600">{% icon "stethoscope" %}</span>
+            <div class="step-card card p-6" data-step-card="1">
+                <span class="step-icon mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-600">{% icon "stethoscope" %}</span>
                 <p class="mb-1 text-xs font-bold text-orange-500">02</p>
                 <h3 class="mb-2 text-lg font-semibold text-slate-900">{% trans "Start seeing patients" %}</h3>
                 <p class="text-sm text-slate-600">{% trans "Schedule, check in, and document every visit — from vitals to prescriptions." %}</p>
             </div>
-            <div class="card p-6">
-                <span class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-600">{% icon "trending-up" %}</span>
+            <div class="step-card card p-6" data-step-card="2">
+                <span class="step-icon mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-orange-50 text-orange-600">{% icon "trending-up" %}</span>
                 <p class="mb-1 text-xs font-bold text-orange-500">03</p>
                 <h3 class="mb-2 text-lg font-semibold text-slate-900">{% trans "Grow with clarity" %}</h3>
                 <p class="text-sm text-slate-600">{% trans "Track billing, queue times, and practice insights in real time." %}</p>
@@ -184,14 +201,21 @@
 
 <!-- Call to action -->
 <section class="px-4 py-20 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-5xl overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 to-brand-800 px-6 py-14 text-center shadow-lift sm:px-12">
-        <h2 class="text-3xl font-bold tracking-tight text-white">{% trans "Ready to run a calmer clinic?" %}</h2>
-        <p class="mx-auto mt-3 max-w-xl text-brand-100">{% trans "Start your 14-day free trial. No credit card needed." %}</p>
-        <a href="{% if staff_user %}{% url 'dashboard:home' %}{% else %}{% url 'accounts:signup' %}{% endif %}" class="btn mt-8 bg-white px-6 py-3 text-base text-brand-700 shadow-sm hover:bg-brand-50">
+    <div class="relative mx-auto max-w-5xl overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 to-brand-800 px-6 py-14 text-center shadow-lift will-change-transform sm:px-12" data-zoom-in>
+        <div class="pointer-events-none absolute -top-24 end-[-6rem] h-64 w-64 rounded-full bg-white/10 blur-2xl"></div>
+        <div class="pointer-events-none absolute -bottom-24 start-[-4rem] h-56 w-56 rounded-full bg-brand-300/20 blur-2xl"></div>
+        <h2 class="relative text-3xl font-bold tracking-tight text-white">{% trans "Ready to run a calmer clinic?" %}</h2>
+        <p class="relative mx-auto mt-3 max-w-xl text-brand-100">{% trans "Start your 14-day free trial. No credit card needed." %}</p>
+        <a href="{% if staff_user %}{% url 'dashboard:home' %}{% else %}{% url 'accounts:signup' %}{% endif %}" class="btn relative mt-8 bg-white px-6 py-3 text-base text-brand-700 shadow-sm hover:bg-brand-50">
             {% if staff_user %}{% trans "Go to dashboard" %}{% else %}{% trans "Open the app" %}{% endif %}
             {% icon "arrow-right" "h-4 w-4 rtl:rotate-180" %}
         </a>
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+{% load static %}
+<script src="{% static 'js/landing.js' %}" defer></script>
 {% endblock %}

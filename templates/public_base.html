@@ -6,7 +6,7 @@
     <title>{% block title %}{% trans "Clinic SaS — Practice Management Platform" %}{% endblock %}</title>
 </head>
 <body class="flex min-h-screen flex-col bg-white">
-    <nav class="sticky top-0 z-30 border-b border-slate-100 bg-white/85 backdrop-blur">
+    <nav class="sticky top-0 z-30 border-b border-slate-100 bg-white/85 backdrop-blur transition-shadow duration-300" data-site-nav>
         <div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
             <a href="{% url 'dashboard:landing' %}" class="flex items-center gap-2.5 transition-opacity hover:opacity-80">
                 {% include "includes/logo_mark.html" %}
@@ -14,9 +14,9 @@
             </a>
 
             <div class="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
-                <a href="{% url 'dashboard:landing' %}#features" class="transition-colors hover:text-slate-900">{% trans "Features" %}</a>
-                <a href="{% url 'dashboard:landing' %}#how-it-works" class="transition-colors hover:text-slate-900">{% trans "How it works" %}</a>
-                <a href="{% url 'dashboard:landing' %}#faq" class="transition-colors hover:text-slate-900">{% trans "FAQ" %}</a>
+                <a href="{% url 'dashboard:landing' %}#features" class="nav-anchor" data-nav-link="features">{% trans "Features" %}</a>
+                <a href="{% url 'dashboard:landing' %}#how-it-works" class="nav-anchor" data-nav-link="how-it-works">{% trans "How it works" %}</a>
+                <a href="{% url 'dashboard:landing' %}#faq" class="nav-anchor" data-nav-link="faq">{% trans "FAQ" %}</a>
             </div>
 
             <div class="flex items-center gap-2 sm:gap-3">
