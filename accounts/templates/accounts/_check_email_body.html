@@ -1,0 +1,92 @@
+{% load i18n %}
+{% comment %}
+"Check your email" content, shared by clinic signup and patient registration.
+Context: email, resend_in (seconds until "Resend" is allowed), poll (True on the
+browser that signed up: it polls accounts:verification_status and follows the
+redirect once the email is confirmed, even on another device), and optionally
+resend_token (resend from an expired link instead of from this browser's signup).
+{% endcomment %}
+<div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+    {% icon "mail" "h-7 w-7" %}
+</div>
+<h1 class="mb-2 text-xl font-bold text-slate-900">{% trans "Check your email" %}</h1>
+<p class="text-sm text-slate-500">{% trans "We sent an email to" %}</p>
+<p class="mb-6 break-all font-medium text-slate-900" dir="ltr">{{ email }}</p>
+
+<ol class="mb-6 space-y-3 rounded-xl bg-slate-50 p-4 text-start text-sm text-slate-600">
+    <li class="flex items-start gap-3">
+        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-bold text-brand-700 ring-1 ring-slate-200">1</span>
+        {% trans "Open the email from Clinic SaS." %}
+    </li>
+    <li class="flex items-start gap-3">
+        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-bold text-brand-700 ring-1 ring-slate-200">2</span>
+        {% trans "Press the green “Yes, it's me” button." %}
+    </li>
+    {% if poll %}
+    <li class="flex items-start gap-3">
+        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-bold text-brand-700 ring-1 ring-slate-200">3</span>
+        {% trans "That's it. You can even do it on your phone: this page signs you in by itself." %}
+    </li>
+    {% endif %}
+</ol>
+
+{% if poll %}
+<div class="mb-6 inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-2 text-sm font-medium text-brand-700" data-waiting>
+    <span class="spinner"></span>
+    {% trans "Waiting for you to confirm…" %}
+</div>
+{% endif %}
+
+<form method="post" action="{% if resend_token %}{% url 'accounts:resend_from_token' resend_token %}{% else %}{% url 'accounts:resend_pending' %}{% endif %}" class="mb-4">
+    {% csrf_token %}
+    <button type="submit" class="btn-secondary" data-resend data-wait="{{ resend_in }}" {% if resend_in %}disabled{% endif %}>
+        {% icon "send" "h-4 w-4" %}
+        <span data-resend-label>{% trans "Resend email" %}</span>
+        <span data-resend-countdown class="tabular-nums {% if not resend_in %}hidden{% endif %}">({{ resend_in }})</span>
+    </button>
+</form>
+<p class="text-xs text-slate-400">{% trans "Didn't get it? Check your Spam or Promotions folder." %}</p>
+
+<script>
+    (function () {
+        // "Resend email" stays disabled for the server's 60-second limit, with a countdown
+        const button = document.querySelector("[data-resend]");
+        const countdown = document.querySelector("[data-resend-countdown]");
+        let wait = parseInt(button.dataset.wait, 10) || 0;
+        if (wait > 0) {
+            const timer = setInterval(() => {
+                wait -= 1;
+                countdown.textContent = `(${wait})`;
+                if (wait <= 0) {
+                    clearInterval(timer);
+                    button.disabled = false;
+                    countdown.classList.add("hidden");
+                }
+            }, 1000);
+        }
+
+        {% if poll %}
+        // Check every 3 seconds whether the email was confirmed (on any device); stop after 35 minutes
+        const statusUrl = "{% url 'accounts:verification_status' %}";
+        const stopAt = Date.now() + 35 * 60 * 1000;
+        async function check() {
+            try {
+                const response = await fetch(statusUrl, { credentials: "same-origin", cache: "no-store" });
+                const data = await response.json();
+                if (data.verified) {
+                    window.location.href = data.redirect;
+                    return;
+                }
+            } catch (e) {
+                // Network hiccup: try again on the next tick
+            }
+            if (Date.now() < stopAt) {
+                setTimeout(check, 3000);
+            } else {
+                document.querySelector("[data-waiting]")?.classList.add("hidden");
+            }
+        }
+        setTimeout(check, 3000);
+        {% endif %}
+    })();
+</script>

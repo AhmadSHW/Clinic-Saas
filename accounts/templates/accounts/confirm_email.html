@@ -1,0 +1,41 @@
+{% extends "public_base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Confirm your email" %}{% endblock %}
+
+{% block content %}
+{% comment %}
+Opened by the button in the confirmation email. Confirming happens only on the POST
+below, never on this GET: mail providers pre-open links to scan them, and that must
+not use up the link. JavaScript submits the form right away; without JavaScript the
+button is there to press.
+{% endcomment %}
+<section class="flex min-h-[70vh] items-center justify-center bg-gradient-to-b from-brand-50/60 to-slate-50 px-4 py-16">
+    <div class="card w-full max-w-md p-6 text-center sm:p-8">
+        <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+            {% icon "shield" "h-7 w-7" %}
+        </div>
+        <h1 class="mb-2 text-xl font-bold text-slate-900">{% trans "Confirming your email…" %}</h1>
+        <p class="mb-6 text-sm text-slate-500">{% trans "One moment, we're signing you in." %}</p>
+
+        <form method="post" action="{% url 'accounts:confirm_email' token %}" id="confirm-form">
+            {% csrf_token %}
+            <button type="submit" class="btn-primary btn-block py-3">
+                {% icon "check-circle" "h-5 w-5" %} {% trans "Yes, it's me" %}
+            </button>
+        </form>
+        <noscript>
+            <p class="mt-4 text-xs text-slate-400">{% trans "Press the button to continue." %}</p>
+        </noscript>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Submit on load (a real browser); link scanners only fetch the page and stop here
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("confirm-form");
+        form.requestSubmit ? form.requestSubmit() : form.submit();
+    });
+</script>
+{% endblock %}

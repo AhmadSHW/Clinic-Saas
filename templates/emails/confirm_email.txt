@@ -1,0 +1,24 @@
+{% autoescape off %}Clinic SaS
+
+Is this you?
+
+Hi {{ name }},
+{{ intro_en }}
+
+Confirm it's you by opening this link:
+{{ url }}
+
+The link works for {{ minutes }} minutes. If this wasn't you, ignore this email and nothing will happen.
+
+----------------------------------------
+
+هل هذا أنت؟
+
+مرحباً {{ name }}،
+{{ intro_ar }}
+
+لتأكيد أنك أنت، افتح هذا الرابط:
+{{ url }}
+
+يعمل الرابط لمدة {{ minutes }} دقيقة. إذا لم تكن أنت، تجاهل هذه الرسالة ولن يحدث شيء.
+{% endautoescape %}

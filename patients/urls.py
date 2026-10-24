@@ -12,7 +12,6 @@ urlpatterns = [
     # Patient portal — self-service, separate from staff accounts
     path("portal/<slug:clinic_slug>/register/", views.portal_register, name="portal_register"),
     path("portal/<slug:clinic_slug>/login/", views.portal_login, name="portal_login"),
-    path("portal/verify/<str:token>/", views.portal_verify_email, name="portal_verify_email"),
     path("portal/logout/", views.portal_logout, name="portal_logout"),
     path("portal/dashboard/", views.portal_dashboard, name="portal_dashboard"),
     path("portal/book/", views.portal_book_appointment, name="portal_book"),

@@ -19,6 +19,10 @@ CSRF_TRUSTED_ORIGINS = [
     o.strip() for o in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if o.strip()
 ]
 
+# The site's public address, used to build links in emails (never the request's host,
+# which can be localhost or plain http behind a proxy). No trailing slash.
+SITE_URL = os.getenv("SITE_URL", "http://127.0.0.1:8000").rstrip("/")
+
 if not DEBUG:
     if not SECRET_KEY:
         from django.core.exceptions import ImproperlyConfigured
@@ -169,11 +173,6 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True") == "True"
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 EMAIL_TIMEOUT = 15
-# Verification emails ask for a "YES" reply, read back from this inbox over IMAP.
-# Set EMAIL_VERIFY_BY_REPLY=False where IMAP is blocked (PythonAnywhere free accounts):
-# verification emails then carry a link instead.
-EMAIL_IMAP_HOST = os.getenv("EMAIL_IMAP_HOST", "imap.gmail.com")
-EMAIL_VERIFY_BY_REPLY = os.getenv("EMAIL_VERIFY_BY_REPLY", "True") == "True"
 # Gmail sends as the account address anyway, so default the sender to it
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL") or EMAIL_HOST_USER or "noreply@clinicsaas.local"
 

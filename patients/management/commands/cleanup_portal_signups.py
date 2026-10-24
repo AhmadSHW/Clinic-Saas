@@ -5,12 +5,12 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from patients.models import PortalSignup
-from patients.utils import TOKEN_MAX_AGE
+from patients.utils import PENDING_SIGNUP_MAX_AGE
 
 
 class Command(BaseCommand):
     help = (
-        "Deletes pending patient portal signups whose verification link has expired. "
+        "Deletes patient portal signups that were never confirmed and are older than 24 hours. "
         "Safe to run any time, e.g. daily from cron / Task Scheduler."
     )
 
@@ -22,8 +22,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        # Older than the link lifetime = the link can no longer be used
-        cutoff = timezone.now() - timedelta(seconds=TOKEN_MAX_AGE)
+        # Kept long enough for "Resend email" to work; after that they are abandoned
+        cutoff = timezone.now() - timedelta(seconds=PENDING_SIGNUP_MAX_AGE)
         expired = PortalSignup.objects.filter(created_at__lt=cutoff)
 
         if options["dry_run"]:

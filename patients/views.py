@@ -8,7 +8,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from accounts.decorators import login_required_session
-from accounts.email_replies import check_replies, reply_verification_enabled
+from accounts import verification
 from accounts.models import StaffUser
 from tenants.models import Clinic
 from appointments.models import Appointment
@@ -16,7 +16,6 @@ from appointments.utils import parse_scheduled_at
 from notifications.models import Notification
 from .models import Patient, MedicalRecord, PortalSignup
 from .decorators import login_required_patient
-from .utils import send_portal_verification_email, decode_signup_token, complete_portal_signup
 
 
 # ============ Staff-facing views ============
@@ -142,7 +141,7 @@ def portal_register(request, clinic_slug):
             messages.error(request, "An account with this email already exists. Please log in.")
             return render(request, "patients/portal_register.html", {"clinic": clinic})
 
-        # Nothing touches Patient until the email is confirmed (see portal_verify_email)
+        # Nothing touches Patient until the email is confirmed (accounts.verification.confirm_account)
         with transaction.atomic():
             signup = PortalSignup(
                 clinic=clinic,
@@ -153,48 +152,15 @@ def portal_register(request, clinic_slug):
             signup.set_password(password)
             signup.save()
 
-            send_portal_verification_email(request, signup)
+            verification.send_confirmation_email(verification.PORTAL, signup)
 
-        # Lets the "check your email" page log them in once they reply YES
+        # Lets this browser's "check your email" page log in once the email is confirmed
         request.session["pending_verification"] = {
-            "kind": "portal", "clinic_id": str(clinic.id), "email": email,
+            "kind": verification.PORTAL, "clinic_id": str(clinic.id), "email": email,
         }
-        return render(request, "patients/portal_check_email.html", {
-            "clinic": clinic,
-            "email": email,
-            "by_reply": reply_verification_enabled(),
-        })
+        return redirect("accounts:check_email")
 
     return render(request, "patients/portal_register.html", {"clinic": clinic})
-
-
-def portal_verify_email(request, token):
-    signup_id = decode_signup_token(token)
-    signup = None
-    if signup_id:
-        signup = PortalSignup.objects.select_related("clinic").filter(
-            id=signup_id, clinic__is_active=True
-        ).first()
-
-    # Missing signup = expired/tampered token, or a link that was already used
-    if not signup:
-        messages.error(request, "This verification link is invalid, expired, or already used.")
-        return redirect("dashboard:find_clinic")
-
-    clinic = signup.clinic
-    if clinic.needs_subscription:
-        return _portal_unavailable(request)
-
-    patient = complete_portal_signup(signup)
-    if not patient:
-        # Another link for this email was confirmed first
-        messages.info(request, "Your account is already active. Please log in.")
-        return redirect("patients:portal_login", clinic_slug=clinic.slug)
-
-    request.session.cycle_key()
-    request.session["patient_id"] = patient.id
-    messages.success(request, f"Your email is confirmed. Welcome, {patient.full_name}!")
-    return redirect("patients:portal_dashboard")
 
 
 def portal_login(request, clinic_slug):
@@ -210,12 +176,6 @@ def portal_login(request, clinic_slug):
         patient = Patient.objects.filter(
             clinic=clinic, email=email, is_active=True
         ).exclude(password_hash="").first()
-
-        if not patient and PortalSignup.objects.filter(clinic=clinic, email=email).exists() and check_replies():
-            # They may have just replied YES to the verification email
-            patient = Patient.objects.filter(
-                clinic=clinic, email=email, is_active=True
-            ).exclude(password_hash="").first()
 
         if not patient or not patient.check_password(password):
             messages.error(request, "Invalid email or password.")

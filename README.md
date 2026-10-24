@@ -24,7 +24,7 @@ A multi-tenant SaaS platform for managing small clinics and pharmacies — appoi
 - **Backend**: Django 5.2, MySQL
 - **Frontend**: Django templates, Tailwind CSS 3 (built with npm, output committed), vanilla JavaScript, Lucide icons, Inter and IBM Plex Sans Arabic fonts. Responsive on phones and fully right-to-left in Arabic
 - **Payments**: Stripe API (Checkout, webhooks, billing portal)
-- **Auth**: Custom session-based authentication with bcrypt password hashing and signed email-verification links
+- **Auth**: Custom session-based authentication with bcrypt password hashing and one-click email confirmation (signed, 30-minute, single-use links)
 
 ## Setup
 
@@ -45,9 +45,10 @@ A multi-tenant SaaS platform for managing small clinics and pharmacies — appoi
    | `DB_ENGINE` | Optional; `sqlite` uses a `db.sqlite3` file in the project folder, anything else (or unset) uses MySQL |
    | `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT` | MySQL connection |
    | `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` | Stripe keys |
+   | `SITE_URL` | Public address used to build links in emails, e.g. `https://aboshwiki.pythonanywhere.com` (default `http://127.0.0.1:8000`) |
    | `EMAIL_BACKEND` | Optional; defaults to printing emails to the console. Set to `django.core.mail.backends.smtp.EmailBackend` to really send |
    | `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` | SMTP login. For Gmail use your address and a [Google App Password](https://myaccount.google.com/apppasswords) |
-   | `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USE_TLS`, `EMAIL_IMAP_HOST`, `DEFAULT_FROM_EMAIL` | Optional; default to Gmail (`smtp.gmail.com`, 587, TLS, `imap.gmail.com`) and the login address |
+   | `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USE_TLS`, `DEFAULT_FROM_EMAIL` | Optional; default to Gmail (`smtp.gmail.com`, 587, TLS) and the login address |
 
 5. Create the MySQL database
 6. Run migrations:
@@ -59,7 +60,7 @@ A multi-tenant SaaS platform for managing small clinics and pharmacies — appoi
    python manage.py runserver
 ```
 
-**Email verification:** with Gmail configured (SMTP backend plus `EMAIL_HOST_USER`/`EMAIL_HOST_PASSWORD`), the verification email has no link. The user just replies **YES** (or نعم). The app reads the replies from the same Gmail inbox over IMAP, using the same App Password, and the "check your email" page signs the user in as soon as the reply arrives. Without SMTP configured, emails are printed to the runserver console with a verification link instead.
+**Email confirmation:** after signing up, the user gets an email (English and Arabic) with one button, *Yes, it's me / نعم، هذا أنا*. Pressing it confirms the account and signs them straight in, and the "check your email" page on the original device signs in by itself too. Links last 30 minutes, work once, and are safe from email scanners that pre-open links. Without SMTP configured, emails are printed to the runserver console.
 
 ### Signing in
 
@@ -96,15 +97,11 @@ Tests use a temporary MySQL database, so the database user needs permission to c
 
 ## Maintenance
 
-Delete pending patient signups whose verification link has expired (run daily, e.g. with cron or Task Scheduler):
+Delete patient signups that were never confirmed (older than 24 hours; run daily, e.g. with cron or Task Scheduler):
 ```bash
 python manage.py cleanup_portal_signups            # add --dry-run to preview
 ```
 
-Activate accounts that replied YES but never came back to the site (optional; the site also checks on its own while someone waits or logs in):
-```bash
-python manage.py check_verification_replies
-```
 
 ## Frontend (CSS)
 

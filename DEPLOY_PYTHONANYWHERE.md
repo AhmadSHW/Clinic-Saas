@@ -54,17 +54,17 @@ SECRET_KEY=
 DEBUG=False
 ALLOWED_HOSTS=aboshwiki.pythonanywhere.com
 CSRF_TRUSTED_ORIGINS=https://aboshwiki.pythonanywhere.com
+# Used to build the button link in confirmation emails
+SITE_URL=https://aboshwiki.pythonanywhere.com
 
 DB_ENGINE=sqlite
 
-# Email. As written, emails (including verification links) are printed to the
+# Email. As written, emails (including confirmation emails) are printed to the
 # "Server log" on the Web tab instead of being sent. To send real emails through
 # Gmail, uncomment the next three lines and fill in your address and App Password.
 # EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 # EMAIL_HOST_USER=
 # EMAIL_HOST_PASSWORD=
-# Free accounts can't read the inbox, so verification emails carry a link
-EMAIL_VERIFY_BY_REPLY=False
 
 # Stripe (fill in when you set up payments)
 STRIPE_SECRET_KEY=
@@ -140,7 +140,7 @@ At the top of the **Web** tab, click the green **Reload aboshwiki.pythonanywhere
 
 **https://aboshwiki.pythonanywhere.com**
 
-You should see the landing page, styled and in colour. Register your clinic. With the default `.env` above, the verification link appears in the **Server log** on the Web tab; with Gmail configured, it arrives by email.
+You should see the landing page, styled and in colour. Register your clinic. With Gmail configured, you get an email with a green **Yes, it's me** button: press it (on any device) and you're signed in. With the default `.env` above, the email is printed to the **Server log** on the Web tab instead.
 
 **If something's wrong:** the Web tab has an **Error log** link. The last lines name the problem (see Troubleshooting).
 
@@ -177,7 +177,7 @@ Download copies now and then from the **Files** tab, since the server is the onl
 
 - **Renewal:** the site stops after **3 months** unless you click **"Run until 3 months from today"** on the Web tab. PythonAnywhere emails a reminder first.
 - **Disk:** 512 MB. The installed packages take roughly 60 MB, so there's plenty of room.
-- **Outbound internet** is limited to an approved list of sites. Gmail sending works; reading the inbox doesn't, hence `EMAIL_VERIFY_BY_REPLY=False`. Stripe's API is on the list.
+- **Outbound internet** is limited to an approved list of sites. Gmail sending works, and Stripe's API is on the list.
 - **Stripe webhook** (when you add payments): `https://aboshwiki.pythonanywhere.com/billing/webhook/`, with the four events listed in the README.
 - **Daily cleanup (optional):** on the **Tasks** tab, add a daily task with this command:
   `/home/AboShwiki/.virtualenvs/clinic-env/bin/python /home/AboShwiki/Clinic-Saas/manage.py cleanup_portal_signups`

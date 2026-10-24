@@ -7,15 +7,16 @@ from django.db import transaction
 from django.db.models import Count, Q
 from django.utils import timezone
 from django.utils.text import slugify
+from django.utils.translation import gettext as _
+from django.views.decorators.http import require_POST
 from datetime import timedelta
 
 from appointments.models import Appointment
 from appointments.utils import today_range
 from tenants.models import Clinic
+from . import verification
 from .models import StaffUser
 from .decorators import login_required_session, role_required
-from .utils import send_verification_email, decode_verification_token
-from .email_replies import check_replies, reply_verification_enabled
 
 
 def clinic_signup(request):
@@ -75,14 +76,14 @@ def clinic_signup(request):
             admin_user.set_password(password)
             admin_user.save()
 
-            send_verification_email(request, admin_user)
+            verification.send_confirmation_email(verification.STAFF, admin_user)
 
-        # Lets the "check your email" page log them in once they reply YES
-        request.session["pending_verification"] = {"kind": "staff", "id": admin_user.id}
-        return render(request, "accounts/check_email.html", {
-            "email": admin_user.email,
-            "by_reply": reply_verification_enabled(),
-        })
+        # Lets this browser's "check your email" page log in once the email is confirmed
+        # (even from another device). Only the browser that signed up has this.
+        request.session["pending_verification"] = {
+            "kind": verification.STAFF, "id": admin_user.id, "email": admin_user.email,
+        }
+        return redirect("accounts:check_email")
 
     return render(request, "accounts/signup.html")
 
@@ -109,12 +110,8 @@ def login_view(request):
             messages.error(request, "Invalid clinic, email, or password.")
             return render(request, "accounts/login.html", context)
 
-        if not staff_user.is_email_verified and check_replies():
-            # They may have just replied YES to the verification email
-            staff_user.refresh_from_db()
-
         if not staff_user.is_email_verified:
-            messages.error(request, "Please verify your email before logging in. Check your inbox, or request a new email.")
+            messages.error(request, _("Please confirm your email before logging in. Check your inbox, or request a new email."))
             return render(request, "accounts/login.html", context)
 
         request.session.cycle_key()
@@ -233,86 +230,167 @@ def clinic_settings(request):
 
     return render(request, "accounts/settings.html")
 
-def verify_email(request, token):
-    staff_user_id = decode_verification_token(token)
+# ============ Email confirmation (see accounts/verification.py) ============
 
-    if not staff_user_id:
-        messages.error(request, "This verification link is invalid or has expired.")
-        return redirect("dashboard:account_chooser")
-
-    try:
-        staff_user = StaffUser.objects.get(id=staff_user_id, is_active=True)
-    except StaffUser.DoesNotExist:
-        messages.error(request, "Account not found.")
-        return redirect("dashboard:account_chooser")
-
-    request.session["clinic_id"] = str(staff_user.clinic.id)
-
-    # The link only logs in once; otherwise it would work as a 24h login link
-    if staff_user.is_email_verified:
-        messages.info(request, "Your email is already verified. Please log in.")
-        return redirect("accounts:login")
-
-    staff_user.is_email_verified = True
-    staff_user.save()
-
+def _log_in(request, kind, account):
+    """Logs this browser in as the confirmed account and returns where to go next."""
     request.session.cycle_key()
-    request.session["staff_user_id"] = staff_user.id
+    request.session.pop("pending_verification", None)
+    messages.success(request, _("Your email is confirmed. Welcome, %(name)s!") % {"name": account.full_name})
+    if kind == verification.STAFF:
+        request.session["clinic_id"] = str(account.clinic_id)
+        request.session["staff_user_id"] = account.id
+        return reverse("dashboard:home")
+    request.session["patient_id"] = account.id
+    return reverse("patients:portal_dashboard")
 
-    messages.success(request, f"Your email has been verified! Welcome, {staff_user.full_name}.")
-    return redirect("dashboard:home")
+
+def _pending_from_session(request):
+    """(kind, unconfirmed account or None, pending dict) for this browser's own signup."""
+    pending = request.session.get("pending_verification") or {}
+    kind = pending.get("kind")
+    if kind == verification.STAFF:
+        return kind, verification.pending_account(kind, pending.get("id")), pending
+    if kind == verification.PORTAL:
+        from patients.models import PortalSignup
+
+        signup = (PortalSignup.objects.filter(clinic_id=pending.get("clinic_id"), email=pending.get("email"))
+                  .select_related("clinic").order_by("-created_at").first())
+        return kind, signup, pending
+    return None, None, pending
+
+
+def check_email(request):
+    """
+    "Check your email" page shown after signup. It polls verification_status, so it
+    logs in by itself when the button in the email is clicked, even on another device.
+    """
+    kind, account, pending = _pending_from_session(request)
+    if not kind:
+        return redirect("dashboard:account_chooser")
+    context = {
+        "email": pending["email"],
+        "resend_in": verification.seconds_until_resend(kind, account) if account else 0,
+        "poll": True,
+    }
+    if kind == verification.PORTAL:
+        context["clinic"] = Clinic.objects.filter(id=pending["clinic_id"]).first()
+        return render(request, "patients/portal_check_email.html", context)
+    return render(request, "accounts/check_email.html", context)
+
+
+def confirm_email(request, token):
+    """
+    Target of the button in the confirmation email.
+    GET only shows a page that POSTs back by itself: mail providers pre-open links
+    with GET to scan them, so a GET must never confirm or log anyone in.
+    POST confirms the account, logs this browser in and opens the dashboard.
+    """
+    status, kind, obj_id = verification.read_token(token)
+    if status != verification.VALID:
+        return _confirm_problem(request, token, status, kind, obj_id)
+    if verification.pending_account(kind, obj_id) is None:
+        return _confirm_problem(request, token, "used", kind, obj_id)
+
+    if request.method != "POST":
+        return render(request, "accounts/confirm_email.html", {"token": token})
+
+    result, account = verification.confirm_account(kind, obj_id)
+    if result == "used":
+        return _confirm_problem(request, token, "used", kind, obj_id)
+    if result == "unavailable":
+        messages.error(request, _("This clinic's patient portal is temporarily unavailable. Please contact the clinic."))
+        return redirect("dashboard:landing")
+    return redirect(_log_in(request, kind, account))
+
+
+def _confirm_problem(request, token, status, kind, obj_id):
+    """Friendly page for an expired, already-used or broken confirmation link."""
+    account = verification.pending_account(kind, obj_id) if kind else None
+    context = {
+        "status": status,
+        "token": token,
+        "can_resend": account is not None,
+        "resend_in": verification.seconds_until_resend(kind, account) if account is not None else 0,
+        "kind": kind,
+    }
+    return render(request, "accounts/confirm_problem.html", context,
+                  status=410 if status in ("expired", "used") else 400)
 
 
 def verification_status(request):
     """
-    Polled by the "check your email" pages. Reads the inbox for a YES reply
-    (at most every 10 seconds) and, once this browser's pending signup is
-    verified, logs it in. Only the browser that signed up has the pending
-    entry, and it already knows the password.
+    Polled every few seconds by the "check your email" page. Once this browser's
+    pending signup has been confirmed (here or on another device), logs it in.
+    Only the browser that signed up has the pending entry, and it already knows
+    the password, so this is no weaker than logging in.
     """
     pending = request.session.get("pending_verification")
     if not pending:
         return JsonResponse({"verified": False})
 
-    check_replies(throttle_seconds=10)
-
-    if pending["kind"] == "staff":
-        staff_user = StaffUser.objects.filter(
-            id=pending["id"], is_active=True, is_email_verified=True
-        ).select_related("clinic").first()
-        if not staff_user:
-            return JsonResponse({"verified": False})
-        request.session.cycle_key()
-        request.session["clinic_id"] = str(staff_user.clinic.id)
-        request.session["staff_user_id"] = staff_user.id
-        redirect_url = reverse("dashboard:home")
-        messages.success(request, f"Your email has been verified! Welcome, {staff_user.full_name}.")
+    if pending["kind"] == verification.STAFF:
+        account = StaffUser.objects.filter(id=pending["id"], is_active=True, is_email_verified=True).first()
     else:
         from patients.models import Patient
 
-        patient = Patient.objects.filter(
+        account = Patient.objects.filter(
             clinic_id=pending["clinic_id"], email=pending["email"], is_active=True
         ).exclude(password_hash="").first()
-        if not patient:
-            return JsonResponse({"verified": False})
-        request.session.cycle_key()
-        request.session["patient_id"] = patient.id
-        redirect_url = reverse("patients:portal_dashboard")
-        messages.success(request, f"Your email is confirmed. Welcome, {patient.full_name}!")
 
-    request.session.pop("pending_verification", None)
-    return JsonResponse({"verified": True, "redirect": redirect_url})
+    if not account:
+        return JsonResponse({"verified": False})
+    return JsonResponse({"verified": True, "redirect": _log_in(request, pending["kind"], account)})
+
+
+def _resend_message(request, sent, kind, account):
+    if sent:
+        messages.success(request, _("We sent you a new email. The button in it works for 30 minutes."))
+    else:
+        seconds = verification.seconds_until_resend(kind, account)
+        messages.error(request, _("Please wait %(seconds)s seconds before asking for another email.") % {"seconds": seconds})
+
+
+@require_POST
+def resend_pending(request):
+    """'Resend email' on the check-your-email page (this browser's own signup)."""
+    kind, account, pending = _pending_from_session(request)
+    if not kind:
+        return redirect("dashboard:account_chooser")
+    if account is not None:
+        _resend_message(request, verification.send_confirmation_email(kind, account), kind, account)
+    # If the account is already confirmed, the page's polling logs this browser in
+    return redirect("accounts:check_email")
+
+
+@require_POST
+def resend_from_token(request, token):
+    """'Resend email' on the expired/used link page."""
+    status, kind, obj_id = verification.read_token(token)
+    account = verification.pending_account(kind, obj_id) if status != verification.INVALID else None
+    if account is None:
+        return _confirm_problem(request, token, "used" if status != verification.INVALID else status, kind, obj_id)
+
+    _resend_message(request, verification.send_confirmation_email(kind, account), kind, account)
+    # No polling here: this browser opened a link, it didn't sign up, so it isn't logged in remotely
+    return render(request, "accounts/check_email.html", {
+        "email": account.email,
+        "resend_in": verification.seconds_until_resend(kind, account),
+        "poll": False,
+        "resend_token": token,
+    })
 
 
 def resend_verification(request):
+    """'Didn't get the confirmation email?' form on the login page (staff accounts)."""
     if request.method == "POST":
         email = request.POST.get("email", "").strip()
-        staff_user = StaffUser.objects.filter(email=email, is_email_verified=False).first()
+        # The same email can be unconfirmed in more than one clinic
+        for staff_user in StaffUser.objects.filter(email__iexact=email, is_active=True, is_email_verified=False):
+            verification.send_confirmation_email(verification.STAFF, staff_user)
 
-        if staff_user:
-            send_verification_email(request, staff_user)
-
-        messages.success(request, "If an account with that email exists, a new verification email has been sent.")
+        # Same answer whether or not the account exists, so emails can't be probed
+        messages.success(request, _("If an unconfirmed account uses that email, we sent it a new confirmation email."))
         return redirect("accounts:login")
 
     return render(request, "accounts/resend_verification.html")

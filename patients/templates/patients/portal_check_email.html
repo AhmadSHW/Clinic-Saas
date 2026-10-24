@@ -4,23 +4,6 @@
 
 {% block content %}
 <div class="card mx-auto max-w-md p-6 text-center sm:p-8">
-    <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
-        {% icon "mail" "h-7 w-7" %}
-    </div>
-    <h1 class="mb-2 text-xl font-bold text-slate-900">{% trans "Check your email" %}</h1>
-    {% if by_reply %}
-        {% include "accounts/_reply_wait.html" %}
-        <p class="text-xs text-slate-400">
-            {% trans "Didn't get it? Check your Spam folder, or" %}
-            <a href="{% url 'patients:portal_register' clinic.slug %}" class="font-medium text-brand-700 hover:underline">{% trans "Register again" %}</a>
-        </p>
-    {% else %}
-        <p class="mb-1 text-sm text-slate-500">{% trans "We sent a verification link to" %}</p>
-        <p class="mb-6 font-medium text-slate-900">{{ email }}</p>
-        <p class="text-xs text-slate-400">
-            {% trans "Click the link to finish creating your account. Didn't get it?" %}
-            <a href="{% url 'patients:portal_register' clinic.slug %}" class="font-medium text-brand-700 hover:underline">{% trans "Register again" %}</a>
-        </p>
-    {% endif %}
+    {% include "accounts/_check_email_body.html" %}
 </div>
 {% endblock %}

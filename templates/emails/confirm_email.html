@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Is this you? · هل هذا أنت؟</title>
+</head>
+<!-- Email clients ignore <style> blocks and modern CSS, so everything is tables + inline styles. -->
+<body style="margin:0;padding:0;background-color:#f1f5f9;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Confirm your email with one click · أكّد بريدك الإلكتروني بنقرة واحدة</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f1f5f9;">
+  <tr>
+    <td align="center" style="padding:32px 16px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:520px;background-color:#ffffff;border-radius:16px;border:1px solid #e2e8f0;">
+
+        <!-- Brand bar -->
+        <tr>
+          <td style="background-color:#059669;border-radius:16px 16px 0 0;padding:20px 32px;font-family:Arial,Helvetica,sans-serif;font-size:20px;font-weight:bold;color:#ffffff;letter-spacing:0.2px;">
+            Clinic SaS
+          </td>
+        </tr>
+
+        <!-- English -->
+        <tr>
+          <td dir="ltr" style="padding:32px 32px 8px 32px;font-family:Arial,Helvetica,sans-serif;color:#0f172a;text-align:left;">
+            <p style="margin:0 0 12px 0;font-size:24px;font-weight:bold;line-height:1.3;">Is this you?</p>
+            <p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#334155;">Hi {{ name }},</p>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:#334155;">{{ intro_en }}</p>
+          </td>
+        </tr>
+
+        <!-- Arabic -->
+        <tr>
+          <td dir="rtl" style="padding:20px 32px 8px 32px;font-family:Tahoma,Arial,sans-serif;color:#0f172a;text-align:right;">
+            <p style="margin:0 0 12px 0;font-size:24px;font-weight:bold;line-height:1.4;">هل هذا أنت؟</p>
+            <p style="margin:0 0 6px 0;font-size:15px;line-height:1.8;color:#334155;">مرحباً {{ name }}،</p>
+            <p style="margin:0;font-size:15px;line-height:1.8;color:#334155;">{{ intro_ar }}</p>
+          </td>
+        </tr>
+
+        <!-- The one button -->
+        <tr>
+          <td align="center" style="padding:28px 32px 28px 32px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td align="center" bgcolor="#059669" style="border-radius:12px;">
+                  <a href="{{ url }}" target="_blank"
+                     style="display:inline-block;padding:16px 36px;font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:12px;">
+                    Yes, it's me &nbsp;·&nbsp; نعم، هذا أنا
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Fine print -->
+        <tr>
+          <td style="padding:0 32px 28px 32px;border-top:1px solid #f1f5f9;">
+            <p dir="ltr" style="margin:20px 0 6px 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#64748b;text-align:left;">
+              The button works for {{ minutes }} minutes. If this wasn't you, ignore this email and nothing will happen.
+            </p>
+            <p dir="rtl" style="margin:0;font-family:Tahoma,Arial,sans-serif;font-size:13px;line-height:1.8;color:#64748b;text-align:right;">
+              يعمل الزر لمدة {{ minutes }} دقيقة. إذا لم تكن أنت، تجاهل هذه الرسالة ولن يحدث شيء.
+            </p>
+          </td>
+        </tr>
+      </table>
+
+      <p style="margin:16px 0 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#94a3b8;">Clinic SaS</p>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

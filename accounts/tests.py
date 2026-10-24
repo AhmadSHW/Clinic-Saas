@@ -1,8 +1,10 @@
 from datetime import timedelta
 
-from email import message_from_bytes, policy
-from email.message import EmailMessage as PyEmailMessage
+import re
+import time
 from unittest.mock import patch
+
+from django.core import mail
 
 from django.core.cache import cache
 from django.test import Client, override_settings
@@ -11,9 +13,8 @@ from django.utils import timezone
 from tenants.models import Clinic
 from tenants.testing import ClinicTestCase, PASSWORD
 from patients.models import Patient, PortalSignup
-from .email_replies import check_replies, make_token
+from . import verification
 from .models import StaffUser
-from .utils import generate_verification_token
 
 
 class LoginTests(ClinicTestCase):
@@ -36,18 +37,6 @@ class SignupAndVerificationTests(ClinicTestCase):
             "password": PASSWORD, "confirm_password": PASSWORD,
         })
         self.assertFalse(Clinic.objects.filter(name="B").exists())
-
-    def test_verify_link_logs_in_only_once(self):
-        user = self.make_staff("New", "n@a.com", StaffUser.Role.ADMIN, is_email_verified=False)
-        token = generate_verification_token(user.id)
-
-        self.c.get(f"/en/accounts/verify/{token}/")
-        self.assertEqual(self.c.session.get("staff_user_id"), user.id)
-
-        other = Client()
-        r = other.get(f"/en/accounts/verify/{token}/")
-        self.assertRedirects(r, "/en/accounts/login/", fetch_redirect_response=False)
-        self.assertNotIn("staff_user_id", other.session)
 
 
 class AddStaffTests(ClinicTestCase):
@@ -129,116 +118,181 @@ class DoctorSectionTests(ClinicTestCase):
         self.assertEqual(doctor.upcoming_count, 1)
 
 
-@override_settings(
-    EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",
-    EMAIL_HOST_USER="clinic@gmail.com",
-    EMAIL_HOST_PASSWORD="app-password",
-    DEFAULT_FROM_EMAIL="clinic@gmail.com",
-)
-class ReplyVerificationTests(ClinicTestCase):
-    """Verification by replying YES, with SMTP sending and the IMAP inbox faked."""
+SITE = "https://aboshwiki.pythonanywhere.com"
+
+
+@override_settings(SITE_URL=SITE)
+class EmailConfirmationTests(ClinicTestCase):
+    """Signup email with one button; GET shows a page, only POST confirms and logs in."""
 
     def setUp(self):
         super().setUp()
-        cache.clear()
-        self.sent = []
-        self.inbox = []
-        patchers = [
-            patch("django.core.mail.backends.smtp.EmailBackend.send_messages",
-                  side_effect=lambda msgs: self.sent.extend(msgs) or len(msgs)),
-            patch("accounts.email_replies.fetch_replies", side_effect=lambda: iter(self.inbox)),
-        ]
-        for p in patchers:
-            p.start()
-            self.addCleanup(p.stop)
+        cache.clear()  # the resend limit lives in the cache
 
-    def reply(self, body="Yes\n\nOn Fri, Clinic wrote:\n> quoted", sender=None, threaded=True, quote_ref=False):
-        sent = self.sent[-1]
-        msg = PyEmailMessage()
-        msg["From"] = sender or sent.to[0]
-        msg["Subject"] = "Re: " + sent.subject
-        if threaded:
-            msg["In-Reply-To"] = sent.extra_headers["Message-ID"]
-        if quote_ref:
-            body += "\n> " + sent.body.splitlines()[-1]
-        msg.set_content(body)
-        self.inbox.append(message_from_bytes(bytes(msg), policy=policy.default))
-
-    def signup(self):
-        return self.c.post("/en/accounts/signup/", {
-            "clinic_name": "New", "clinic_slug": "new-clinic", "owner_email": "me@gmail.com",
-            "admin_full_name": "Me", "admin_email": "me@gmail.com",
+    def signup(self, client=None, email="me@x.com"):
+        return (client or self.c).post("/en/accounts/signup/", {
+            "clinic_name": "New", "clinic_slug": "new-clinic", "owner_email": email,
+            "admin_full_name": "Me", "admin_email": email,
             "password": PASSWORD, "confirm_password": PASSWORD,
         })
 
-    def status(self):
-        return self.c.get("/en/accounts/verification-status/").json()
+    def confirm_path(self):
+        """Path of the button link, read from the plain-text part of the latest email."""
+        return re.search(rf"{re.escape(SITE)}(/\S+/confirm/\S+/)", mail.outbox[-1].body).group(1)
 
-    def test_email_asks_for_reply_without_a_link(self):
-        page = self.signup()
-        self.assertTrue(page.context["by_reply"])
-        sent = self.sent[-1]
-        self.assertIn("reply YES to", sent.subject)
-        self.assertNotIn("http", sent.body)
-        self.assertEqual(sent.reply_to, ["clinic@gmail.com"])
+    def new_admin(self):
+        return StaffUser.objects.get(email="me@x.com")
 
-    def test_yes_reply_verifies_and_waiting_page_logs_in(self):
+    # ---------- The email ----------
+
+    def test_signup_sends_html_and_text_email_built_from_site_url(self):
+        r = self.signup()
+        self.assertRedirects(r, "/en/accounts/check-email/", fetch_redirect_response=False)
+        message = mail.outbox[-1]
+        self.assertIn("Is this you?", message.subject)
+        self.assertIn(SITE + "/en/accounts/confirm/", message.body)  # plain-text version has the link
+        html, mimetype = message.alternatives[0]
+        self.assertEqual(mimetype, "text/html")
+        self.assertIn(f'href="{SITE}/en/accounts/confirm/', html)
+        self.assertIn("Yes, it's me", html)
+        self.assertIn("نعم، هذا أنا", html)
+        self.assertNotIn("127.0.0.1", message.body + html)
+
+    def test_check_email_page_polls_and_counts_down_resend(self):
         self.signup()
-        self.assertFalse(self.status()["verified"])
+        r = self.c.get("/en/accounts/check-email/")
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue(r.context["poll"])
+        self.assertEqual(r.context["email"], "me@x.com")
+        self.assertGreater(r.context["resend_in"], 50)  # just sent, so resend is locked
 
-        self.reply()
-        cache.clear()  # skip the 10s throttle
-        data = self.status()
-        self.assertTrue(data["verified"])
-        self.assertEqual(data["redirect"], "/en/dashboard/")
-        user = StaffUser.objects.get(email="me@gmail.com")
-        self.assertTrue(user.is_email_verified)
-        self.assertEqual(self.c.session["staff_user_id"], user.id)
+    # ---------- Confirming ----------
 
-    def test_rejects_other_sender_or_other_answer(self):
+    def test_get_does_not_verify(self):
         self.signup()
-        self.reply(sender="attacker@evil.com")
-        self.reply(body="No thanks")
-        self.reply(body="Who is this?\n\nyes")
-        check_replies()
-        self.assertFalse(StaffUser.objects.get(email="me@gmail.com").is_email_verified)
+        scanner = Client()
+        r = scanner.get(self.confirm_path())
+        self.assertEqual(r.status_code, 200)
+        self.assertTemplateUsed(r, "accounts/confirm_email.html")
+        self.assertFalse(self.new_admin().is_email_verified)
+        self.assertNotIn("staff_user_id", scanner.session)
+        # ...and the real click still works afterwards
+        phone = Client()
+        self.assertRedirects(phone.post(self.confirm_path()), "/en/dashboard/", fetch_redirect_response=False)
 
-    def test_forged_token_is_ignored(self):
+    def test_valid_token_logs_in_and_opens_dashboard(self):
         self.signup()
-        msg = PyEmailMessage()
-        msg["From"] = "me@gmail.com"
-        msg["Subject"] = "Re: Clinic SaS: reply YES to verify your account"
-        user = StaffUser.objects.get(email="me@gmail.com")
-        msg["In-Reply-To"] = f"<{make_token('staff', user.id)}x@verify.clinicsaas>"
-        msg.set_content("yes")
-        self.inbox.append(message_from_bytes(bytes(msg), policy=policy.default))
-        check_replies()
-        user.refresh_from_db()
-        self.assertFalse(user.is_email_verified)
-
-    def test_login_checks_inbox(self):
-        self.signup()
-        self.reply(threaded=False, quote_ref=True)  # matched through the quoted Ref: line
-        r = self.c.post("/en/accounts/login/", {"clinic_slug": "new-clinic", "email": "me@gmail.com", "password": PASSWORD})
+        phone = Client()
+        r = phone.post(self.confirm_path())
         self.assertRedirects(r, "/en/dashboard/", fetch_redirect_response=False)
+        self.assertTrue(self.new_admin().is_email_verified)
+        self.assertEqual(phone.session["staff_user_id"], self.new_admin().id)
+        self.assertEqual(phone.get("/en/dashboard/").status_code, 200)
 
-    def test_patient_portal_reply(self):
-        self.c.post("/en/patients/portal/clinic-a/register/", {
-            "full_name": "Pat", "email": "pat@gmail.com", "phone_number": "5",
+    def test_waiting_page_logs_in_after_confirming_on_another_device(self):
+        laptop = Client()
+        self.signup(client=laptop)
+        self.assertFalse(laptop.get("/en/accounts/check-email/status/").json()["verified"])
+
+        Client().post(self.confirm_path())  # the phone
+        data = laptop.get("/en/accounts/check-email/status/").json()
+        self.assertEqual(data, {"verified": True, "redirect": "/en/dashboard/"})
+        self.assertEqual(laptop.session["staff_user_id"], self.new_admin().id)
+
+    def test_reused_token(self):
+        self.signup()
+        path = self.confirm_path()
+        Client().post(path)
+        again = Client()
+        r = again.post(path)
+        self.assertEqual(r.status_code, 410)
+        self.assertEqual(r.context["status"], "used")
+        self.assertFalse(r.context["can_resend"])
+        self.assertNotIn("staff_user_id", again.session)
+        self.assertEqual(Client().get(path).status_code, 410)
+
+    def test_expired_token(self):
+        self.signup()
+        path = self.confirm_path()
+        later = time.time() + verification.TOKEN_MAX_AGE + 60
+        with patch("django.core.signing.time.time", return_value=later):
+            r = Client().post(path)
+            self.assertEqual(r.status_code, 410)
+            self.assertEqual(r.context["status"], "expired")
+            self.assertTrue(r.context["can_resend"])
+            self.assertEqual(Client().get(path).context["status"], "expired")
+        self.assertFalse(self.new_admin().is_email_verified)
+
+    def test_expired_page_resends_a_working_email(self):
+        self.signup()
+        old_path = self.confirm_path()
+        cache.clear()  # past the 60-second resend limit
+        later = time.time() + verification.TOKEN_MAX_AGE + 60
+        with patch("django.core.signing.time.time", return_value=later):
+            r = Client().post(old_path + "resend/")
+            self.assertEqual(r.status_code, 200)
+            self.assertFalse(r.context["poll"])
+            new_path = self.confirm_path()
+            self.assertNotEqual(new_path, old_path)
+            self.assertRedirects(Client().post(new_path), "/en/dashboard/", fetch_redirect_response=False)
+
+    def test_tampered_token(self):
+        r = Client().get("/en/accounts/confirm/not-a-real-token/")
+        self.assertEqual(r.status_code, 400)
+        self.assertEqual(r.context["status"], "invalid")
+
+    # ---------- Resend limit ----------
+
+    def test_resend_rate_limit(self):
+        self.signup()
+        self.assertEqual(len(mail.outbox), 1)
+
+        r = self.c.post("/en/accounts/check-email/resend/", follow=True)
+        self.assertEqual(len(mail.outbox), 1)  # blocked: sent less than 60 seconds ago
+        self.assertIn("Please wait", str(list(r.context["messages"])[0]))
+
+        cache.clear()  # 60 seconds later
+        self.c.post("/en/accounts/check-email/resend/")
+        self.assertEqual(len(mail.outbox), 2)
+        self.c.post("/en/accounts/check-email/resend/")
+        self.assertEqual(len(mail.outbox), 2)  # and blocked again
+
+    def test_login_page_resend_form_is_rate_limited_and_generic(self):
+        self.signup()
+        cache.clear()
+        for _ in range(3):
+            r = Client().post("/en/accounts/resend-verification/", {"email": "ME@x.com"})
+            self.assertRedirects(r, "/en/accounts/login/", fetch_redirect_response=False)
+        self.assertEqual(len(mail.outbox), 2)  # signup + one resend
+        Client().post("/en/accounts/resend-verification/", {"email": "nobody@x.com"})
+        self.assertEqual(len(mail.outbox), 2)
+
+    def test_unconfirmed_admin_cannot_log_in(self):
+        self.signup()
+        r = Client().post("/en/accounts/login/", {"clinic_slug": "new-clinic", "email": "me@x.com", "password": PASSWORD})
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, "confirm your email")
+        self.assertNotIn("staff_user_id", r.client.session)
+
+    # ---------- Patient portal uses the same flow ----------
+
+    def test_patient_portal_registration(self):
+        laptop = Client()
+        r = laptop.post("/en/patients/portal/clinic-a/register/", {
+            "full_name": "Pat", "email": "pat@x.com", "phone_number": "5",
             "password": PASSWORD, "confirm_password": PASSWORD,
         })
-        self.assertIn("reply YES to", self.sent[-1].subject)
-        self.reply(body="نعم")
-        data = self.status()
-        self.assertTrue(data["verified"])
-        self.assertEqual(data["redirect"], "/en/patients/portal/dashboard/")
-        self.assertTrue(Patient.objects.filter(email="pat@gmail.com").exclude(password_hash="").exists())
-        self.assertFalse(PortalSignup.objects.exists())
+        self.assertRedirects(r, "/en/accounts/check-email/", fetch_redirect_response=False)
+        self.assertTemplateUsed(laptop.get("/en/accounts/check-email/"), "patients/portal_check_email.html")
+        self.assertIn("patient account at A", mail.outbox[-1].body)
 
-    @override_settings(EMAIL_VERIFY_BY_REPLY=False)
-    def test_switch_off_sends_a_link_instead(self):
-        # For hosts where IMAP is blocked (PythonAnywhere free): Gmail still sends, with a link
-        page = self.signup()
-        self.assertFalse(page.context["by_reply"])
-        self.assertIn("/en/accounts/verify/", self.sent[-1].body)
-        self.assertNotIn("reply YES", self.sent[-1].subject)
+        path = self.confirm_path()
+        Client().get(path)  # a scanner opening the link creates nothing
+        self.assertFalse(Patient.objects.filter(email="pat@x.com").exists())
+        phone = Client()
+        self.assertRedirects(phone.post(path), "/en/patients/portal/dashboard/", fetch_redirect_response=False)
+        patient = Patient.objects.get(email="pat@x.com")
+        self.assertEqual(phone.session["patient_id"], patient.id)
+        self.assertFalse(PortalSignup.objects.exists())
+        self.assertTrue(laptop.get("/en/accounts/check-email/status/").json()["verified"])
+        self.assertEqual(Client().post(path).status_code, 410)

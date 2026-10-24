@@ -3,6 +3,7 @@ from datetime import timedelta
 from io import StringIO
 
 from django.core import mail
+from django.core.cache import cache
 from django.core.management import call_command
 from django.test import Client
 from django.utils import timezone
@@ -87,6 +88,10 @@ class PortalTests(ClinicTestCase):
 
 
 class PortalRegistrationTests(ClinicTestCase):
+    def setUp(self):
+        super().setUp()
+        cache.clear()  # the confirmation email's resend limit lives in the cache
+
     def register(self, client=None, **overrides):
         data = {"full_name": "Attacker", "email": "victim@p.com", "phone_number": "999",
                 "password": PASSWORD, "confirm_password": PASSWORD}
@@ -94,8 +99,8 @@ class PortalRegistrationTests(ClinicTestCase):
         return (client or self.c).post("/en/patients/portal/clinic-a/register/", data)
 
     def link_from_last_email(self):
-        url = re.search(r"https?://\S+", mail.outbox[-1].body).group(0)
-        return url.replace("http://testserver", "")
+        """Path of the confirmation link (it's POSTed to confirm; a GET only shows a page)."""
+        return re.search(r"https?://[^/\s]+(/\S+/confirm/\S+/)", mail.outbox[-1].body).group(1)
 
     def make_victim(self):
         return Patient.objects.create(clinic=self.clinic, full_name="Victim", phone_number="1", email="victim@p.com")
@@ -107,7 +112,7 @@ class PortalRegistrationTests(ClinicTestCase):
         victim = self.make_victim()
         attacker = Client()
         r = self.register(client=attacker)
-        self.assertEqual(r.status_code, 200)
+        self.assertRedirects(r, "/en/accounts/check-email/", fetch_redirect_response=False)
         self.assertNotIn("patient_id", attacker.session)
 
         victim.refresh_from_db()
@@ -122,7 +127,7 @@ class PortalRegistrationTests(ClinicTestCase):
         self.register(full_name="Real Victim", phone_number="555")
         link = self.link_from_last_email()
 
-        r = self.c.get(link)
+        r = self.c.post(link)
         self.assertRedirects(r, "/en/patients/portal/dashboard/", fetch_redirect_response=False)
         self.assertEqual(self.c.session["patient_id"], victim.id)
         victim.refresh_from_db()
@@ -131,7 +136,7 @@ class PortalRegistrationTests(ClinicTestCase):
 
         # The link only works once
         other = Client()
-        other.get(link)
+        other.post(link)
         self.assertNotIn("patient_id", other.session)
 
         # The password chosen at registration works
@@ -140,15 +145,17 @@ class PortalRegistrationTests(ClinicTestCase):
     def test_newer_link_invalidates_older_one(self):
         self.register(email="new@p.com", full_name="New")
         first = self.link_from_last_email()
+        cache.clear()  # registering again more than 60 seconds later sends a new email
         self.register(email="new@p.com", full_name="New")
         second = self.link_from_last_email()
+        self.assertNotEqual(first, second)
         self.assertFalse(Patient.objects.filter(email="new@p.com").exists())
 
-        self.c.get(second)
+        self.c.post(second)
         self.assertEqual(Patient.objects.filter(email="new@p.com").exclude(password_hash="").count(), 1)
 
         other = Client()
-        other.get(first)
+        other.post(first)
         self.assertNotIn("patient_id", other.session)
 
 

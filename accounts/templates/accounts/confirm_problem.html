@@ -1,0 +1,67 @@
+{% extends "public_base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Link not valid" %}{% endblock %}
+
+{% block content %}
+{% comment %}
+Shown for a confirmation link that is expired, already used, or broken.
+status: "expired" | "used" | "invalid". can_resend: the account still waits for confirmation.
+{% endcomment %}
+<section class="flex min-h-[70vh] items-center justify-center bg-gradient-to-b from-brand-50/60 to-slate-50 px-4 py-16">
+    <div class="card w-full max-w-md p-6 text-center sm:p-8">
+        <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
+            {% if status == "expired" %}{% icon "hourglass" "h-7 w-7" %}{% else %}{% icon "alert-circle" "h-7 w-7" %}{% endif %}
+        </div>
+
+        {% if status == "expired" %}
+            <h1 class="mb-2 text-xl font-bold text-slate-900">{% trans "This link has expired" %}</h1>
+            <p class="mb-6 text-sm text-slate-500">{% trans "For your security, confirmation links work for 30 minutes. Get a new one below." %}</p>
+        {% elif status == "used" and can_resend %}
+            <h1 class="mb-2 text-xl font-bold text-slate-900">{% trans "This link was already used" %}</h1>
+            <p class="mb-6 text-sm text-slate-500">{% trans "Get a new email below." %}</p>
+        {% elif status == "used" %}
+            <h1 class="mb-2 text-xl font-bold text-slate-900">{% trans "This link was already used" %}</h1>
+            <p class="mb-6 text-sm text-slate-500">{% trans "Your email is probably confirmed already. Try signing in." %}</p>
+        {% else %}
+            <h1 class="mb-2 text-xl font-bold text-slate-900">{% trans "This link doesn't work" %}</h1>
+            <p class="mb-6 text-sm text-slate-500">{% trans "It may have been cut off or changed. Open the button in the email again, or sign in and ask for a new email." %}</p>
+        {% endif %}
+
+        {% if can_resend %}
+        <form method="post" action="{% url 'accounts:resend_from_token' token %}" class="mb-4">
+            {% csrf_token %}
+            <button type="submit" class="btn-primary btn-block py-3" data-resend data-wait="{{ resend_in }}" {% if resend_in %}disabled{% endif %}>
+                {% icon "send" "h-4 w-4" %} {% trans "Resend email" %}
+                <span data-resend-countdown class="tabular-nums {% if not resend_in %}hidden{% endif %}">({{ resend_in }})</span>
+            </button>
+        </form>
+        {% endif %}
+
+        <a href="{% url 'dashboard:account_chooser' %}" class="{% if can_resend %}btn-ghost{% else %}btn-primary btn-block py-3{% endif %}">
+            {% icon "log-in" "h-4 w-4" %} {% trans "Go to sign in" %}
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Keep "Resend email" disabled for the rest of the 60-second limit
+    (function () {
+        const button = document.querySelector("[data-resend]");
+        if (!button) return;
+        const countdown = button.querySelector("[data-resend-countdown]");
+        let wait = parseInt(button.dataset.wait, 10) || 0;
+        if (wait <= 0) return;
+        const timer = setInterval(() => {
+            wait -= 1;
+            countdown.textContent = `(${wait})`;
+            if (wait <= 0) {
+                clearInterval(timer);
+                button.disabled = false;
+                countdown.classList.add("hidden");
+            }
+        }, 1000);
+    })();
+</script>
+{% endblock %}

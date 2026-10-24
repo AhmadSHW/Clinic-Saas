@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 23:27+0200\n"
+"POT-Creation-Date: 2026-10-25 01:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,25 +18,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: .\accounts\templates\accounts\_reply_wait.html:6
+#: .\accounts\templates\accounts\_check_email_body.html:12
+msgid "Check your email"
+msgstr "تحقق من بريدك الإلكتروني"
+
+#: .\accounts\templates\accounts\_check_email_body.html:13
 msgid "We sent an email to"
 msgstr "أرسلنا رسالة إلى"
 
-#: .\accounts\templates\accounts\_reply_wait.html:12
-msgid "Open the email in your inbox."
-msgstr "افتح الرسالة في بريدك الوارد."
+#: .\accounts\templates\accounts\_check_email_body.html:19
+msgid "Open the email from Clinic SaS."
+msgstr "افتح الرسالة الواردة من Clinic SaS."
 
-#: .\accounts\templates\accounts\_reply_wait.html:16
-msgid "Press Reply, type YES and send it."
-msgstr "اضغط على رد، واكتب YES (أو نعم) وأرسلها."
+#: .\accounts\templates\accounts\_check_email_body.html:23
+msgid "Press the green “Yes, it's me” button."
+msgstr "اضغط على الزر الأخضر «نعم، هذا أنا»."
 
-#: .\accounts\templates\accounts\_reply_wait.html:20
-msgid "Come back here. You'll be signed in automatically."
-msgstr "ارجع إلى هنا، وسيتم تسجيل دخولك تلقائياً."
+#: .\accounts\templates\accounts\_check_email_body.html:28
+msgid ""
+"That's it. You can even do it on your phone: this page signs you in by "
+"itself."
+msgstr ""
+"هذا كل شيء. يمكنك فعل ذلك حتى من هاتفك: هذه الصفحة ستسجّل دخولك تلقائياً."
 
-#: .\accounts\templates\accounts\_reply_wait.html:26
-msgid "Waiting for your reply…"
-msgstr "بانتظار ردك…"
+#: .\accounts\templates\accounts\_check_email_body.html:36
+msgid "Waiting for you to confirm…"
+msgstr "بانتظار تأكيدك…"
+
+#: .\accounts\templates\accounts\_check_email_body.html:44
+#: .\accounts\templates\accounts\confirm_problem.html:34
+msgid "Resend email"
+msgstr "إعادة إرسال الرسالة"
+
+#: .\accounts\templates\accounts\_check_email_body.html:48
+msgid "Didn't get it? Check your Spam or Promotions folder."
+msgstr "لم تصلك؟ تحقق من مجلد الرسائل غير المرغوب فيها أو العروض الترويجية."
 
 #: .\accounts\templates\accounts\add_staff.html:3
 msgid "Add Staff"
@@ -130,24 +146,70 @@ msgstr "إلغاء"
 msgid "Check Your Email"
 msgstr "تحقق من بريدك الإلكتروني"
 
-#: .\accounts\templates\accounts\check_email.html:11
-#: .\patients\templates\patients\portal_check_email.html:10
-msgid "Check your email"
-msgstr "تحقق من بريدك الإلكتروني"
+#: .\accounts\templates\accounts\confirm_email.html:3
+msgid "Confirm your email"
+msgstr "تأكيد بريدك الإلكتروني"
 
-#: .\accounts\templates\accounts\check_email.html:15
-#: .\patients\templates\patients\portal_check_email.html:18
-msgid "We sent a verification link to"
-msgstr "أرسلنا رابط التحقق إلى"
+#: .\accounts\templates\accounts\confirm_email.html:17
+msgid "Confirming your email…"
+msgstr "جارٍ تأكيد بريدك الإلكتروني…"
 
-#: .\accounts\templates\accounts\check_email.html:19
-#: .\patients\templates\patients\portal_check_email.html:14
-msgid "Didn't get it? Check your Spam folder, or"
-msgstr "لم تصلك الرسالة؟ تحقق من مجلد الرسائل غير المرغوب فيها، أو"
+#: .\accounts\templates\accounts\confirm_email.html:18
+msgid "One moment, we're signing you in."
+msgstr "لحظة واحدة، جارٍ تسجيل دخولك."
 
-#: .\accounts\templates\accounts\check_email.html:20
-msgid "send it again"
-msgstr "أعد إرسالها"
+#: .\accounts\templates\accounts\confirm_email.html:23
+msgid "Yes, it's me"
+msgstr "نعم، هذا أنا"
+
+#: .\accounts\templates\accounts\confirm_email.html:27
+msgid "Press the button to continue."
+msgstr "اضغط على الزر للمتابعة."
+
+#: .\accounts\templates\accounts\confirm_problem.html:3
+msgid "Link not valid"
+msgstr "الرابط غير صالح"
+
+#: .\accounts\templates\accounts\confirm_problem.html:17
+msgid "This link has expired"
+msgstr "انتهت صلاحية هذا الرابط"
+
+#: .\accounts\templates\accounts\confirm_problem.html:18
+msgid ""
+"For your security, confirmation links work for 30 minutes. Get a new one "
+"below."
+msgstr ""
+"حفاظاً على أمانك، تعمل روابط التأكيد لمدة 30 دقيقة. احصل على رابط جديد "
+"أدناه."
+
+#: .\accounts\templates\accounts\confirm_problem.html:20
+#: .\accounts\templates\accounts\confirm_problem.html:23
+msgid "This link was already used"
+msgstr "تم استخدام هذا الرابط من قبل"
+
+#: .\accounts\templates\accounts\confirm_problem.html:21
+msgid "Get a new email below."
+msgstr "احصل على رسالة جديدة أدناه."
+
+#: .\accounts\templates\accounts\confirm_problem.html:24
+msgid "Your email is probably confirmed already. Try signing in."
+msgstr "على الأرجح تم تأكيد بريدك الإلكتروني بالفعل. جرّب تسجيل الدخول."
+
+#: .\accounts\templates\accounts\confirm_problem.html:26
+msgid "This link doesn't work"
+msgstr "هذا الرابط لا يعمل"
+
+#: .\accounts\templates\accounts\confirm_problem.html:27
+msgid ""
+"It may have been cut off or changed. Open the button in the email again, or "
+"sign in and ask for a new email."
+msgstr ""
+"ربما تم قطعه أو تغييره. اضغط على الزر في الرسالة مرة أخرى، أو سجّل الدخول "
+"واطلب رسالة جديدة."
+
+#: .\accounts\templates\accounts\confirm_problem.html:41
+msgid "Go to sign in"
+msgstr "الذهاب إلى تسجيل الدخول"
 
 #: .\accounts\templates\accounts\doctor_list.html:3
 #: .\accounts\templates\accounts\doctor_list.html:9 .\templates\base.html:64
@@ -435,6 +497,43 @@ msgstr ""
 #: .\templates\base.html:106
 msgid "Log out"
 msgstr "تسجيل الخروج"
+
+#: .\accounts\views.py:114
+msgid ""
+"Please confirm your email before logging in. Check your inbox, or request a "
+"new email."
+msgstr ""
+"يرجى تأكيد بريدك الإلكتروني قبل تسجيل الدخول. تحقق من بريدك الوارد، أو اطلب "
+"رسالة جديدة."
+
+#: .\accounts\views.py:239
+#, python-format
+msgid "Your email is confirmed. Welcome, %(name)s!"
+msgstr "تم تأكيد بريدك الإلكتروني. أهلاً بك، %(name)s!"
+
+#: .\accounts\views.py:302
+msgid ""
+"This clinic's patient portal is temporarily unavailable. Please contact the "
+"clinic."
+msgstr ""
+"بوابة المرضى في هذه العيادة غير متاحة مؤقتاً. يرجى التواصل مع العيادة."
+
+#: .\accounts\views.py:348
+msgid "We sent you a new email. The button in it works for 30 minutes."
+msgstr "أرسلنا لك رسالة جديدة. يعمل الزر فيها لمدة 30 دقيقة."
+
+#: .\accounts\views.py:351
+#, python-format
+msgid "Please wait %(seconds)s seconds before asking for another email."
+msgstr "يرجى الانتظار قبل طلب رسالة أخرى (الثواني المتبقية: %(seconds)s)."
+
+#: .\accounts\views.py:393
+msgid ""
+"If an unconfirmed account uses that email, we sent it a new confirmation "
+"email."
+msgstr ""
+"إذا كان هناك حساب غير مؤكد بهذا البريد الإلكتروني، فقد أرسلنا إليه رسالة "
+"تأكيد جديدة."
 
 #: .\appointments\templates\appointments\book.html:3
 #: .\appointments\templates\appointments\book.html:13
@@ -1430,15 +1529,6 @@ msgstr "ستؤكد العيادة طلبك."
 msgid "Request Appointment"
 msgstr "طلب موعد"
 
-#: .\patients\templates\patients\portal_check_email.html:15
-#: .\patients\templates\patients\portal_check_email.html:22
-msgid "Register again"
-msgstr "سجّل مرة أخرى"
-
-#: .\patients\templates\patients\portal_check_email.html:21
-msgid "Click the link to finish creating your account. Didn't get it?"
-msgstr "اضغط على الرابط لإكمال إنشاء حسابك. لم يصلك؟"
-
 #: .\patients\templates\patients\portal_dashboard.html:8
 #, python-format
 msgid "Welcome, %(name)s"
@@ -1558,6 +1648,24 @@ msgstr "كيف يعمل"
 msgid "My appointments"
 msgstr "مواعيدي"
 
+#~ msgid "Press Reply, type YES and send it."
+#~ msgstr "اضغط على رد، واكتب YES (أو نعم) وأرسلها."
+
+#~ msgid "Come back here. You'll be signed in automatically."
+#~ msgstr "ارجع إلى هنا، وسيتم تسجيل دخولك تلقائياً."
+
+#~ msgid "We sent a verification link to"
+#~ msgstr "أرسلنا رابط التحقق إلى"
+
+#~ msgid "send it again"
+#~ msgstr "أعد إرسالها"
+
+#~ msgid "Register again"
+#~ msgstr "سجّل مرة أخرى"
+
+#~ msgid "Click the link to finish creating your account. Didn't get it?"
+#~ msgstr "اضغط على الرابط لإكمال إنشاء حسابك. لم يصلك؟"
+
 #~ msgid "TESTIMONIALS"
 #~ msgstr "آراء العملاء"
 
@@ -1632,9 +1740,6 @@ msgstr "مواعيدي"
 
 #~ msgid "Didn't get it?"
 #~ msgstr "لم يصلك؟"
-
-#~ msgid "Resend link"
-#~ msgstr "إعادة إرسال الرابط"
 
 #~ msgid "Starter"
 #~ msgstr "المبتدئة"
