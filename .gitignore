@@ -9,3 +9,4 @@ media/
 .claude/settings.local.json
 node_modules/
 
+db.sqlite3-journal

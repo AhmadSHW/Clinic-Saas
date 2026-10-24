@@ -107,23 +107,32 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-# ============ قاعدة البيانات (MySQL) ============
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": os.getenv("DB_NAME"),
-        "USER": os.getenv("DB_USER"),
-        "PASSWORD": os.getenv("DB_PASSWORD"),
-        "HOST": os.getenv("DB_HOST", "localhost"),
-        "PORT": os.getenv("DB_PORT", "3306"),
-        "OPTIONS": {
-            "charset": "utf8mb4",
-            # Strict mode makes MySQL reject bad data instead of silently truncating it
-            # (PythonAnywhere's MySQL doesn't enable it by default; Django warns without it)
-            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+# ============ قاعدة البيانات ============
+# DB_ENGINE=sqlite uses a db.sqlite3 file in the project folder (e.g. on PythonAnywhere's
+# free tier). Anything else, including leaving it unset, uses MySQL from the DB_* settings.
+if os.getenv("DB_ENGINE", "mysql").lower() == "sqlite":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": os.getenv("DB_NAME"),
+            "USER": os.getenv("DB_USER"),
+            "PASSWORD": os.getenv("DB_PASSWORD"),
+            "HOST": os.getenv("DB_HOST", "localhost"),
+            "PORT": os.getenv("DB_PORT", "3306"),
+            "OPTIONS": {
+                "charset": "utf8mb4",
+                # Strict mode makes MySQL reject bad data instead of silently truncating it
+                "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+        }
+    }
 
 # ============ التحقق من كلمات السر ============
 AUTH_PASSWORD_VALIDATORS = [

@@ -1,0 +1,5 @@
+# Local development: everything the server needs, plus the MySQL driver and the
+# translation helper used by translate.py.
+-r requirements.txt
+mysqlclient==2.3.0
+polib==1.2.0

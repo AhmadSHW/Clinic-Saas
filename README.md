@@ -32,7 +32,7 @@ A multi-tenant SaaS platform for managing small clinics and pharmacies — appoi
 2. Create a virtual environment and activate it
 3. Install dependencies:
 ```bash
-   pip install -r requirements.txt
+   pip install -r requirements-local.txt   # the app's packages + the MySQL driver
 ```
 4. Create a `.env` file from `.env.example`:
 
@@ -42,6 +42,7 @@ A multi-tenant SaaS platform for managing small clinics and pharmacies — appoi
    | `DEBUG` | `True` for development; anything else is off |
    | `ALLOWED_HOSTS` | Comma-separated hostnames (default `localhost,127.0.0.1`) |
    | `CSRF_TRUSTED_ORIGINS` | Comma-separated origins with scheme, e.g. `https://clinic.example.com` (needed in production behind HTTPS) |
+   | `DB_ENGINE` | Optional; `sqlite` uses a `db.sqlite3` file in the project folder, anything else (or unset) uses MySQL |
    | `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT` | MySQL connection |
    | `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` | Stripe keys |
    | `EMAIL_BACKEND` | Optional; defaults to printing emails to the console. Set to `django.core.mail.backends.smtp.EmailBackend` to really send |
@@ -82,7 +83,7 @@ stripe listen --forward-to localhost:8000/billing/webhook/
 
 ## Deployment
 
-See **[PYTHONANYWHERE.md](PYTHONANYWHERE.md)** for step-by-step instructions to run it on PythonAnywhere's free tier with its MySQL database.
+See **[DEPLOY_PYTHONANYWHERE.md](DEPLOY_PYTHONANYWHERE.md)** for step-by-step instructions to run it on PythonAnywhere's free tier with SQLite. `requirements.txt` has only what the server needs; `requirements-local.txt` adds the MySQL driver and `polib` for local development.
 
 ## Tests
 

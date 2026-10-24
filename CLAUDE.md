@@ -11,7 +11,7 @@ Multi-tenant SaaS for small clinics/pharmacies (Django 5.2 + MySQL, server-rende
 The virtualenv lives in `venv/` (Windows layout: `venv/Scripts/python.exe`).
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-local.txt                  # requirements.txt (server) + mysqlclient + polib
 python manage.py migrate
 python manage.py runserver
 python manage.py makemigrations <app>
@@ -25,7 +25,9 @@ npm install && npm run build:css                        # rebuild static/css/app
 
 Settings come from `.env` (see `.env.example`): `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS` (comma-separated, defaults to localhost), `CSRF_TRUSTED_ORIGINS` (comma-separated full origins like `https://host`; empty by default), `DB_*` (MySQL), `STRIPE_*`, optionally `EMAIL_BACKEND` (defaults to the console backend, so verification emails print to the runserver log) plus `EMAIL_HOST_USER`/`EMAIL_HOST_PASSWORD` for SMTP (other SMTP settings default to Gmail; the sender defaults to `EMAIL_HOST_USER`). There's no lint config.
 
-**Production** is PythonAnywhere's free tier with its MySQL; `PYTHONANYWHERE.md` has the steps. Static files are served by the Web tab mapping `/static/` → `staticfiles/` (run `collectstatic`), and the WSGI file just sets `DJANGO_SETTINGS_MODULE`, because settings load `.env` from `BASE_DIR`. When `DEBUG` is off, settings require `SECRET_KEY`, trust `X-Forwarded-Proto`, and use secure cookies (`SECURE_COOKIES`). `SECURE_SSL_REDIRECT` defaults off (PythonAnywhere's "Force HTTPS" does the redirect), and `SECURE_HSTS_SECONDS` defaults to 0. The MySQL connection sets `STRICT_TRANS_TABLES`.
+**Database:** `DB_ENGINE=sqlite` in `.env` switches to SQLite (`BASE_DIR/db.sqlite3`); otherwise it's MySQL from `DB_*` (the local default). The code has no raw SQL or MySQL-only lookups, and the whole suite passes on both (`DB_ENGINE=sqlite python manage.py test`); keep it that way.
+
+**Production** is PythonAnywhere's free tier with **SQLite**; `DEPLOY_PYTHONANYWHERE.md` has the exact steps. `requirements.txt` lists only what the app imports (the server doesn't need `mysqlclient`), and `requirements-local.txt` adds `mysqlclient` and `polib`. Static files are served by the Web tab mapping `/static/` → `staticfiles/` (run `collectstatic`), and the WSGI file just sets `DJANGO_SETTINGS_MODULE`, because settings load `.env` from `BASE_DIR`. When `DEBUG` is off, settings require `SECRET_KEY`, trust `X-Forwarded-Proto`, and use secure cookies (`SECURE_COOKIES`). `SECURE_SSL_REDIRECT` defaults off (PythonAnywhere's "Force HTTPS" does the redirect), and `SECURE_HSTS_SECONDS` defaults to 0. The MySQL connection sets `STRICT_TRANS_TABLES`.
 
 Tests run against a temporary MySQL test database, so the DB user needs permission to create databases. Each app's `tests.py` builds on `tenants.testing.ClinicTestCase`, which sets up clinic `clinic-a` with an admin (`a@a.com`), a doctor (`d@a.com`) and a patient, plus helpers `login_as()`, `portal_login()`, `make_staff()`, `make_portal_patient()` and `expire_trial()`. `billing/tests.py` sends correctly signed Stripe webhooks, so webhook handlers can be tested without Stripe.
 
