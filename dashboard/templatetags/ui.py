@@ -67,9 +67,9 @@ ICONS = {
 # Badge class per status value (appointments and billing)
 STATUS_BADGES = {
     "pending": "badge-amber",
-    "confirmed": "badge-teal",
+    "confirmed": "badge-brand",
     "in_queue": "badge-blue",
-    "completed": "badge-green",
+    "completed": "badge-slate",
     "cancelled": "badge-red",
     "active": "badge-green",
     "past_due": "badge-orange",

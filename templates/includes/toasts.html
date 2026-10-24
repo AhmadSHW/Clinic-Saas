@@ -3,7 +3,7 @@
 <div id="toasts" class="pointer-events-none fixed inset-x-4 top-4 z-[60] flex flex-col items-end gap-3 sm:inset-x-auto sm:end-6" aria-live="polite">
     {% for message in messages %}
     <div class="toast toast-{% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% elif message.tags == 'warning' %}warning{% else %}info{% endif %}" role="status" data-toast>
-        <span class="mt-0.5 shrink-0 {% if message.tags == 'error' %}text-red-500{% elif message.tags == 'success' %}text-teal-600{% elif message.tags == 'warning' %}text-amber-500{% else %}text-slate-400{% endif %}">
+        <span class="mt-0.5 shrink-0 {% if message.tags == 'error' %}text-red-500{% elif message.tags == 'success' %}text-brand-600{% elif message.tags == 'warning' %}text-amber-500{% else %}text-slate-400{% endif %}">
             {% if message.tags == 'error' %}{% icon "alert-circle" %}{% elif message.tags == 'success' %}{% icon "check-circle" %}{% elif message.tags == 'warning' %}{% icon "alert-triangle" %}{% else %}{% icon "info" %}{% endif %}
         </span>
         <p class="flex-1 text-slate-700">{{ message }}</p>

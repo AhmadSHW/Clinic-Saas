@@ -18,7 +18,7 @@
         @apply bg-slate-50 text-slate-800 font-sans;
     }
     ::selection {
-        @apply bg-teal-100 text-teal-900;
+        @apply bg-brand-100 text-brand-900;
     }
 }
 
@@ -26,10 +26,10 @@
     /* ---------- Buttons ---------- */
     .btn {
         @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium
-               transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500
+               transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500
                focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 whitespace-nowrap;
     }
-    .btn-primary   { @apply btn bg-teal-600 text-white shadow-sm hover:bg-teal-700; }
+    .btn-primary   { @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-700; }
     .btn-secondary { @apply btn border border-slate-200 bg-white text-slate-700 shadow-sm hover:bg-slate-50 hover:border-slate-300; }
     .btn-ghost     { @apply btn text-slate-600 hover:bg-slate-100 hover:text-slate-900; }
     .btn-danger    { @apply btn bg-red-600 text-white shadow-sm hover:bg-red-700; }
@@ -38,7 +38,7 @@
 
     /* Small inline actions inside tables and lists */
     .link-action        { @apply inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-colors; }
-    .link-action-teal   { @apply link-action text-teal-700 hover:bg-teal-50; }
+    .link-action-brand   { @apply link-action text-brand-700 hover:bg-brand-50; }
     .link-action-red    { @apply link-action text-red-600 hover:bg-red-50; }
     .link-action-slate  { @apply link-action text-slate-600 hover:bg-slate-100; }
 
@@ -46,7 +46,7 @@
     .label { @apply mb-1.5 block text-sm font-medium text-slate-700; }
     .input {
         @apply block w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm
-               placeholder:text-slate-400 transition focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-500/10;
+               placeholder:text-slate-400 transition focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10;
     }
     .help { @apply mt-1.5 text-xs text-slate-500; }
     .form-section { @apply pt-2 text-xs font-semibold uppercase tracking-wider text-slate-400; }
@@ -65,7 +65,7 @@
     .stat-value { @apply text-2xl font-bold tracking-tight text-slate-900; }
     .stat-label { @apply text-sm text-slate-500; }
 
-    .avatar    { @apply inline-flex shrink-0 items-center justify-center rounded-full bg-teal-100 font-semibold text-teal-700; }
+    .avatar    { @apply inline-flex shrink-0 items-center justify-center rounded-full bg-brand-100 font-semibold text-brand-700; }
     .avatar-sm { @apply avatar h-8 w-8 text-xs; }
     .avatar-md { @apply avatar h-10 w-10 text-sm; }
     .avatar-lg { @apply avatar h-14 w-14 text-lg; }
@@ -75,7 +75,7 @@
 
     /* ---------- Badges ---------- */
     .badge        { @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset; }
-    .badge-teal   { @apply badge bg-teal-50 text-teal-700 ring-teal-600/20; }
+    .badge-brand   { @apply badge bg-brand-50 text-brand-700 ring-brand-600/20; }
     .badge-amber  { @apply badge bg-amber-50 text-amber-700 ring-amber-600/20; }
     .badge-orange { @apply badge bg-orange-50 text-orange-700 ring-orange-600/20; }
     .badge-blue   { @apply badge bg-sky-50 text-sky-700 ring-sky-600/20; }
@@ -101,21 +101,21 @@
     }
     .nav-link svg { @apply h-[18px] w-[18px] shrink-0 text-slate-400 transition-colors; }
     .nav-link:hover svg { @apply text-slate-600; }
-    .nav-link-active { @apply bg-teal-50 text-teal-700 hover:bg-teal-50 hover:text-teal-700; }
+    .nav-link-active { @apply bg-brand-50 text-brand-700 hover:bg-brand-50 hover:text-brand-700; }
     .nav-link-active svg,
-    .nav-link-active:hover svg { @apply text-teal-600; }
+    .nav-link-active:hover svg { @apply text-brand-600; }
 
     /* ---------- Language switch pill ---------- */
     .lang-pill {
         @apply inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium
-               text-slate-600 transition hover:border-teal-300 hover:text-teal-700;
+               text-slate-600 transition hover:border-brand-300 hover:text-brand-700;
     }
 
     /* ---------- Toasts ---------- */
     .toast {
         @apply pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-xl border bg-white p-4 text-sm shadow-lift animate-toast-in;
     }
-    .toast-success { @apply border-teal-200; }
+    .toast-success { @apply border-brand-200; }
     .toast-error   { @apply border-red-200; }
     .toast-info    { @apply border-slate-200; }
     .toast-warning { @apply border-amber-200; }
@@ -191,11 +191,11 @@ body.sidebar-open .app-sidebar {
 .feature-card:hover .feature-icon {
     transform: scale(1.08) rotate(-4deg);
 }
-.feature-icon--teal {
-    --icon-from: #ccfbf1;
-    --icon-to: #5eead4;
-    --icon-shadow: rgba(13, 148, 136, 0.35);
-    color: #0f766e;
+.feature-icon--brand {
+    --icon-from: #d1fae5;
+    --icon-to: #6ee7b7;
+    --icon-shadow: rgba(5, 150, 105, 0.35);
+    color: #047857;
 }
 .feature-icon--orange {
     --icon-from: #ffedd5;

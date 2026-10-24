@@ -53,7 +53,7 @@
                     </td>
                     <td class="text-slate-500">{{ patient.updated_at|date:"M d, Y" }}</td>
                     <td class="text-end">
-                        <a href="{% url 'patients:detail' patient.id %}" class="link-action-teal">
+                        <a href="{% url 'patients:detail' patient.id %}" class="link-action-brand">
                             {% trans "View" %} {% icon "chevron-right" "h-3.5 w-3.5 rtl:rotate-180" %}
                         </a>
                     </td>

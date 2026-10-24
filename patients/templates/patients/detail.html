@@ -58,7 +58,7 @@
         <ol class="relative space-y-6 border-s border-slate-200 ps-6">
             {% for record in records %}
             <li class="relative">
-                <span class="absolute -start-[31px] top-1 flex h-3 w-3 items-center justify-center rounded-full bg-teal-500 ring-4 ring-white"></span>
+                <span class="absolute -start-[31px] top-1 flex h-3 w-3 items-center justify-center rounded-full bg-brand-500 ring-4 ring-white"></span>
                 <p class="text-xs font-medium text-slate-400">{{ record.visit_date|date:"M d, Y · H:i" }}</p>
                 <p class="mt-1 text-sm font-semibold text-slate-900">{{ record.diagnosis }}</p>
                 {% if record.prescription %}

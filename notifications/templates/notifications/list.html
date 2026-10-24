@@ -14,9 +14,9 @@
 <div class="card mx-auto max-w-3xl overflow-hidden">
     <ul class="divide-y divide-slate-100">
         {% for notification in notifications %}
-        <li class="flex items-start gap-4 px-5 py-4 sm:px-6 {% if not notification.is_read %}bg-teal-50/40{% endif %}">
+        <li class="flex items-start gap-4 px-5 py-4 sm:px-6 {% if not notification.is_read %}bg-brand-50/40{% endif %}">
             <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl
-                {% if notification.notification_type == 'new_appointment' %}bg-teal-50 text-teal-600
+                {% if notification.notification_type == 'new_appointment' %}bg-brand-50 text-brand-600
                 {% elif notification.notification_type == 'appointment_cancelled' %}bg-red-50 text-red-600
                 {% else %}bg-orange-50 text-orange-600{% endif %}">
                 {% if notification.notification_type == "new_appointment" %}{% icon "calendar-plus" %}
@@ -34,7 +34,7 @@
             {% if not notification.is_read %}
             <form method="post" action="{% url 'notifications:mark_read' notification.id %}" class="shrink-0">
                 {% csrf_token %}
-                <button type="submit" class="link-action-teal">{% icon "check" "h-3.5 w-3.5" %} {% trans "Mark read" %}</button>
+                <button type="submit" class="link-action-brand">{% icon "check" "h-3.5 w-3.5" %} {% trans "Mark read" %}</button>
             </form>
             {% endif %}
         </li>

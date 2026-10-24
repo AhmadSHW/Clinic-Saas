@@ -18,7 +18,7 @@
         {% for appt in appointments %}
         <li class="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:px-6">
             <div class="flex w-14 shrink-0 flex-col items-center rounded-xl border border-slate-200 py-1.5 text-center">
-                <span class="text-[11px] font-semibold uppercase text-teal-700">{{ appt.scheduled_at|date:"M" }}</span>
+                <span class="text-[11px] font-semibold uppercase text-brand-700">{{ appt.scheduled_at|date:"M" }}</span>
                 <span class="text-lg font-bold leading-tight text-slate-900">{{ appt.scheduled_at|date:"j" }}</span>
             </div>
             <div class="min-w-0 flex-1">

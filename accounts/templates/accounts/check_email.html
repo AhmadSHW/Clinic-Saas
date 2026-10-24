@@ -3,9 +3,9 @@
 {% block title %}{% trans "Check Your Email" %}{% endblock %}
 
 {% block content %}
-<section class="flex min-h-[70vh] items-center justify-center bg-gradient-to-b from-teal-50/60 to-slate-50 px-4 py-16">
+<section class="flex min-h-[70vh] items-center justify-center bg-gradient-to-b from-brand-50/60 to-slate-50 px-4 py-16">
     <div class="card w-full max-w-md p-6 text-center sm:p-8">
-        <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-50 text-teal-600">
+        <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
             {% icon "mail" "h-7 w-7" %}
         </div>
         <h1 class="mb-2 text-xl font-bold text-slate-900">{% trans "Check your email" %}</h1>
@@ -17,7 +17,7 @@
         {% endif %}
         <p class="text-xs text-slate-400">
             {% trans "Didn't get it? Check your Spam folder, or" %}
-            <a href="{% url 'accounts:resend_verification' %}" class="font-medium text-teal-700 hover:underline">{% trans "send it again" %}</a>
+            <a href="{% url 'accounts:resend_verification' %}" class="font-medium text-brand-700 hover:underline">{% trans "send it again" %}</a>
         </p>
     </div>
 </section>

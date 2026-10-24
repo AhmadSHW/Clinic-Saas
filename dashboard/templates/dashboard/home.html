@@ -24,7 +24,7 @@
 <!-- Stat cards -->
 <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
     <div class="stat-card">
-        <span class="stat-icon bg-teal-50 text-teal-600">{% icon "calendar" %}</span>
+        <span class="stat-icon bg-brand-50 text-brand-600">{% icon "calendar" %}</span>
         <div>
             <p class="stat-value">{{ appointments_today }}</p>
             <p class="stat-label">{% if is_doctor_view %}{% trans "Your appointments today" %}{% else %}{% trans "Appointments today" %}{% endif %}</p>
@@ -58,7 +58,7 @@
     <div class="card lg:col-span-2">
         <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-6">
             <h2 class="card-title">{% if is_doctor_view %}{% trans "Your schedule today" %}{% else %}{% trans "Today's schedule" %}{% endif %}</h2>
-            <a href="{% url 'appointments:list' %}{% if is_doctor_view %}?doctor={{ staff_user.id }}{% endif %}" class="inline-flex items-center gap-1 text-sm font-medium text-teal-700 hover:text-teal-800">
+            <a href="{% url 'appointments:list' %}{% if is_doctor_view %}?doctor={{ staff_user.id }}{% endif %}" class="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-800">
                 {% trans "View all" %} {% icon "chevron-right" "h-4 w-4 rtl:rotate-180" %}
             </a>
         </div>
@@ -88,19 +88,19 @@
         <div class="card">
             <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
                 <h2 class="card-title">{% trans "Next in queue" %}</h2>
-                <a href="{% url 'appointments:queue' %}" class="text-sm font-medium text-teal-700 hover:text-teal-800">{% trans "Open queue" %}</a>
+                <a href="{% url 'appointments:queue' %}" class="text-sm font-medium text-brand-700 hover:text-brand-800">{% trans "Open queue" %}</a>
             </div>
             <ul class="divide-y divide-slate-100">
                 {% for appt in next_in_queue %}
                 <li class="flex items-center gap-3 px-5 py-3">
-                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg {% if forloop.first %}bg-teal-600 text-white{% else %}bg-slate-100 text-slate-600{% endif %} text-sm font-bold tabular-nums">
+                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg {% if forloop.first %}bg-brand-600 text-white{% else %}bg-slate-100 text-slate-600{% endif %} text-sm font-bold tabular-nums">
                         {{ appt.queue_position }}
                     </span>
                     <div class="min-w-0">
                         <p class="truncate text-sm font-medium text-slate-900">{{ appt.patient.full_name }}</p>
                         {% if appt.doctor %}<p class="truncate text-xs text-slate-500">Dr. {{ appt.doctor.full_name }}</p>{% endif %}
                     </div>
-                    {% if forloop.first %}<span class="badge-teal ms-auto">{% trans "Next" %}</span>{% endif %}
+                    {% if forloop.first %}<span class="badge-brand ms-auto">{% trans "Next" %}</span>{% endif %}
                 </li>
                 {% empty %}
                 <li class="px-5 py-8 text-center text-sm text-slate-500">{% trans "Nobody is waiting right now." %}</li>
@@ -118,7 +118,7 @@
                 {% for d in week %}
                 <div class="flex h-full flex-1 flex-col items-center justify-end gap-1.5" title="{{ d.day|date:'l j F' }}: {{ d.count }}">
                     <span class="text-[11px] font-medium tabular-nums text-slate-500">{{ d.count }}</span>
-                    <div class="w-full rounded-md {% if forloop.first %}bg-teal-500{% else %}bg-teal-200{% endif %}" style="height: max({{ d.percent }}%, 4px)"></div>
+                    <div class="w-full rounded-md {% if forloop.first %}bg-brand-500{% else %}bg-brand-200{% endif %}" style="height: max({{ d.percent }}%, 4px)"></div>
                     <span class="text-[11px] {% if forloop.first %}font-semibold text-slate-900{% else %}text-slate-400{% endif %}">{{ d.day|date:"D" }}</span>
                 </div>
                 {% endfor %}

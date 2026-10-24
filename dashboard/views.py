@@ -19,17 +19,17 @@ def landing(request):
     """Public marketing landing page — shown to anyone, logged in or not."""
     # "icon" is a name from dashboard/templatetags/ui.py
     features = [
-        {"icon": "file-text", "icon_class": "feature-icon--teal", "title": _("Patient records"),
+        {"icon": "file-text", "icon_class": "feature-icon--brand", "title": _("Patient records"),
          "description": _("A complete medical history for every patient — conditions, allergies, vitals, and every visit laid out on a clean timeline.")},
         {"icon": "calendar", "icon_class": "feature-icon--orange", "title": _("Appointments"),
          "description": _("A clickable month calendar with doctor filters and one-click scheduling, so the front desk never double-books.")},
-        {"icon": "clock", "icon_class": "feature-icon--teal", "title": _("Waiting queue"),
+        {"icon": "clock", "icon_class": "feature-icon--brand", "title": _("Waiting queue"),
          "description": _("See who is next in every room and call patients in with a single tap — no more shouting down the hallway.")},
-        {"icon": "credit-card", "icon_class": "feature-icon--teal", "title": _("Billing"),
+        {"icon": "credit-card", "icon_class": "feature-icon--brand", "title": _("Billing"),
          "description": _("Plans, invoices, and payment methods in one place, so your practice stays financially clear without a spreadsheet.")},
         {"icon": "users", "icon_class": "feature-icon--orange", "title": _("Staff"),
          "description": _("Roles, availability, and your whole team at a glance — from physicians to front-desk and nursing.")},
-        {"icon": "bell", "icon_class": "feature-icon--teal", "title": _("Notifications"),
+        {"icon": "bell", "icon_class": "feature-icon--brand", "title": _("Notifications"),
          "description": _("Never miss a follow-up, a referral, or an update. Every important moment surfaces right where you work.")},
     ]
     return render(request, "dashboard/landing.html", {"features": features})

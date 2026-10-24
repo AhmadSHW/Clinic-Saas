@@ -3,7 +3,7 @@
 {% block title %}{% trans "Register Your Clinic" %}{% endblock %}
 
 {% block content %}
-<section class="bg-gradient-to-b from-teal-50/60 to-slate-50 px-4 py-12">
+<section class="bg-gradient-to-b from-brand-50/60 to-slate-50 px-4 py-12">
     <div class="mx-auto grid max-w-5xl items-start gap-10 lg:grid-cols-5">
         <div class="lg:col-span-2 lg:pt-6">
             {% include "includes/logo_mark.html" %}
@@ -11,15 +11,15 @@
             <p class="mt-2 text-slate-600">{% trans "Create your workspace in a couple of minutes." %}</p>
             <ul class="mt-8 space-y-4 text-sm text-slate-600">
                 <li class="flex items-start gap-3">
-                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-700">{% icon "check" "h-3.5 w-3.5" %}</span>
+                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700">{% icon "check" "h-3.5 w-3.5" %}</span>
                     {% trans "14-day free trial, no credit card needed" %}
                 </li>
                 <li class="flex items-start gap-3">
-                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-700">{% icon "check" "h-3.5 w-3.5" %}</span>
+                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700">{% icon "check" "h-3.5 w-3.5" %}</span>
                     {% trans "Add doctors and reception staff right away" %}
                 </li>
                 <li class="flex items-start gap-3">
-                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-700">{% icon "check" "h-3.5 w-3.5" %}</span>
+                    <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700">{% icon "check" "h-3.5 w-3.5" %}</span>
                     {% trans "Your clinic's data stays private to your clinic" %}
                 </li>
             </ul>
@@ -75,7 +75,7 @@
 
             <p class="mt-6 text-center text-sm text-slate-500">
                 {% trans "Already have an account?" %}
-                <a href="{% url 'accounts:login' %}" class="font-medium text-teal-700 hover:underline">{% trans "Sign in" %}</a>
+                <a href="{% url 'accounts:login' %}" class="font-medium text-brand-700 hover:underline">{% trans "Sign in" %}</a>
             </p>
         </div>
     </div>

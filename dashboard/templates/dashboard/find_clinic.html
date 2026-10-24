@@ -3,10 +3,10 @@
 {% block title %}{% trans "Find Your Clinic" %}{% endblock %}
 
 {% block content %}
-<section class="flex min-h-[75vh] items-start justify-center bg-gradient-to-b from-teal-50/60 to-slate-50 px-4 py-16">
+<section class="flex min-h-[75vh] items-start justify-center bg-gradient-to-b from-brand-50/60 to-slate-50 px-4 py-16">
     <div class="w-full max-w-lg">
         <div class="mb-8 text-center">
-            <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-teal-600 shadow-soft ring-1 ring-slate-200/70">
+            <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-brand-600 shadow-soft ring-1 ring-slate-200/70">
                 {% icon "search" "h-6 w-6" %}
             </div>
             <h1 class="text-2xl font-bold tracking-tight text-slate-900">{% trans "Find Your Clinic" %}</h1>
@@ -25,15 +25,15 @@
             <div class="space-y-3">
                 {% for clinic in clinics %}
                 <a href="{% url 'patients:portal_login' clinic.slug %}"
-                   class="card group flex items-center gap-4 p-4 transition hover:border-teal-300 hover:shadow-lift">
-                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-sm font-semibold text-teal-700">
+                   class="card group flex items-center gap-4 p-4 transition hover:border-brand-300 hover:shadow-lift">
+                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-sm font-semibold text-brand-700">
                         {{ clinic.name|initials }}
                     </span>
                     <div class="min-w-0 flex-1">
                         <p class="truncate font-medium text-slate-900">{{ clinic.name }}</p>
                         {% if clinic.address %}<p class="truncate text-xs text-slate-500">{{ clinic.address }}</p>{% endif %}
                     </div>
-                    <span class="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-teal-700">
+                    <span class="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-brand-700">
                         {% trans "Continue" %} {% icon "chevron-right" "h-4 w-4 transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5" %}
                     </span>
                 </a>

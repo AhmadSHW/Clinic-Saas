@@ -3,7 +3,7 @@
 {% block title %}{% trans "Login" %}{% endblock %}
 
 {% block content %}
-<section class="flex min-h-[75vh] items-center justify-center bg-gradient-to-b from-teal-50/60 to-slate-50 px-4 py-12">
+<section class="flex min-h-[75vh] items-center justify-center bg-gradient-to-b from-brand-50/60 to-slate-50 px-4 py-12">
     <div class="card w-full max-w-sm p-6 sm:p-8">
         <div class="mb-6">
             <div class="mb-4">{% include "includes/logo_mark.html" %}</div>
@@ -37,7 +37,7 @@
         <div class="mt-6 space-y-2 text-center text-sm text-slate-500">
             <p>
                 {% trans "Don't have a clinic yet?" %}
-                <a href="{% url 'accounts:signup' %}" class="font-medium text-teal-700 hover:underline">{% trans "Register one" %}</a>
+                <a href="{% url 'accounts:signup' %}" class="font-medium text-brand-700 hover:underline">{% trans "Register one" %}</a>
             </p>
             <p>
                 <a href="{% url 'accounts:resend_verification' %}" class="text-xs text-slate-400 hover:text-slate-600">{% trans "Didn't get the verification email?" %}</a>

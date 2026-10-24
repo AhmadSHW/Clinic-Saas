@@ -23,19 +23,19 @@
             <div class="grid grid-cols-3 gap-3" id="role-options">
                 <label class="cursor-pointer">
                     <input type="radio" name="role" value="doctor" class="peer sr-only" required {% if initial_role == "doctor" %}checked{% endif %}>
-                    <span class="flex flex-col items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-4 text-sm font-medium text-slate-600 transition peer-checked:border-teal-500 peer-checked:bg-teal-50 peer-checked:text-teal-700 peer-focus-visible:ring-2 peer-focus-visible:ring-teal-500">
+                    <span class="flex flex-col items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-4 text-sm font-medium text-slate-600 transition peer-checked:border-brand-500 peer-checked:bg-brand-50 peer-checked:text-brand-700 peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500">
                         {% icon "stethoscope" %} {% trans "Doctor" %}
                     </span>
                 </label>
                 <label class="cursor-pointer">
                     <input type="radio" name="role" value="reception" class="peer sr-only" {% if initial_role == "reception" %}checked{% endif %}>
-                    <span class="flex flex-col items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-4 text-sm font-medium text-slate-600 transition peer-checked:border-teal-500 peer-checked:bg-teal-50 peer-checked:text-teal-700 peer-focus-visible:ring-2 peer-focus-visible:ring-teal-500">
+                    <span class="flex flex-col items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-4 text-sm font-medium text-slate-600 transition peer-checked:border-brand-500 peer-checked:bg-brand-50 peer-checked:text-brand-700 peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500">
                         {% icon "user" %} {% trans "Reception" %}
                     </span>
                 </label>
                 <label class="cursor-pointer">
                     <input type="radio" name="role" value="admin" class="peer sr-only" {% if initial_role == "admin" %}checked{% endif %}>
-                    <span class="flex flex-col items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-4 text-sm font-medium text-slate-600 transition peer-checked:border-teal-500 peer-checked:bg-teal-50 peer-checked:text-teal-700 peer-focus-visible:ring-2 peer-focus-visible:ring-teal-500">
+                    <span class="flex flex-col items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-4 text-sm font-medium text-slate-600 transition peer-checked:border-brand-500 peer-checked:bg-brand-50 peer-checked:text-brand-700 peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500">
                         {% icon "shield" %} {% trans "Admin" %}
                     </span>
                 </label>

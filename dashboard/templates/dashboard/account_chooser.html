@@ -3,7 +3,7 @@
 {% block title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
-<section class="flex min-h-[75vh] items-center justify-center bg-gradient-to-b from-teal-50/60 to-slate-50 px-4 py-12">
+<section class="flex min-h-[75vh] items-center justify-center bg-gradient-to-b from-brand-50/60 to-slate-50 px-4 py-12">
     <div class="card w-full max-w-md p-6 sm:p-8">
         <div class="mb-6 text-center">
             <div class="mb-4 flex justify-center">{% include "includes/logo_mark.html" %}</div>
@@ -14,7 +14,7 @@
         <!-- Role picker -->
         <div class="mb-6 grid grid-cols-3 gap-2 sm:gap-3">
             <button type="button" data-role="staff"
-                    class="role-option flex flex-col items-center gap-1.5 rounded-xl border border-teal-500 bg-teal-50 px-2 py-4 text-center text-xs font-medium text-teal-700 transition sm:text-sm">
+                    class="role-option flex flex-col items-center gap-1.5 rounded-xl border border-brand-500 bg-brand-50 px-2 py-4 text-center text-xs font-medium text-brand-700 transition sm:text-sm">
                 {% icon "building" %}{% trans "Clinic Admin / Staff" %}
             </button>
             <button type="button" data-role="doctor"
@@ -54,7 +54,7 @@
             </form>
             <p id="clinic-signup" class="mt-6 text-center text-sm text-slate-500">
                 {% trans "New clinic?" %}
-                <a href="{% url 'accounts:signup' %}" class="font-medium text-teal-700 hover:underline">{% trans "Register one" %}</a>
+                <a href="{% url 'accounts:signup' %}" class="font-medium text-brand-700 hover:underline">{% trans "Register one" %}</a>
             </p>
         </div>
 
@@ -93,10 +93,10 @@
             const role = btn.dataset.role;
 
             roleOptions.forEach((b) => {
-                b.classList.remove("border-teal-500", "bg-teal-50", "text-teal-700");
+                b.classList.remove("border-brand-500", "bg-brand-50", "text-brand-700");
                 b.classList.add("border-slate-200", "text-slate-600");
             });
-            btn.classList.add("border-teal-500", "bg-teal-50", "text-teal-700");
+            btn.classList.add("border-brand-500", "bg-brand-50", "text-brand-700");
             btn.classList.remove("border-slate-200", "text-slate-600");
 
             panelStaff.classList.toggle("hidden", role === "patient");

@@ -12,7 +12,7 @@
             {% if filter_doctor.id == staff_user.id %}{% trans "My Appointments" %}{% else %}{% blocktrans with name=filter_doctor.full_name %}Appointments for Dr. {{ name }}{% endblocktrans %}{% endif %}
         </h1>
         <p class="page-subtitle">
-            <a href="{% url 'appointments:list' %}" class="font-medium text-teal-700 hover:underline">{% trans "Show all doctors" %}</a>
+            <a href="{% url 'appointments:list' %}" class="font-medium text-brand-700 hover:underline">{% trans "Show all doctors" %}</a>
         </p>
         {% else %}
         <h1 class="page-title">{% trans "Appointments" %}</h1>
@@ -59,7 +59,7 @@
                             {% if appt.status == "pending" or appt.status == "confirmed" %}
                             <form method="post" action="{% url 'appointments:check_in' appt.id %}">
                                 {% csrf_token %}
-                                <button type="submit" class="link-action-teal">{% icon "log-in" "h-3.5 w-3.5" %} {% trans "Check In" %}</button>
+                                <button type="submit" class="link-action-brand">{% icon "log-in" "h-3.5 w-3.5" %} {% trans "Check In" %}</button>
                             </form>
                             {% endif %}
                             {% if appt.status != "cancelled" %}

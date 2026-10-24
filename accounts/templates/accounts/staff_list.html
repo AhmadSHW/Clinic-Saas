@@ -38,7 +38,7 @@
                         </div>
                     </td>
                     <td>
-                        <span class="{% if staff.role == 'admin' %}badge-teal{% elif staff.role == 'doctor' %}badge-orange{% else %}badge-slate{% endif %}">
+                        <span class="{% if staff.role == 'admin' %}badge-brand{% elif staff.role == 'doctor' %}badge-orange{% else %}badge-slate{% endif %}">
                             {{ staff.get_role_display }}
                         </span>
                     </td>

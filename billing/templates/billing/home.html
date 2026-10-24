@@ -19,8 +19,8 @@
     </a>
 </div>
 {% elif current_clinic.plan == "trial" %}
-<div class="mb-6 flex items-start gap-3 rounded-2xl border border-teal-200 bg-teal-50 px-5 py-4 text-sm text-teal-800">
-    {% icon "sparkles" "h-5 w-5 shrink-0 text-teal-600" %}
+<div class="mb-6 flex items-start gap-3 rounded-2xl border border-brand-200 bg-brand-50 px-5 py-4 text-sm text-brand-800">
+    {% icon "sparkles" "h-5 w-5 shrink-0 text-brand-600" %}
     <span>
         {% with days=current_clinic.trial_ends_at|days_left %}
         {% if days %}{% blocktrans count days=days %}You're on the free trial. {{ days }} day left.{% plural %}You're on the free trial. {{ days }} days left.{% endblocktrans %}{% else %}{% trans "Your free trial has ended. Upgrade to keep using Clinic SaS." %}{% endif %}
@@ -30,22 +30,22 @@
 {% endif %}
 
 <div class="mb-8 grid gap-6 md:grid-cols-2">
-    <div class="card relative flex flex-col border-2 border-teal-500 p-6">
-        <span class="absolute -top-3 start-6 rounded-full bg-teal-600 px-3 py-1 text-xs font-medium text-white">
+    <div class="card relative flex flex-col border-2 border-brand-500 p-6">
+        <span class="absolute -top-3 start-6 rounded-full bg-brand-600 px-3 py-1 text-xs font-medium text-white">
             {% if current_clinic.plan == "pro" %}{% trans "Current plan" %}{% else %}{% trans "Recommended" %}{% endif %}
         </span>
         <p class="mt-2 text-lg font-semibold text-slate-900">{% trans "Professional" %}</p>
         <p class="mb-5 text-sm text-slate-500">{% trans "For growing clinics with multiple practitioners" %}</p>
         <p class="mb-6 text-4xl font-bold tracking-tight text-slate-900">${{ pro_price }}<span class="text-sm font-normal text-slate-400">/{% trans "month" %}</span></p>
         <ul class="mb-6 flex-1 space-y-2.5 text-sm text-slate-600">
-            <li class="flex items-center gap-2">{% icon "check" "h-4 w-4 text-teal-600" %} {% trans "Up to 5 staff members" %}</li>
-            <li class="flex items-center gap-2">{% icon "check" "h-4 w-4 text-teal-600" %} {% trans "Unlimited patients & records" %}</li>
-            <li class="flex items-center gap-2">{% icon "check" "h-4 w-4 text-teal-600" %} {% trans "Waiting queue management" %}</li>
-            <li class="flex items-center gap-2">{% icon "check" "h-4 w-4 text-teal-600" %} {% trans "Email notifications" %}</li>
-            <li class="flex items-center gap-2">{% icon "check" "h-4 w-4 text-teal-600" %} {% trans "Priority support" %}</li>
+            <li class="flex items-center gap-2">{% icon "check" "h-4 w-4 text-brand-600" %} {% trans "Up to 5 staff members" %}</li>
+            <li class="flex items-center gap-2">{% icon "check" "h-4 w-4 text-brand-600" %} {% trans "Unlimited patients & records" %}</li>
+            <li class="flex items-center gap-2">{% icon "check" "h-4 w-4 text-brand-600" %} {% trans "Waiting queue management" %}</li>
+            <li class="flex items-center gap-2">{% icon "check" "h-4 w-4 text-brand-600" %} {% trans "Email notifications" %}</li>
+            <li class="flex items-center gap-2">{% icon "check" "h-4 w-4 text-brand-600" %} {% trans "Priority support" %}</li>
         </ul>
         {% if current_clinic.plan == "pro" %}
-            <span class="btn bg-teal-50 text-teal-700">{% icon "check-circle" "h-4 w-4" %} {% trans "Current plan" %}</span>
+            <span class="btn bg-brand-50 text-brand-700">{% icon "check-circle" "h-4 w-4" %} {% trans "Current plan" %}</span>
             <a href="{% url 'billing:portal' %}" class="btn-ghost mt-2">
                 {% icon "credit-card" "h-4 w-4" %} {% trans "Manage payment method" %}
             </a>

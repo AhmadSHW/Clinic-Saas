@@ -20,7 +20,7 @@
         <div>
             <div class="mb-1.5 flex items-center justify-between">
                 <label class="label mb-0" for="patient_id">{% trans "Patient" %}</label>
-                <a href="{% url 'patients:add' %}" class="text-xs font-medium text-teal-700 hover:underline">+ {% trans "New patient" %}</a>
+                <a href="{% url 'patients:add' %}" class="text-xs font-medium text-brand-700 hover:underline">+ {% trans "New patient" %}</a>
             </div>
             <select id="patient_id" name="patient_id" required class="input">
                 <option value="">{% trans "Select Patient" %}</option>

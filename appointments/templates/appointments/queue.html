@@ -27,13 +27,13 @@
         </div>
         <ul class="flex-1 divide-y divide-slate-100">
             {% for appt in group.list %}
-            <li class="flex items-center gap-3 px-5 py-3 {% if forloop.first %}bg-teal-50/50{% endif %}">
-                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-bold tabular-nums {% if forloop.first %}bg-teal-600 text-white{% else %}bg-slate-100 text-slate-600{% endif %}">
+            <li class="flex items-center gap-3 px-5 py-3 {% if forloop.first %}bg-brand-50/50{% endif %}">
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-bold tabular-nums {% if forloop.first %}bg-brand-600 text-white{% else %}bg-slate-100 text-slate-600{% endif %}">
                     {{ appt.queue_position }}
                 </span>
                 <div class="min-w-0 flex-1">
                     <p class="truncate text-sm font-medium text-slate-900">{{ appt.patient.full_name }}</p>
-                    {% if forloop.first %}<p class="text-xs font-medium text-teal-700">{% trans "Next in line" %}</p>{% endif %}
+                    {% if forloop.first %}<p class="text-xs font-medium text-brand-700">{% trans "Next in line" %}</p>{% endif %}
                 </div>
                 <form method="post" action="{% url 'appointments:complete' appt.id %}">
                     {% csrf_token %}
